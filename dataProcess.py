@@ -158,7 +158,7 @@ def step1(data_file):
         instance_id = data["instance_id"]
         index = 0
         for problem in data["problem_statement"]:
-            if problem.staetwith('http'):
+            if problem.startwith('http'):
                 message1 = system_message(SystemPrompt_step1)
                 message2 = user_message_step1(f"images/{instance_id}/图片{index}.png")
                 completion = client.chat.completions.create(
@@ -187,7 +187,7 @@ def step2(data_file):
         instance_id = data["instance_id"]
         index = 0
         for problem in data["problem_statement"]:
-            if problem.staetwith('http'):
+            if problem.startwith('http'):
                 problem_list.append(f"images/{instance_id}/图片{index}.png")
                 image_list.append(1)
                 index += 1
@@ -241,7 +241,7 @@ def step3(data_file, step1_file, step2_file):
         instance_id = data["instance_id"]
         index = 0
         for problem in data["problem_statement"]:
-            if problem.staetwith('http'):
+            if problem.startwith('http'):
                 problem_list.append(f"images/{instance_id}/图片{index}.png")
                 image_list.append(1)
                 index += 1
