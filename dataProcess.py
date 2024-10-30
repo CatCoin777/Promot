@@ -200,7 +200,7 @@ def step2(data_file):
         completion = client.chat.completions.create(
             model="/gemini/platform/public/llm/huggingface/Qwen/Qwen2-VL-72B-Instruct",
             messages=[message1, message2],
-            extra_headers={"limit_mm_per_prompt": "4"}
+            extra_headers={"limit_mm_per_prompt": "{\"image\": 2}"}
         )
         input_str = completion.choices[0].message.content
         # 使用正则表达式匹配 JSON 结构
