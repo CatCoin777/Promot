@@ -199,9 +199,9 @@ def step2(data_file):
         message2 = user_message_step2(problem_list, image_list)
         completion = client.chat.completions.create(
             model="/gemini/platform/public/llm/huggingface/Qwen/Qwen2-VL-72B-Instruct",
-            messages=[message1, message2]
+            messages=[message1, message2],
+            extra_headers={"limit_mm_per_prompt": "4"}
         )
-
         input_str = completion.choices[0].message.content
         # 使用正则表达式匹配 JSON 结构
         json_matches = re.findall(r'\{.*?\}', input_str)
@@ -269,4 +269,4 @@ def step3(data_file, step1_file, step2_file):
         json.dump(save_data_list, outfile, ensure_ascii=False, indent=4)
 
 if __name__ == '__main__':
-    step1('multi_data_onlyimage.json')
+    step2('multi_data_onlyimage.json')
