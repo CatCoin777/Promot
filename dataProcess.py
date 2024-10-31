@@ -207,7 +207,6 @@ def step2(data_file):
             # 使用正则表达式匹配 JSON 结构
             json_matches = re.findall(r'\{.*?\}', input_str)
             # 将提取到的 JSON 字符串转换为 Python 字典，并存入列表
-            json_str = None
             description_list = [json.loads(json_str) for json_str in json_matches]
             save_data_list.append({
                 "instance_id": instance_id,
@@ -215,8 +214,7 @@ def step2(data_file):
             })
         except json.decoder.JSONDecodeError as e:
             # 如果解析失败，捕获JSONDecodeError异常并处理
-            print(f"Failed to decode JSON string: {json_str}. Error: {e}")
-            print(f"input_str=" + input_str)
+            print(f"error,input_str=" + input_str)
             # 你可以选择在这里记录错误、跳过当前字符串或采取其他措施
 
     with open("step2.json", 'w', encoding='utf-8') as outfile:
