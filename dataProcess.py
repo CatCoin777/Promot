@@ -8,13 +8,14 @@ from tqdm import tqdm
 SystemPrompt_step1 = '''You are a detailed image analyst. Please provide a thorough description of the image. If the image contains only text, present the text in Markdown format. 
 If there are visual elements beyond text, describe the image comprehensively, paying special attention to intricate details. 
 The goal is to enable someone who has never seen the image to visualize and recreate it based on your description.'''
-SystemPrompt_step2 = '''You are a comprehensive issue analyst. The user will provide you with an issue that consists of multiple images and related text. Please connect the content of the text to provide a detailed description for each image. Additionally, analyze the role of both the images and text within the context of the issue, explaining their significance and how they complement each other.
+SystemPrompt_step2 = '''You are a comprehensive issue analyst. The user will provide you with an issue that consists of multiple images and related text. Please connect the content of the text to provide a detailed description for each image, specifically relating it to the issue at hand. Additionally, analyze the role of each image within the context of the issue, explaining its significance and how it complements the overall narrative.
 
 For each image, please output in the following JSON format:
 {
-  "description": "<detailed description of the image>",
+  "description": "<detailed description of the image in relation to the issue>",
   "analysis": "<analysis of the image's role in the issue>"
-}'''
+}
+'''
 SystemPrompt_step3 = '''You are an issue organizer and analyzer. The user will provide you with an issue along with supplementary information that includes descriptions and analyses of images in the issue. Based on the issue and the supplementary information, please think through the details step by step and output the original issue in a structured JSON format. A suggested structure could include:
 
 {
@@ -199,8 +200,7 @@ def step2(data_file):
         message2 = user_message_step2(problem_list, image_list)
         completion = client.chat.completions.create(
             model="/gemini/platform/public/llm/huggingface/Qwen/Qwen2-VL-72B-Instruct",
-            messages=[message1, message2],
-            extra_headers={"limit_mm_per_prompt": "{\"image\": 2}"}
+            messages=[message1, message2]
         )
         input_str = completion.choices[0].message.content
         try:
@@ -216,7 +216,7 @@ def step2(data_file):
         except json.decoder.JSONDecodeError as e:
             # 如果解析失败，捕获JSONDecodeError异常并处理
             print(f"Failed to decode JSON string: {json_str}. Error: {e}")
-            print(f"input_str="+input_str)
+            print(f"input_str=" + input_str)
             # 你可以选择在这里记录错误、跳过当前字符串或采取其他措施
 
     with open("step2.json", 'w', encoding='utf-8') as outfile:
@@ -275,6 +275,7 @@ def step3(data_file, step1_file, step2_file):
         })
     with open("step3.json", 'w', encoding='utf-8') as outfile:
         json.dump(save_data_list, outfile, ensure_ascii=False, indent=4)
+
 
 if __name__ == '__main__':
     step2('multi_data_onlyimage.json')
