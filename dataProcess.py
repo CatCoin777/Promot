@@ -213,9 +213,10 @@ def step2(data_file):
                 "instance_id": instance_id,
                 "description_list": description_list
             })
-        except json.JSONDecodeError as e:
+        except json.decoder.JSONDecodeError as e:
             # 如果解析失败，捕获JSONDecodeError异常并处理
             print(f"Failed to decode JSON string: {json_str}. Error: {e}")
+            print(f"input_str="+input_str)
             # 你可以选择在这里记录错误、跳过当前字符串或采取其他措施
 
     with open("step2.json", 'w', encoding='utf-8') as outfile:
