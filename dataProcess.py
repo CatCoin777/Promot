@@ -276,4 +276,4 @@ def step3(data_file, step1_file, step2_file):
 
 
 if __name__ == '__main__':
-    step2('multi_data_onlyimage.json')
+    step2('test.json')
