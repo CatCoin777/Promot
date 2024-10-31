@@ -4,16 +4,23 @@ import re
 
 from openai import OpenAI
 from tqdm import tqdm
+SystemPrompt_test = '''
+Please tell me how many pictures you have seen?'''
 
 SystemPrompt_step1 = '''You are a detailed image analyst. Please provide a thorough description of the image. If the image contains only text, present the text in Markdown format. 
 If there are visual elements beyond text, describe the image comprehensively, paying special attention to intricate details. 
 The goal is to enable someone who has never seen the image to visualize and recreate it based on your description.'''
 SystemPrompt_step2 = '''You are a comprehensive issue analyst. The user will provide you with an issue that consists of multiple images and related text. Please connect the content of the text to provide a detailed description for each image, specifically relating it to the issue at hand. Additionally, analyze the role of each image within the context of the issue, explaining its significance and how it complements the overall narrative.
 
-For each image, please output in the following JSON format:
+Please analyze each image and provide your analysis in the following structured JSON format:
 {
-  "description": "<detailed description of the image in relation to the issue>",
-  "analysis": "<analysis of the image's role in the issue>"
+  "image_analyses": [
+    {
+      "image_id": "<sequential number of the image>",
+      "description": "<detailed description of the image in relation to the issue>",
+      "analysis": "<analysis of the image's role in the issue>"
+    }
+  ]
 }
 '''
 SystemPrompt_step3 = '''You are an issue organizer and analyzer. The user will provide you with an issue along with supplementary information that includes descriptions and analyses of images in the issue. Based on the issue and the supplementary information, please think through the details step by step and output the original issue in a structured JSON format. A suggested structure could include:
@@ -200,12 +207,14 @@ def step2(data_file):
         message2 = user_message_step2(problem_list, image_list)
         completion = client.chat.completions.create(
             model="/gemini/platform/public/llm/huggingface/Qwen/Qwen2-VL-72B-Instruct",
-            messages=[message1, message2]
+            messages=[message1, message2],
+            temperature = 0.3
         )
         input_str = completion.choices[0].message.content
+        #print(f"error,input_str=" + input_str)
         try:
             # 使用正则表达式匹配 JSON 结构
-            json_matches = re.findall(r'\{.*?\}', input_str)
+            json_matches = re.findall(r'\{[^{}]*\}', input_str)
             # 将提取到的 JSON 字符串转换为 Python 字典，并存入列表
             description_list = [json.loads(json_str) for json_str in json_matches]
             save_data_list.append({
@@ -276,4 +285,4 @@ def step3(data_file, step1_file, step2_file):
 
 
 if __name__ == '__main__':
-    step2('test.json')
+    step2('multi_data_onlyimage.json')
