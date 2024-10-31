@@ -200,8 +200,7 @@ def step2(data_file):
         message2 = user_message_step2(problem_list, image_list)
         completion = client.chat.completions.create(
             model="/gemini/platform/public/llm/huggingface/Qwen/Qwen2-VL-72B-Instruct",
-            messages=[message1, message2],
-            extra_headers={"limit_mm_per_prompt": "{\"image\": 2}"}
+            messages=[message1, message2]
         )
         input_str = completion.choices[0].message.content
         try:
