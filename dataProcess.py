@@ -189,6 +189,7 @@ def step2(data_file):
     with open(data_file, "r") as f:
         data_list = json.load(f)
     save_data_list = []
+    data_list = data_list[:30]
     for data in tqdm(data_list):
         problem_list = []
         image_list = []
@@ -208,10 +209,10 @@ def step2(data_file):
         completion = client.chat.completions.create(
             model="/gemini/platform/public/llm/huggingface/Qwen/Qwen2-VL-72B-Instruct",
             messages=[message1, message2],
-            temperature = 0.3
+            temperature = 0
         )
         input_str = completion.choices[0].message.content
-        #print(f"error,input_str=" + input_str)
+        print(f"success,input_str=" + input_str)
         try:
             # 使用正则表达式匹配 JSON 结构
             json_matches = re.findall(r'\{[^{}]*\}', input_str)
@@ -226,7 +227,7 @@ def step2(data_file):
             print(f"error,input_str=" + input_str)
             # 你可以选择在这里记录错误、跳过当前字符串或采取其他措施
 
-    with open("step2.json", 'w', encoding='utf-8') as outfile:
+    with open("step2_30_0.json", 'w', encoding='utf-8') as outfile:
         json.dump(save_data_list, outfile, ensure_ascii=False, indent=4)
 
 
@@ -286,3 +287,4 @@ def step3(data_file, step1_file, step2_file):
 
 if __name__ == '__main__':
     step2('multi_data_onlyimage.json')
+   #step2("test.json")
