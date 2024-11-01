@@ -156,6 +156,12 @@ client = OpenAI(
     api_key="token-abc123",  # 随便填写，只是为了通过接口参数校验
 )
 
+def filter_data(data_list,str_list):
+    save_data = []
+    for data in data_list:
+        if data["instance_id"] in str_list:
+            save_data.append(data)
+    return save_data
 
 def step1(data_file):
     with open(data_file, "r") as f:
@@ -189,7 +195,7 @@ def step2(data_file):
     with open(data_file, "r") as f:
         data_list = json.load(f)
     save_data_list = []
-    data_list = data_list[:30]
+    data_list = filter_data(data_list,["astropy__astropy-13838","matplotlib__matplotlib-22931", "matplotlib__matplotlib-24189","matplotlib__matplotlib-24768","mwaskom__seaborn-3276","sphinx-doc__sphinx-11502", "sphinx-doc__sphinx-8120", "sphinx-doc__sphinx-9698"])
     for data in tqdm(data_list):
         problem_list = []
         image_list = []
@@ -209,7 +215,8 @@ def step2(data_file):
         completion = client.chat.completions.create(
             model="/gemini/platform/public/llm/huggingface/Qwen/Qwen2-VL-72B-Instruct",
             messages=[message1, message2],
-            temperature = 0
+            temperature = 0.3,
+            seed = 42
         )
         input_str = completion.choices[0].message.content
         print(f"success,input_str=" + input_str)
@@ -227,7 +234,7 @@ def step2(data_file):
             print(f"error,input_str=" + input_str)
             # 你可以选择在这里记录错误、跳过当前字符串或采取其他措施
 
-    with open("step2_30_0.json", 'w', encoding='utf-8') as outfile:
+    with open("step2_filter.json", 'w', encoding='utf-8') as outfile:
         json.dump(save_data_list, outfile, ensure_ascii=False, indent=4)
 
 
