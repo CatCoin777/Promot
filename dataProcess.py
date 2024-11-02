@@ -44,7 +44,41 @@ Please provide your descriptions in the following JSON format:
   ]
 }
 
+IMPORTANT CHECKS:
+- Have you counted all images in the issue?
+- Have you described every single image you counted?
+- Does the number of descriptions match your total image count?
+
 Focus on creating descriptions that could serve as complete replacements for the original images while maintaining all crucial information needed to understand the issue.
+'''
+
+SystemPrompt_step2_des = '''You are a technical image descriptor for software issues. Your task is to create detailed descriptions of ALL images in the issue that will help other AI models understand the issue without seeing the actual images.
+
+For EACH image in the issue:
+1. Read and understand the entire issue context including:
+- Bug description
+- Code samples
+- Error messages
+- Expected behavior
+- Actual results
+
+2. Create a comprehensive description that:
+- Details exactly what is shown in the image
+- Connects the image content to the issue context
+- Includes any visible technical information that's crucial for understanding the issue
+- Provides enough detail that an AI model could understand the issue's visual aspects without seeing the image
+
+Please provide your descriptions in this specific JSON format:
+{
+  "images": [
+    {
+      "image_id": "<sequential number>",
+      "description": "<detailed technical description that fully captures the image content and its relationship to the issue>"
+    }
+  ]
+}
+
+CRITICAL: Ensure you describe EVERY image present in the issue - missing any image would make the issue harder to understand for AI models that cannot see the images.
 '''
 SystemPrompt_step3 = '''You are an issue organizer and analyzer. The user will provide you with an issue along with supplementary information that includes descriptions and analyses of images in the issue. Based on the issue and the supplementary information, please think through the details step by step and output the original issue in a structured JSON format. A suggested structure could include:
 
@@ -218,9 +252,11 @@ def step2(data_file):
     with open(data_file, "r") as f:
         data_list = json.load(f)
     save_data_list = []
-    data_list = data_list[:30]
-    #data_list = filter_data(data_list,["astropy__astropy-13838","matplotlib__matplotlib-22931", "matplotlib__matplotlib-24189","matplotlib__matplotlib-24768","mwaskom__seaborn-3276","sphinx-doc__sphinx-11502", "sphinx-doc__sphinx-8120", "sphinx-doc__sphinx-9698"])
+    #data_list = data_list[:30]
+    data_list = filter_data(data_list,["astropy__astropy-13838","matplotlib__matplotlib-22931", "matplotlib__matplotlib-24189","matplotlib__matplotlib-24768","mwaskom__seaborn-3276","sphinx-doc__sphinx-11502", "sphinx-doc__sphinx-8120", "sphinx-doc__sphinx-9698"])
     for data in tqdm(data_list):
+        #if data["instance_id"] != "matplotlib__matplotlib-21550":
+        #    continue
         problem_list = []
         image_list = []
         instance_id = data["instance_id"]
@@ -234,7 +270,7 @@ def step2(data_file):
                 problem_list.append(problem)
                 image_list.append(0)
 
-        message1 = system_message(SystemPrompt_step2_other)
+        message1 = system_message(SystemPrompt_step2_des)
         message2 = user_message_step2(problem_list, image_list)
         completion = client.chat.completions.create(
             model="/gemini/platform/public/llm/huggingface/Qwen/Qwen2-VL-72B-Instruct",
@@ -243,7 +279,7 @@ def step2(data_file):
             seed = 42
         )
         input_str = completion.choices[0].message.content
-        #print(f"success,input_str=" + input_str)
+        #print(instance_id,f"success,input_str=" + input_str)
         try:
             # 使用正则表达式匹配 JSON 结构
             json_matches = re.findall(r'\{[^{}]*\}', input_str)
@@ -258,7 +294,7 @@ def step2(data_file):
             print(instance_id,f"error,input_str=" + input_str)
             # 你可以选择在这里记录错误、跳过当前字符串或采取其他措施
 
-    with open("step2_30_detail.json", 'w', encoding='utf-8') as outfile:
+    with open("step2_filter_des.json", 'w', encoding='utf-8') as outfile:
         json.dump(save_data_list, outfile, ensure_ascii=False, indent=4)
 
 
