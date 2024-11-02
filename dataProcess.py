@@ -252,8 +252,8 @@ def step2(data_file):
     with open(data_file, "r") as f:
         data_list = json.load(f)
     save_data_list = []
-    #data_list = data_list[:30]
-    data_list = filter_data(data_list,["astropy__astropy-13838","matplotlib__matplotlib-22931", "matplotlib__matplotlib-24189","matplotlib__matplotlib-24768","mwaskom__seaborn-3276","sphinx-doc__sphinx-11502", "sphinx-doc__sphinx-8120", "sphinx-doc__sphinx-9698"])
+    data_list = data_list[:30]
+    #data_list = filter_data(data_list,["astropy__astropy-13838","matplotlib__matplotlib-22931", "matplotlib__matplotlib-24189","matplotlib__matplotlib-24768","mwaskom__seaborn-3276","sphinx-doc__sphinx-11502", "sphinx-doc__sphinx-8120", "sphinx-doc__sphinx-9698"])
     for data in tqdm(data_list):
         #if data["instance_id"] != "matplotlib__matplotlib-21550":
         #    continue
@@ -294,7 +294,7 @@ def step2(data_file):
             print(instance_id,f"error,input_str=" + input_str)
             # 你可以选择在这里记录错误、跳过当前字符串或采取其他措施
 
-    with open("step2_filter_des.json", 'w', encoding='utf-8') as outfile:
+    with open("step2_30_des.json", 'w', encoding='utf-8') as outfile:
         json.dump(save_data_list, outfile, ensure_ascii=False, indent=4)
 
 
