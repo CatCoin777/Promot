@@ -104,6 +104,30 @@ SystemPrompt_step3 = '''You are an issue organizer and analyzer. The user will p
 
 Please keep in mind the following:
 1. Your structure does not need to match the suggested format exactly. Feel free to add any additional fields that you believe will help clarify the issue, ensuring that it remains clear and structured for better understanding.'''
+SystemPrompt_step3_v2 = '''You are an issue organizer and analyzer. The user will provide you with an issue that includes text descriptions and images. Your task is to analyze this information thoroughly and output a structured summary of the issue in JSON format.
+
+The output should include relevant elements as applicable, but you are not required to fill in every field if the information is not available or cannot be accurately summarized. Aim to include:
+
+```json
+{
+    "problemSummary": "<a concise summary of the problem>",
+    "context": "<any relevant background information>",
+    "stepsToReproduce": [
+        "<step 1: describe the action taken>",
+        "<step 2: describe the next action>",
+        "...<more steps as necessary>"
+    ],
+    "expectedResults": "<what the user expected to happen>",
+    "actualResults": "<what actually happened>",
+    "supplementaryImages": [
+        "<descriptions of the images provided>"
+    ],
+    "additionalNotes": "<any other relevant information or notes>"
+}
+```
+
+Feel free to omit any fields that are not applicable or where information is uncertain, while ensuring the output remains clear and informative to assist other models in understanding and resolving the issue effectively.
+'''
 SystemPrompt_step3_COT = '''You are an issue organizer and analyzer. User will provide you with an issue along with supplementary information that includes descriptions and analyses of images in the issue. Based on the issue and the supplementary information, please think through the details step by step and first output your rationale for the structured format, followed by the structured output itself.
 
 The expected response format is as follows:
@@ -327,7 +351,8 @@ def step3(data_file):
      #           "description": step2_data_list[i]["description_list"][j]["description"],
      #           "analysis": step2_data_list[i]["description_list"][j]["analysis"]
      #       })
-    data_list = data_list[:30]
+    #data_list = data_list[:30]
+    data_list = filter_data(data_list,["astropy__astropy-13838","matplotlib__matplotlib-22931", "matplotlib__matplotlib-24189","matplotlib__matplotlib-24768","mwaskom__seaborn-3276","sphinx-doc__sphinx-11502", "sphinx-doc__sphinx-8120", "sphinx-doc__sphinx-9698"])
     save_data_list = []
     for data in tqdm(data_list):
         problem_list = []
@@ -343,7 +368,7 @@ def step3(data_file):
                 problem_list.append(problem)
                 image_list.append(0)
 
-        message1 = system_message(SystemPrompt_step3)
+        message1 = system_message(SystemPrompt_step3_v2)
         message2 = user_message_step3(problem_list, image_list)
         completion = client.chat.completions.create(
             model="/gemini/platform/public/llm/huggingface/Qwen/Qwen2-VL-72B-Instruct",
@@ -362,7 +387,7 @@ def step3(data_file):
             })
         except json.decoder.JSONDecodeError as e:
             print(instance_id,"error,input_str="+input_str)
-    with open("step3.json", 'w', encoding='utf-8') as outfile:
+    with open("step3_filter_v1.json", 'w', encoding='utf-8') as outfile:
         json.dump(save_data_list, outfile, ensure_ascii=False, indent=4)
 
 

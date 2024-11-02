@@ -1,0 +1,144 @@
+[
+    {
+        "instance_id": "astropy__astropy-13838",
+        "structure_problem": {
+            "problemSummary": "Printing tables with 0-length array cells in Astropy does not work correctly, causing an IndexError.",
+            "context": "The issue arises when attempting to print a table created from a list of dictionaries where some events contain null array data. The table prints correctly until the first event with data in the array fields. When only events with null array data are printed, an IndexError occurs.",
+            "stepsToReproduce": [
+                "Create a list of dictionaries with some events containing null array data.",
+                "Use the `QTable(rows=events)` function to create a table from the list of dictionaries.",
+                "Attempt to print the table."
+            ],
+            "expectedResults": "The table should print correctly even when it contains only events with null array data.",
+            "actualResults": "An IndexError is raised when attempting to print the table with only events containing null array data.",
+            "supplementaryImages": [
+                "Image 1: Shows the table with correct printing for events with array data.",
+                "Image 2: Shows the table with an IndexError when only events with null array data are printed."
+            ],
+            "additionalNotes": "The issue is related to the handling of 0-length array cells in the table printing process."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-22931",
+        "structure_problem": {
+            "problemSummary": "Regression in dashes due to #22569 causing previously working plotting code to fail.",
+            "context": "The issue occurs when attempting to draw a line with a specific linestyle in Matplotlib.",
+            "stepsToReproduce": [
+                "Import matplotlib.pyplot as plt.",
+                "Create a figure and axis using plt.subplots().",
+                "Plot a line with the linestyle ls=(0, ()) using ax.plot().",
+                "Display the plot using plt.show()."
+            ],
+            "expectedResults": "The line should be displayed as expected.",
+            "actualResults": "No line is shown, and an error is raised while drawing.",
+            "supplementaryImages": [
+                "A screenshot of the expected line plot."
+            ],
+            "additionalNotes": "The issue may be due to a weird/bad/incorrect convention in the code, and a workaround/fix might be necessary. A nicer error message could be helpful."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-24189",
+        "structure_problem": {
+            "problemSummary": "Error using width_ratios with nested mosaic in subplot_mosaic()",
+            "context": "The issue occurs when attempting to use the `width_ratios` parameter with a nested list mosaic in `plt.subplot_mosaic()`. The error message is confusing and does not provide clear guidance on how to resolve the issue.",
+            "stepsToReproduce": [
+                "Import matplotlib.pyplot as plt.",
+                "Define a nested list mosaic with elements 'A', 'B', and 'C'.",
+                "Attempt to create a subplot mosaic using `plt.subplot_mosaic()` with the defined mosaic and `width_ratios=[2, 1]`."
+            ],
+            "expectedResults": "The user expected to create a subplot mosaic with the specified width ratios for the outer list.",
+            "actualResults": "An error occurred with the message 'Expected the given number of width ratios to match the number of columns of the grid'.",
+            "supplementaryImages": [
+                "Images showing the expected layout with elements 'A', 'B', and 'C' in the specified positions."
+            ],
+            "additionalNotes": "The user suggests that it would be helpful to have a clearer error message or a way to specify width ratios for nested list layouts. The issue is observed on Windows 10 with Matplotlib version 3.6.0, using the QtAgg backend and Python version 3.10."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-24768",
+        "structure_problem": {
+            "problemSummary": "Conflict between `pcolormesh(rasterized=True)` and `set_rasterization_zorder()` in Matplotlib",
+            "context": "The user is trying to rasterize a color plot using both `pcolormesh(rasterized=True)` and `set_rasterization_zorder()`, but these two methods cannot be used together.",
+            "stepsToReproduce": [
+                "Import necessary libraries and modules.",
+                "Create a color plot using `pcolormesh(rasterized=True)`.",
+                "Set the rasterization zorder using `set_rasterization_zorder()`.",
+                "Save the figure using `savefig()`."
+            ],
+            "expectedResults": "The figure should be saved without any errors.",
+            "actualResults": "An `AttributeError` is raised when trying to save the figure.",
+            "supplementaryImages": [
+                "A color plot with rasterization applied."
+            ],
+            "additionalNotes": "The bug appears in version 3.5.1 and commit 2d18bba0ea0e9fb9ccab508fa0a60ffc5946771b, but not version 3.1.2. The most immediate cause seems to be reentrance tracking being dropped from `MixedModeRenderer.start_rasterizing()` and `MixedModeRenderer.stop_rasterizing()`."
+        }
+    },
+    {
+        "instance_id": "mwaskom__seaborn-3276",
+        "structure_problem": {
+            "problemSummary": "The heatmap function in seaborn behaves differently when the `norm` argument is set to `None`.",
+            "context": "The user is using the seaborn library to create heatmaps and has observed a discrepancy in behavior when the `norm` argument is specified as `None`.",
+            "stepsToReproduce": [
+                "Create a heatmap using `sns.heatmap(..., vmin=0.0, vmax=1.0, ...)`",
+                "Observe the heatmap with the specified `vmin` and `vmax` values",
+                "Create another heatmap using `sns.heatmap(..., vmin=0.0, vmax=1.0, norm=None, ...)`",
+                "Observe that the `vmin` and `vmax` values are not applied"
+            ],
+            "expectedResults": "The `vmin` and `vmax` values should be applied to the heatmap regardless of the `norm` argument.",
+            "actualResults": "The `vmin` and `vmax` values are not applied to the heatmap when `norm=None` is specified.",
+            "supplementaryImages": [
+                "First heatmap with `vmin` and `vmax` values applied",
+                "Second heatmap with `vmin` and `vmax` values not applied"
+            ],
+            "additionalNotes": "The user is willing to submit a PR if this issue is not already addressed."
+        }
+    },
+    {
+        "instance_id": "sphinx-doc__sphinx-11502",
+        "structure_problem": {
+            "problemSummary": "The user wants to keep the 'translated' node attribute in their internationalized documentation to mark untranslated or partially translated pages, but the 'Locale' transform deletes this attribute.",
+            "context": "The user is duplicating part of the 'Locale' transform to add markers to untranslated or partially translated pages in their documentation. The 'Locale' transform sets an attribute on the translated nodes but deletes it at the end, which the user finds clumsy.",
+            "expectedResults": "The user expects to be able to keep the 'translated' node attribute to mark untranslated or partially translated pages without having to duplicate the functionality of the 'Locale' transform.",
+            "actualResults": "The 'Locale' transform deletes the 'translated' node attribute, making it unavailable for the user's intended use.",
+            "additionalNotes": "The user has considered adding the functionality for 'untranslated' markers to Sphinx itself as an alternative."
+        }
+    },
+    {
+        "instance_id": "sphinx-doc__sphinx-8120",
+        "structure_problem": {
+            "problemSummary": "The user is unable to override the default translations in Sphinx documentation when adding a custom translation file. The official translations are used instead.",
+            "context": "The user has attempted to add a custom translation file for the Danish language to override specific translations in Sphinx documentation. However, the official translations are still being used.",
+            "stepsToReproduce": [
+                "Clone the repository from https://github.com/jonascj/sphinx-test-locale-override.git",
+                "Checkout the commit 8dea4cd",
+                "Create a Python virtual environment and install Sphinx",
+                "Run `make html`",
+                "Open the generated HTML file and observe the translation labels"
+            ],
+            "expectedResults": "The caption labels for the figure and code block should be overridden to 'Foobar 1' and 'Whatever 1' respectively.",
+            "actualResults": "The caption labels remain as 'figur 1' and 'Viser 1', using the official Danish translations.",
+            "supplementaryImages": [
+                "A screenshot of the Sphinx documentation with the default translation labels"
+            ],
+            "additionalNotes": "The user has provided a GitHub repository with the test setup and has mentioned the environment details including OS, Python version, and Sphinx version."
+        }
+    },
+    {
+        "instance_id": "sphinx-doc__sphinx-9698",
+        "structure_problem": {
+            "problemSummary": "An index entry with parens was registered for `py:method` directive with `:property:` option, which should not have parens.",
+            "context": "This issue was encountered in a Sphinx documentation project.",
+            "stepsToReproduce": [
+                "Create a file named `index.rst`.",
+                "Add the following content to the file: `.. py:method:: Foo.bar :property: .. py:property:: Foo.baz`."
+            ],
+            "expectedResults": "The index entry for the property should not have parens.",
+            "actualResults": "The index entry for the property has parens.",
+            "supplementaryImages": [
+                "An image showing the index entry with parens."
+            ],
+            "additionalNotes": "This issue was observed on a Mac with Python version 3.9.6 and Sphinx version HEAD of 4.x."
+        }
+    }
+]
