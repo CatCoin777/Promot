@@ -10,6 +10,17 @@ Please tell me how many pictures you have seen?'''
 SystemPrompt_step1 = '''You are a detailed image analyst. Please provide a thorough description of the image. If the image contains only text, present the text in Markdown format. 
 If there are visual elements beyond text, describe the image comprehensively, paying special attention to intricate details. 
 The goal is to enable someone who has never seen the image to visualize and recreate it based on your description.'''
+SystemPrompt_step1_des = '''You are a technical image descriptor. For the given image:
+
+1. If it contains only text, present the exact text in markdown format
+2. If it contains visual elements:
+- Describe the main technical content
+- Include specific measurements, numbers, and text
+- State the relationships between visual elements
+- Focus on technical details over visual style
+
+Your description should be detailed enough for an AI model to understand the technical content without seeing the image.'''
+
 SystemPrompt_step2 = '''You are a comprehensive issue analyst. The user will provide you with an issue that consists of multiple images and related text. Please connect the content of the text to provide a detailed description for each image, specifically relating it to the issue at hand. Additionally, analyze the role of each image within the context of the issue, explaining its significance and how it complements the overall narrative.
 
 Please analyze each image and provide your analysis in the following structured JSON format:
@@ -230,11 +241,13 @@ def step1(data_file):
         index = 0
         for problem in data["problem_statement"]:
             if problem.startswith('http'):
-                message1 = system_message(SystemPrompt_step1)
+                message1 = system_message(SystemPrompt_step1_des)
                 message2 = user_message_step1(f"images/{instance_id}/图片{index}.png")
                 completion = client.chat.completions.create(
                     model="/gemini/platform/public/llm/huggingface/Qwen/Qwen2-VL-72B-Instruct",
-                    messages=[message1, message2]
+                    messages=[message1, message2],
+                    temperature = 0.2,
+                    seed = 42
                 )
                 index += 1
                 raw_description_list.append(completion.choices[0].message.content)
@@ -244,7 +257,7 @@ def step1(data_file):
             "instance_id": instance_id,
             "raw_description_list": raw_description_list
         })
-    with open("step1.json", 'w', encoding='utf-8') as outfile:
+    with open("step1_des.json", 'w', encoding='utf-8') as outfile:
         json.dump(save_data_list, outfile, ensure_ascii=False, indent=4)
 
 
@@ -353,5 +366,5 @@ def step3(data_file, step1_file, step2_file):
 
 
 if __name__ == '__main__':
-    step2('multi_data_onlyimage.json')
+   step1('multi_data_onlyimage.json')
    #step2("test.json")
