@@ -218,7 +218,8 @@ def step2(data_file):
     with open(data_file, "r") as f:
         data_list = json.load(f)
     save_data_list = []
-    data_list = filter_data(data_list,["astropy__astropy-13838","matplotlib__matplotlib-22931", "matplotlib__matplotlib-24189","matplotlib__matplotlib-24768","mwaskom__seaborn-3276","sphinx-doc__sphinx-11502", "sphinx-doc__sphinx-8120", "sphinx-doc__sphinx-9698"])
+    data_list = data_list[:30]
+    #data_list = filter_data(data_list,["astropy__astropy-13838","matplotlib__matplotlib-22931", "matplotlib__matplotlib-24189","matplotlib__matplotlib-24768","mwaskom__seaborn-3276","sphinx-doc__sphinx-11502", "sphinx-doc__sphinx-8120", "sphinx-doc__sphinx-9698"])
     for data in tqdm(data_list):
         problem_list = []
         image_list = []
@@ -242,7 +243,7 @@ def step2(data_file):
             seed = 42
         )
         input_str = completion.choices[0].message.content
-        print(f"success,input_str=" + input_str)
+        #print(f"success,input_str=" + input_str)
         try:
             # 使用正则表达式匹配 JSON 结构
             json_matches = re.findall(r'\{[^{}]*\}', input_str)
@@ -254,10 +255,10 @@ def step2(data_file):
             })
         except json.decoder.JSONDecodeError as e:
             # 如果解析失败，捕获JSONDecodeError异常并处理
-            print(f"error,input_str=" + input_str)
+            print(instance_id,f"error,input_str=" + input_str)
             # 你可以选择在这里记录错误、跳过当前字符串或采取其他措施
 
-    with open("step2_filter_detail.json", 'w', encoding='utf-8') as outfile:
+    with open("step2_30_detail.json", 'w', encoding='utf-8') as outfile:
         json.dump(save_data_list, outfile, ensure_ascii=False, indent=4)
 
 
