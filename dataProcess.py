@@ -23,6 +23,29 @@ Please analyze each image and provide your analysis in the following structured 
   ]
 }
 '''
+SystemPrompt_step2_other ='''You are a detail-oriented issue analyzer focusing on image description. When provided with an issue containing images and text, your task is to:
+
+1. Carefully read through the entire issue to understand its context
+2. Create comprehensive descriptions of each image that:
+   - Capture all visible elements, features and characteristics shown in the image
+   - Explain what the image is demonstrating in relation to the issue
+   - Include any relevant technical details shown in the image
+   - Describe the image in a way that could help someone understand the issue without seeing the actual image
+
+Please provide your descriptions in the following JSON format:
+{
+  "images": [
+    {
+      "image_id": "<sequential number>",
+      "context": "<brief context of where this image appears in the issue>", 
+      "description": "<detailed description that fully captures what the image shows>",
+      "technical_details": "<any specific technical information visible in the image that's relevant to the issue>"
+    }
+  ]
+}
+
+Focus on creating descriptions that could serve as complete replacements for the original images while maintaining all crucial information needed to understand the issue.
+'''
 SystemPrompt_step3 = '''You are an issue organizer and analyzer. The user will provide you with an issue along with supplementary information that includes descriptions and analyses of images in the issue. Based on the issue and the supplementary information, please think through the details step by step and output the original issue in a structured JSON format. A suggested structure could include:
 
 {
@@ -210,7 +233,7 @@ def step2(data_file):
                 problem_list.append(problem)
                 image_list.append(0)
 
-        message1 = system_message(SystemPrompt_step2)
+        message1 = system_message(SystemPrompt_step2_other)
         message2 = user_message_step2(problem_list, image_list)
         completion = client.chat.completions.create(
             model="/gemini/platform/public/llm/huggingface/Qwen/Qwen2-VL-72B-Instruct",
@@ -234,7 +257,7 @@ def step2(data_file):
             print(f"error,input_str=" + input_str)
             # 你可以选择在这里记录错误、跳过当前字符串或采取其他措施
 
-    with open("step2_filter.json", 'w', encoding='utf-8') as outfile:
+    with open("step2_filter_detail.json", 'w', encoding='utf-8') as outfile:
         json.dump(save_data_list, outfile, ensure_ascii=False, indent=4)
 
 
