@@ -93,16 +93,17 @@ CRITICAL: Ensure you describe EVERY image present in the issue - missing any ima
 '''
 SystemPrompt_step3 = '''You are an issue organizer and analyzer. The user will provide you with an issue along with supplementary information that includes descriptions and analyses of images in the issue. Based on the issue and the supplementary information, please think through the details step by step and output the original issue in a structured JSON format. A suggested structure could include:
 
+```json
 {
   "problemSummary": "<summary of the problem>",
   "stepsToReproduce": "<steps to reproduce the issue (if applicable)>",
   "expectedResults": "<expected results (if applicable)>",
   "actualResults": "<actual results (if applicable)>"
 }
+```
 
 Please keep in mind the following:
-1. The supplementary information may contain errors and is only for reference. You should prioritize the original issue.
-2. Your structure does not need to match the suggested format exactly. Feel free to add any additional fields that you believe will help clarify the issue, ensuring that it remains clear and structured for better understanding.'''
+1. Your structure does not need to match the suggested format exactly. Feel free to add any additional fields that you believe will help clarify the issue, ensuring that it remains clear and structured for better understanding.'''
 SystemPrompt_step3_COT = '''You are an issue organizer and analyzer. User will provide you with an issue along with supplementary information that includes descriptions and analyses of images in the issue. Based on the issue and the supplementary information, please think through the details step by step and first output your rationale for the structured format, followed by the structured output itself.
 
 The expected response format is as follows:
@@ -180,11 +181,8 @@ def user_message_step2(problem_list, image_list):
     return message
 
 
-def user_message_step3(problem_list, image_list, description_list):
-    contents = [{
-        "type": "text",
-        "text": "issue:\n"
-    }]
+def user_message_step3(problem_list, image_list):
+    contents = []
     for i in range(len(image_list)):
         if image_list[i] == 0:
             contents.append({
@@ -201,16 +199,16 @@ def user_message_step3(problem_list, image_list, description_list):
             })
         else:
             pass
-    supplementary_info = '''supplementary information:
-    The following is a description and analysis of the images that appear in the issue. "raw description" refers to the direct description of the image, "description" refers to the description of the image in the context of the issue, and "analysis" refers to the analysis of the image.'''
-    for description in description_list:
-        supplementary_info += "\n"
-        supplementary_info += description
+#    supplementary_info = '''supplementary information:
+#    The following is a description and analysis of the images that appear in the issue. "raw description" refers to the direct description of the image, "description" refers to the description of the image in the context of the issue, and "analysis" refers to the analysis of the image.'''
+#    for description in description_list:
+#        supplementary_info += "\n"
+#        supplementary_info += description
 
-    contents.append({
-        "type": "text",
-        "text": supplementary_info
-    })
+#    contents.append({
+#        "type": "text",
+#        "text": supplementary_info
+#    })
 
     message = {
         "role": "user",
@@ -311,25 +309,25 @@ def step2(data_file):
         json.dump(save_data_list, outfile, ensure_ascii=False, indent=4)
 
 
-def step3(data_file, step1_file, step2_file):
+def step3(data_file):
     with open(data_file, "r") as f:
         data_list = json.load(f)
 
-    with open(step1_file, "r") as f:
-        step1_data_list = json.load(f)
+    #with open(step1_file, "r") as f:
+    #    step1_data_list = json.load(f)
 
-    with open(step2_file, "r") as f:
-        step2_data_list = json.load(f)
+    #with open(step2_file, "r") as f:
+     #   step2_data_list = json.load(f)
 
-    description_list = []
-    for i in range(len(data_list)):
-        for j in range(len(step2_data_list[i]["description_list"])):
-            description_list.append({
-                "raw description": step1_data_list[i]["raw_description_list"][j],
-                "description": step2_data_list[i]["description_list"][j]["description"],
-                "analysis": step2_data_list[i]["description_list"][j]["analysis"]
-            })
-
+    #description_list = []
+    #for i in range(len(data_list)):
+     #   for j in range(len(step2_data_list[i]["description_list"])):
+     #       description_list.append({
+     #           "raw description": step1_data_list[i]["raw_description_list"][j],
+     #           "description": step2_data_list[i]["description_list"][j]["description"],
+     #           "analysis": step2_data_list[i]["description_list"][j]["analysis"]
+     #       })
+    data_list = data_list[:30]
     save_data_list = []
     for data in tqdm(data_list):
         problem_list = []
@@ -346,25 +344,28 @@ def step3(data_file, step1_file, step2_file):
                 image_list.append(0)
 
         message1 = system_message(SystemPrompt_step3)
-        message2 = user_message_step3(problem_list, image_list, description_list)
+        message2 = user_message_step3(problem_list, image_list)
         completion = client.chat.completions.create(
             model="/gemini/platform/public/llm/huggingface/Qwen/Qwen2-VL-72B-Instruct",
-            messages=[message1, message2]
+            messages=[message1, message2],
+            temperature = 0.2,
+            seed = 42
         )
 
         input_str = completion.choices[0].message.content
-        # 使用正则表达式匹配 JSON 结构
-        json_matches = re.findall(r'\{.*?\}', input_str)
-        # 将提取到的 JSON 字符串转换为 Python 字典，并存入列表
-        structure_problem = [json.loads(json_str) for json_str in json_matches][0]
-        save_data_list.append({
-            "instance_id": instance_id,
-            "structure_problem": structure_problem
-        })
+        print(instance_id,"success,inputstr="+input_str)
+        try:
+            structure_problem = json.loads(input_str.strip().split('\n', 1)[1].rsplit('```', 1)[0].strip())
+            save_data_list.append({
+                "instance_id": instance_id,
+                "structure_problem": structure_problem
+            })
+        except json.decoder.JSONDecodeError as e:
+            print(instance_id,"error,input_str="+input_str)
     with open("step3.json", 'w', encoding='utf-8') as outfile:
         json.dump(save_data_list, outfile, ensure_ascii=False, indent=4)
 
 
 if __name__ == '__main__':
-   step1('multi_data_onlyimage.json')
+   step3('multi_data_onlyimage.json')
    #step2("test.json")
