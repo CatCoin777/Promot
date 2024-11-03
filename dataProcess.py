@@ -287,7 +287,7 @@ def step2(data_file):
     with open(data_file, "r") as f:
         data_list = json.load(f)
     save_data_list = []
-    data_list = data_list[:30]
+    data_list = data_list[30:60]
     #data_list = filter_data(data_list,["astropy__astropy-13838","matplotlib__matplotlib-22931", "matplotlib__matplotlib-24189","matplotlib__matplotlib-24768","mwaskom__seaborn-3276","sphinx-doc__sphinx-11502", "sphinx-doc__sphinx-8120", "sphinx-doc__sphinx-9698"])
     for data in tqdm(data_list):
         #if data["instance_id"] != "matplotlib__matplotlib-21550":
@@ -329,7 +329,7 @@ def step2(data_file):
             print(instance_id,f"error,input_str=" + input_str)
             # 你可以选择在这里记录错误、跳过当前字符串或采取其他措施
 
-    with open("step2_30_des.json", 'w', encoding='utf-8') as outfile:
+    with open("step2_60_des.json", 'w', encoding='utf-8') as outfile:
         json.dump(save_data_list, outfile, ensure_ascii=False, indent=4)
 
 
@@ -351,10 +351,12 @@ def step3(data_file):
      #           "description": step2_data_list[i]["description_list"][j]["description"],
      #           "analysis": step2_data_list[i]["description_list"][j]["analysis"]
      #       })
-    data_list = data_list[:30]
+    data_list = data_list[30:60]
     #data_list = filter_data(data_list,["astropy__astropy-13838","matplotlib__matplotlib-22931", "matplotlib__matplotlib-24189","matplotlib__matplotlib-24768","mwaskom__seaborn-3276","sphinx-doc__sphinx-11502", "sphinx-doc__sphinx-8120", "sphinx-doc__sphinx-9698"])
     save_data_list = []
     for data in tqdm(data_list):
+        if data["instance_id"] != "mwaskom__seaborn-3202":
+            continue
         problem_list = []
         image_list = []
         instance_id = data["instance_id"]
@@ -370,11 +372,12 @@ def step3(data_file):
 
         message1 = system_message(SystemPrompt_step3_v2)
         message2 = user_message_step3(problem_list, image_list)
+        print(message2)
         completion = client.chat.completions.create(
             model="/gemini/platform/public/llm/huggingface/Qwen/Qwen2-VL-72B-Instruct",
             messages=[message1, message2],
-            temperature = 0.2,
-            seed = 42
+            #temperature = 0.3,
+           # seed = 42
         )
 
         input_str = completion.choices[0].message.content
@@ -385,10 +388,10 @@ def step3(data_file):
                 "instance_id": instance_id,
                 "structure_problem": structure_problem
             })
-        except json.decoder.JSONDecodeError as e:
+        except:
             print(instance_id,"error,input_str="+input_str)
-    with open("step3_30_v1.json", 'w', encoding='utf-8') as outfile:
-        json.dump(save_data_list, outfile, ensure_ascii=False, indent=4)
+    #with open("step3_60_v1.json", 'w', encoding='utf-8') as outfile:
+    #    json.dump(save_data_list, outfile, ensure_ascii=False, indent=4)
 
 
 if __name__ == '__main__':
