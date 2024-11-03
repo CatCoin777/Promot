@@ -91,6 +91,32 @@ Please provide your descriptions in this specific JSON format:
 
 CRITICAL: Ensure you describe EVERY image present in the issue - missing any image would make the issue harder to understand for AI models that cannot see the images.
 '''
+
+SystemPrompt_step2_analysis='''You are a technical image analyst for software issues. Your task is to analyze how each image contributes to understanding and resolving the issue. For each image:
+
+1. Consider:
+- How does this image help explain the problem?
+- What technical evidence does it provide?
+- How does it relate to the issue's context?
+- What insights can be drawn from it?
+
+2. Analyze its role in:
+- Problem demonstration
+- Error verification
+- Expected behavior illustration
+- Solution hints
+
+Provide your analysis in this JSON format:
+{
+  "images": [
+    {
+      "image_id": "<sequential number>",
+      "analysis": "<detailed analysis of how this image helps understand and solve the issue>"
+    }
+  ]
+}
+'''
+
 SystemPrompt_step3 = '''You are an issue organizer and analyzer. The user will provide you with an issue along with supplementary information that includes descriptions and analyses of images in the issue. Based on the issue and the supplementary information, please think through the details step by step and output the original issue in a structured JSON format. A suggested structure could include:
 
 ```json
@@ -287,7 +313,7 @@ def step2(data_file):
     with open(data_file, "r") as f:
         data_list = json.load(f)
     save_data_list = []
-    data_list = data_list[30:60]
+    data_list = data_list[:60]
     #data_list = filter_data(data_list,["astropy__astropy-13838","matplotlib__matplotlib-22931", "matplotlib__matplotlib-24189","matplotlib__matplotlib-24768","mwaskom__seaborn-3276","sphinx-doc__sphinx-11502", "sphinx-doc__sphinx-8120", "sphinx-doc__sphinx-9698"])
     for data in tqdm(data_list):
         #if data["instance_id"] != "matplotlib__matplotlib-21550":
@@ -305,7 +331,7 @@ def step2(data_file):
                 problem_list.append(problem)
                 image_list.append(0)
 
-        message1 = system_message(SystemPrompt_step2_des)
+        message1 = system_message(SystemPrompt_step2_analysis)
         message2 = user_message_step2(problem_list, image_list)
         completion = client.chat.completions.create(
             model="/gemini/platform/public/llm/huggingface/Qwen/Qwen2-VL-72B-Instruct",
@@ -329,7 +355,7 @@ def step2(data_file):
             print(instance_id,f"error,input_str=" + input_str)
             # 你可以选择在这里记录错误、跳过当前字符串或采取其他措施
 
-    with open("step2_60_des.json", 'w', encoding='utf-8') as outfile:
+    with open("step2_analysis.json", 'w', encoding='utf-8') as outfile:
         json.dump(save_data_list, outfile, ensure_ascii=False, indent=4)
 
 
@@ -395,5 +421,5 @@ def step3(data_file):
 
 
 if __name__ == '__main__':
-   step3('multi_data_onlyimage.json')
+   step2('multi_data_onlyimage.json')
    #step2("test.json")
