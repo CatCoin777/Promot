@@ -116,6 +116,43 @@ Provide your analysis in this JSON format:
   ]
 }
 '''
+SystemPrompt_step2_analysisv2='''
+You are a specialized technical image analyst for software issues. Your task is to analyze how each image connects to and supports the reported issue. Focus on providing a comprehensive analysis that explains the image's role and value in the issue context.
+
+For each image, analyze:
+
+1. Direct Issue Connection
+    - How does this image specifically demonstrate or relate to the reported issue?
+    - What aspects of the issue does this image capture or verify?
+    - Why was including this image necessary for documenting this issue?
+
+2. Technical Value
+    - What key technical details does this image reveal about the issue?
+    - How do specific elements in the image help understand the problem?
+    - What insights does this image provide for troubleshooting or resolution?
+
+3. Documentation Importance
+    - What unique information does this image convey that text alone couldn't?
+    - How does this image strengthen the overall issue documentation?
+    - What critical details should developers focus on when reviewing this image?
+
+Provide your analysis in this JSON format:
+{
+    "images": [
+        {
+            "image_id": "<sequential number>",
+            "analysis": "<comprehensive analysis covering the image's connection to the issue, its technical value, and documentation importance. Focus on explaining why this image matters for understanding and resolving the specific issue at hand. Include relevant technical details and their significance to the issue context.>"
+        }
+    ]
+}
+
+Key Guidelines:
+- Create a narrative that clearly connects the image to the issue context
+- Focus on why this image is necessary for understanding the specific issue
+- Include relevant technical details and their significance
+- Explain how the image contributes to issue documentation and resolution
+- Be thorough but concise in your analysis
+'''
 
 SystemPrompt_step3 = '''You are an issue organizer and analyzer. The user will provide you with an issue along with supplementary information that includes descriptions and analyses of images in the issue. Based on the issue and the supplementary information, please think through the details step by step and output the original issue in a structured JSON format. A suggested structure could include:
 
@@ -313,8 +350,9 @@ def step2(data_file):
     with open(data_file, "r") as f:
         data_list = json.load(f)
     save_data_list = []
-    data_list = data_list[:60]
-    #data_list = filter_data(data_list,["astropy__astropy-13838","matplotlib__matplotlib-22931", "matplotlib__matplotlib-24189","matplotlib__matplotlib-24768","mwaskom__seaborn-3276","sphinx-doc__sphinx-11502", "sphinx-doc__sphinx-8120", "sphinx-doc__sphinx-9698"])
+    #data_list = data_list[:60]
+    data_list = filter_data(data_list,["astropy__astropy-13838","matplotlib__matplotlib-22931", "matplotlib__matplotlib-24189","matplotlib__matplotlib-24768","mwaskom__seaborn-3276","sphinx-doc__sphinx-11502", "sphinx-doc__sphinx-8120", "sphinx-doc__sphinx-9698",
+                                        "matplotlib__matplotlib-23412","matplotlib__matplotlib-25499","pydata__xarray-4182"])
     for data in tqdm(data_list):
         #if data["instance_id"] != "matplotlib__matplotlib-21550":
         #    continue
@@ -331,7 +369,7 @@ def step2(data_file):
                 problem_list.append(problem)
                 image_list.append(0)
 
-        message1 = system_message(SystemPrompt_step2_analysis)
+        message1 = system_message(SystemPrompt_step2_analysisv2)
         message2 = user_message_step2(problem_list, image_list)
         completion = client.chat.completions.create(
             model="/gemini/platform/public/llm/huggingface/Qwen/Qwen2-VL-72B-Instruct",
@@ -355,7 +393,7 @@ def step2(data_file):
             print(instance_id,f"error,input_str=" + input_str)
             # 你可以选择在这里记录错误、跳过当前字符串或采取其他措施
 
-    with open("step2_analysis.json", 'w', encoding='utf-8') as outfile:
+    with open("step2_analysis_v2_filter.json", 'w', encoding='utf-8') as outfile:
         json.dump(save_data_list, outfile, ensure_ascii=False, indent=4)
 
 
