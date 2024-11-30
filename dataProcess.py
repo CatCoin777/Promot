@@ -449,7 +449,7 @@ def step3(data_file):
         )
 
         input_str = completion.choices[0].message.content
-        print(instance_id, "success,inputstr=" + input_str)
+        # print(instance_id, "success,inputstr=" + input_str)
         try:
             structure_problem = json.loads(input_str.strip().split('\n', 1)[1].rsplit('```', 1)[0].strip())
             save_data_list.append({
