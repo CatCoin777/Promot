@@ -1,0 +1,534 @@
+[
+    {
+        "instance_id": "matplotlib__matplotlib-24570",
+        "structure_problem": {
+            "problemSummary": "The `align` parameter in `HPacker` appears to be reversed, causing the alignment of elements to be incorrect.",
+            "context": "The issue was encountered while using the `HPacker` class from the `matplotlib.offsetbox` module. The `align` parameter is expected to control the vertical alignment of the packed elements, but it seems to be reversed.",
+            "stepsToReproduce": [
+                "Import necessary modules from matplotlib.",
+                "Create `DrawingArea` objects with rectangles.",
+                "Use `HPacker` to pack the `DrawingArea` objects with specified padding, separation, and alignment.",
+                "Create a `TextArea` for the title and pack it with the `HPacker` object using `VPacker`.",
+                "Create an `AnchoredOffsetbox` with the packed elements and add it to a subplot."
+            ],
+            "expectedResults": "The elements should be aligned according to the specified `align` parameter.",
+            "actualResults": "The elements are aligned in the opposite direction of what was expected.",
+            "supplementaryImages": [
+                "Two images showing the expected and actual alignment of the elements."
+            ],
+            "additionalNotes": "The issue was reported for Matplotlib version 3.6.2."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-24691",
+        "structure_problem": {
+            "problemSummary": "The user wants to set the facecolor and edgecolor alpha separately for patches in matplotlib, but currently, the alpha applies to the whole patch.",
+            "context": "The user is making diagrams where the patch edge is solid but the fill is semi-transparent. They have been using a workaround by converting HTML colors into RGBs and appending an alpha value.",
+            "expectedResults": "The user expects to be able to set the facecolor and edgecolor alpha separately for patches.",
+            "actualResults": "Currently, the alpha applies to the whole patch, making it impossible to have a solid edge with a semi-transparent fill.",
+            "supplementaryImages": [
+                "The image shows a patch with a solid edge and a semi-transparent fill, demonstrating the desired effect."
+            ],
+            "additionalNotes": "The user suggests allowing alpha to take a `(facecolor, fillcolor)` tuple for patch methods, similar to how vectorized/separable alphas are allowed in imshow as of #14889."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-24749",
+        "structure_problem": {
+            "problemSummary": "An IndexError occurs when attempting to create a contour plot using matplotlib, specifically when the Z parameter is passed as a keyword argument.",
+            "context": "The issue arises in the function `_process_args` within the matplotlib library, where an attempt is made to access an index that is out of range.",
+            "stepsToReproduce": [
+                "Import matplotlib.pyplot as plt",
+                "Call plt.contour with Z=np.random.rand(30, 30) as a keyword argument"
+            ],
+            "expectedResults": "A contour plot should be generated without errors.",
+            "actualResults": "An IndexError is raised, indicating that the tuple index is out of range.",
+            "supplementaryImages": [
+                "A blank plot with axes labeled from 0.0 to 1.0",
+                "A complex contour plot with various colors and patterns"
+            ],
+            "additionalNotes": "The issue is observed in Matplotlib version 3.6.2, running on OS/X with Python 3.8.15 and Jupyter version 6.5.2."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-24768",
+        "structure_problem": {
+            "problemSummary": "Conflict between `pcolormesh(rasterized=True)` and `set_rasterization_zorder()` in Matplotlib",
+            "context": "The user is trying to rasterize a color plot using both `pcolormesh(rasterized=True)` and `set_rasterization_zorder()`, but these two methods cannot be used together.",
+            "stepsToReproduce": [
+                "Import necessary libraries and modules.",
+                "Create a color plot using `pcolormesh(rasterized=True)`.",
+                "Set the rasterization zorder using `set_rasterization_zorder()`.",
+                "Save the figure using `savefig()`."
+            ],
+            "expectedResults": "The figure should be saved without any errors.",
+            "actualResults": "An `AttributeError` is raised when trying to save the figure.",
+            "supplementaryImages": [
+                "A color plot with rasterization applied."
+            ],
+            "additionalNotes": "The bug appears in version 3.5.1 and commit 2d18bba0ea0e9fb9ccab508fa0a60ffc5946771b, but not version 3.1.2. The most immediate cause seems to be reentrance tracking being dropped from `MixedModeRenderer.start_rasterizing()` and `MixedModeRenderer.stop_rasterizing()`."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-24849",
+        "structure_problem": {
+            "problemSummary": "The 'gapcolor' parameter is not supported for LineCollections in Matplotlib, causing an AttributeError when attempting to use it with plotting methods like vlines or hlines.",
+            "context": "The issue arises because LineCollection does not have 'get_gapcolor' or 'set_gapcolor' methods, which are necessary for the 'gapcolor' parameter to function correctly.",
+            "stepsToReproduce": [
+                "Create a figure and axis using plt.subplots().",
+                "Attempt to use the vlines method with the 'gapcolor' parameter set to 'orange'."
+            ],
+            "expectedResults": "The vlines should be plotted with gaps colored in orange.",
+            "actualResults": "An AttributeError is raised, indicating that LineCollection.set() got an unexpected keyword argument 'gapcolor'.",
+            "supplementaryImages": [
+                "A plot showing two vertical lines with gaps, but the gapcolor parameter is not applied."
+            ],
+            "additionalNotes": "The suggested fix involves adding 'set_color' and 'get_color' methods to LineCollection, similar to the existing 'get_color' and 'set_color' methods."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-24870",
+        "structure_problem": {
+            "problemSummary": "The user is experiencing an issue with the contour function in matplotlib when using boolean 2D arrays. The default levels result in all contour lines being drawn on top of each other, which is not ideal for boolean inputs. The user proposes a solution to autodetect boolean inputs and default the levels to [0.5] in such cases.",
+            "context": "The user frequently uses the contour function with boolean 2D arrays to draw the boundary line between True and False regions. The default levels for the contour function are not suitable for boolean inputs, as they result in all contour lines being drawn on top of each other.",
+            "stepsToReproduce": [
+                "Call plt.contour(boolean_2d_array, levels=[.5], ...)",
+                "Observe that without levels=[.5], the default 8 levels result in all contour lines being drawn on top of each other"
+            ],
+            "expectedResults": "The user expects the contour function to autodetect boolean inputs and default the levels to [0.5] in such cases.",
+            "actualResults": "The contour function uses the default 8 levels, which results in all contour lines being drawn on top of each other.",
+            "supplementaryImages": [
+                "The provided images show the difference between using the default levels and using levels=[.5] for a boolean 2D array."
+            ],
+            "additionalNotes": "The user suggests that autodetection for boolean inputs in the contour function would be similar to the autodetection for imshow, which auto-switches between 0-1 float RGBA arrays and 0-255 uint8 RGBA arrays when given a 3D array as input."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-24971",
+        "structure_problem": {
+            "problemSummary": "Compressed layout setting is not applied consistently when saving a figure multiple times.",
+            "context": "The issue occurs under specific circumstances involving the use of compressed layout and saving the figure with `bbox_inches='tight'`.",
+            "stepsToReproduce": [
+                "Set `matplotlib.rcParams['figure.constrained_layout.use'] = True`.",
+                "Create a figure with subplots using `plt.subplot_mosaic`.",
+                "Save the figure twice using `fig.savefig('test1.png', bbox_inches='tight')` and `fig.savefig('test2.png', bbox_inches='tight')`."
+            ],
+            "expectedResults": "Both saved images should look identical and apply the compressed layout.",
+            "actualResults": "The second saved image does not apply the compressed layout as expected.",
+            "supplementaryImages": [
+                "test1.png",
+                "test2.png"
+            ],
+            "additionalNotes": "The issue is resolved by reverting the `rcParams` setting for the specific figure or using a different option than `bbox_inches='tight'` when using compressed layout."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-25287",
+        "structure_problem": {
+            "problemSummary": "The exponent label color in matplotlib is not changing based on ytick.labelcolor / xtick.labelcolor settings. It is instead colored based on xtick.color / ytick.color.",
+            "context": "This issue was observed in matplotlib version 3.6.3. The provided code snippet demonstrates the problem.",
+            "stepsToReproduce": [
+                "Update matplotlib rcParams with 'ytick.labelcolor': 'red'",
+                "Create a figure and add a subplot",
+                "Plot a line with values [1.01e9, 1.02e9, 1.03e9]"
+            ],
+            "expectedResults": "The exponent label should be colored red based on the ytick.labelcolor setting.",
+            "actualResults": "The exponent label is colored based on ytick.color instead of ytick.labelcolor.",
+            "supplementaryImages": [
+                "Two images showing the expected and actual results of the exponent label color."
+            ],
+            "additionalNotes": "A proposed patch is provided that seems to fix the issue for simple use cases."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-25334",
+        "structure_problem": {
+            "problemSummary": "Passing an array with all NaN values into `pyplot.contour()` causes an assertion failure in `_contour.cpp`.",
+            "context": "This issue was triggered by a test-case in the xarray test suite and has not been noticed because release builds of matplotlib typically disable assertion checks.",
+            "stepsToReproduce": [
+                "Import matplotlib.pyplot and numpy.",
+                "Create a 2D array `x` with all NaN values.",
+                "Call `plt.contour(x)`."
+            ],
+            "expectedResults": "The user expected to see an empty plot with long lists of warnings.",
+            "actualResults": "The assertion failed in `_contour.cpp`.",
+            "additionalNotes": "Matplotlib version: 3.0.3, Operating system: Linux, Matplotlib backend: agg, Python version: 3.6. Python, matplotlib, etc are installed from source."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-25340",
+        "structure_problem": {
+            "problemSummary": "The set_val() method of a range slider in Matplotlib does not set the value correctly when values close to the minimal and maximal values of the range slider are used. Values in the middle work fine.",
+            "context": "The issue occurs with both Windows 10 and Manjaro operating systems, using Python versions 3.10.9 and 3.11.0, Matplotlib version 3.6.2, and different backends (QtAgg and TkAgg).",
+            "stepsToReproduce": [
+                "Create a range slider with specified minimum and maximum values.",
+                "Use the set_val() method to set values close to the minimum and maximum.",
+                "Observe the actual values set by the range slider."
+            ],
+            "expectedResults": "The range slider should set the values exactly as specified by the set_val() method, similar to using the valinit parameter in the constructor.",
+            "actualResults": "The range slider sets incorrect values when values close to the minimum and maximum are used. For example, setting (1, 2) results in (1, 3.25), and setting (9, 10) results in (7.75, 10).",
+            "supplementaryImages": [
+                "Images showing the incorrect behavior of the range slider when values close to the minimum and maximum are set."
+            ],
+            "additionalNotes": "The problem was reported on both Manjaro and Windows 10, with different Matplotlib backends and Python versions."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-25346",
+        "structure_problem": {
+            "problemSummary": "Constrained layout in Matplotlib does not leave enough room for long, wrapped titles.",
+            "context": "The issue occurs when using the 'constrained' layout with long titles that are wrapped. The layout does not adjust to accommodate the wrapped text, leading to titles being cut off or not displayed properly.",
+            "stepsToReproduce": [
+                "Create a figure with subplots using `plt.subplots()` and set the layout to 'constrained'.",
+                "Set a long title for the figure using `fig.suptitle()` with the `wrap=True` parameter.",
+                "Set a long title for one of the subplots using `ax.set_title()` with the `wrap=True` parameter.",
+                "Save the figure using `plt.savefig()`. The issue is observed in the saved image."
+            ],
+            "expectedResults": "The layout should adjust to accommodate the wrapped titles, ensuring they are fully visible without being cut off.",
+            "actualResults": "The layout does not adjust properly, resulting in the wrapped titles being cut off or not displayed correctly.",
+            "supplementaryImages": [
+                "An image showing the figure with the wrapped titles not fitting properly."
+            ],
+            "additionalNotes": "The issue does not occur if the titles have an explicit new line (\\n) instead of being wrapped. The problem is specific to the wrapping functionality."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-25405",
+        "structure_problem": {
+            "problemSummary": "Logarithmic tick markers do not appear if the y-axis scales a sufficient range, with the `subs` keyword argument of `ticker.LogLocator` set to non-trivial values.",
+            "context": "The issue is isolated to `ticker.LogLocator.tick_values()` which returns correct values in the first case but `np.array([])` in the second case.",
+            "stepsToReproduce": [
+                "Create a plot with logarithmic y-axis using `plt.semilogy()`.",
+                "Set the major and minor locators to `ticker.LogLocator(subs=(1, 2, 5))`.",
+                "Observe the absence of ticks when the x-axis range is increased from 8 to 9."
+            ],
+            "expectedResults": "Ticks should appear on the y-axis for both cases.",
+            "actualResults": "Ticks do not appear on the y-axis when the x-axis range is increased to 9.",
+            "supplementaryImages": [
+                "Good Plot: Ticks appear on the y-axis.",
+                "Bad Plot: Ticks do not appear on the y-axis."
+            ],
+            "additionalNotes": "The problem is isolated to `ticker.LogLocator.tick_values()` which returns correct values in the first case but `np.array([])` in the second case."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-25499",
+        "structure_problem": {
+            "problemSummary": "Setting bbox_inches to a Bbox in fig.savefig resizes the colorbar relative to when bbox_inches is not set, resulting in a larger colorbar than expected.",
+            "context": "The issue occurs when using matplotlib version 3.5.1 on MacOS 12.2.1 (Monterey) with Python 3.9.10 and Jupyter lab 3.2.9 installed via conda.",
+            "stepsToReproduce": [
+                "Import necessary libraries: numpy, matplotlib, and matplotlib.pyplot.",
+                "Create a meshgrid of x and y values.",
+                "Plot a pcolormesh using the meshgrid and a sine function.",
+                "Add a colorbar to the plot.",
+                "Save the figure using fig.savefig with bbox_inches set to a specified Bbox."
+            ],
+            "expectedResults": "The colorbar should remain at its original size when bbox_inches is set.",
+            "actualResults": "The colorbar is resized to a larger size than expected when bbox_inches is set.",
+            "supplementaryImages": [
+                "Two images showing the difference in colorbar size with and without bbox_inches set."
+            ],
+            "additionalNotes": "Calling fig.savefig without bbox_inches set first and then calling it again with bbox_inches set produces the expected outcome. Calling plt.show() prior to savefig also works."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-25565",
+        "structure_problem": {
+            "problemSummary": "The legend for Poly3dCollection fails to display correctly due to an AttributeError.",
+            "context": "The issue occurs when attempting to plot an iso surface using Poly3dCollection and adding a legend to the plot.",
+            "stepsToReproduce": [
+                "Generate a level set about zero of two identical ellipsoids in 3D.",
+                "Use marching cubes to obtain the surface mesh of these ellipsoids.",
+                "Create a Poly3DCollection from the vertices and faces of the mesh.",
+                "Add the collection to a 3D plot.",
+                "Attempt to add a legend to the plot."
+            ],
+            "expectedResults": "The legend should be displayed correctly.",
+            "actualResults": "An AttributeError is raised, indicating that a tuple object has no attribute 'size'.",
+            "supplementaryImages": [
+                "A 3D plot of two overlapping ellipsoids with a mesh surface."
+            ],
+            "additionalNotes": "The issue is due to the assumption in the legend handler that the colors attribute is a numpy array, which does not hold for Poly3dCollection. A quick fix is suggested to ensure the colors attribute is converted to a numpy array."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-25640",
+        "structure_problem": {
+            "problemSummary": "Contour labels in a contour plot created with the PGF backend extend beyond the figure boundary.",
+            "context": "The issue was originally posted as a question on StackOverflow. The code provided is a modified version of the `contour_demo.py` example from the Matplotlib documentation.",
+            "stepsToReproduce": [
+                "Install Matplotlib version 2.2.2 and Python 3.6.3 on Ubuntu 17.10.",
+                "Run the provided Python script to generate a contour plot with labels.",
+                "Observe the contour label at the top extending beyond the figure boundary."
+            ],
+            "expectedResults": "The contour label at the top should be clipped, just as in the first image shown in the `contour_demo.py` example.",
+            "actualResults": "The contour label at the top extends beyond the figure boundary.",
+            "supplementaryImages": [
+                "A contour plot with labels where the top label extends beyond the figure boundary."
+            ],
+            "additionalNotes": "The Matplotlib backend is PGF, but `matplotlib.get_backend()` shows `TkAgg`. The issue does not occur with other backends."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-25667",
+        "structure_problem": {
+            "problemSummary": "The bar and barh functions in matplotlib do not check the units of bottom/left parameters to determine if the axis needs a different converter for datetime units.",
+            "context": "The issue arises when trying to plot bars with datetime64 arrays for the start and stop parameters.",
+            "stepsToReproduce": [
+                "Import numpy and matplotlib.pyplot.",
+                "Create a figure and axis.",
+                "Define start and stop datetime64 arrays.",
+                "Use ax.barh to plot the bars with the width as stop-start and left as start."
+            ],
+            "expectedResults": "The bar plot should correctly handle datetime units and display the bars with the appropriate time scale.",
+            "actualResults": "The bar plot does not correctly handle datetime units, leading to incorrect scaling or display of the bars.",
+            "supplementaryImages": [
+                "Two bar plots showing the issue with datetime units."
+            ],
+            "additionalNotes": "The issue is resolved when using the 'concise' date converter and forcing the x-axis to be times."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-25779",
+        "structure_problem": {
+            "problemSummary": "The user is trying to plot an ellipse with an arrow showing the direction of rotation (clockwise or counterclockwise) and is inquiring if this can be implemented as an optional argument.",
+            "context": "The user is working with matplotlib and is interested in adding a feature to the ellipse plotting functionality.",
+            "expectedResults": "The user expects to be able to plot an ellipse with an arrow indicating the direction of rotation as an additional feature.",
+            "actualResults": "The user has not provided any actual results or code attempts.",
+            "supplementaryImages": [
+                "The images provided show an ellipse with a major axis (a) and a minor axis (b), and an arrow indicating the direction of rotation."
+            ],
+            "additionalNotes": "The user is looking for a solution that can be implemented as an optional argument in matplotlib."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-26078",
+        "structure_problem": {
+            "problemSummary": "When plotting on a parasite axis using `axes_grid1.parasite_axes`, units are not automatically applied to the parasite axis.",
+            "context": "The issue arises due to a line in `ParasiteAxesBase.cla` that causes `ax2.plot` to attempt to call `update_units` on the host axes instead of the parasite axes.",
+            "stepsToReproduce": [
+                "Create a host subplot using `host_subplot` from `mpl_toolkits.axes_grid1`.",
+                "Plot data on the host axes using `host.plot`.",
+                "Create a parasite axis using `host.twinx()`.",
+                "Plot data on the parasite axis using `par1.plot`."
+            ],
+            "expectedResults": "Units should be automatically applied to the parasite axis.",
+            "actualResults": "Units are not automatically applied to the parasite axis.",
+            "supplementaryImages": [
+                "Figure 1: Plot with incorrect unit handling on the parasite axis."
+            ],
+            "additionalNotes": "The issue seems to be related to a line in `ParasiteAxesBase.cla` that causes `ax2.plot` to attempt to call `update_units` on the host axes instead of the parasite axes. A potential fix involves modifying the `_get_lines` attribute and related methods to correctly handle units on the parasite axis."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-26466",
+        "structure_problem": {
+            "problemSummary": "When an array is used as the 'xy' kwarg for an annotation that includes arrows, changing the array after calling the function changes the arrow position. It is very likely that the same array is kept instead of a copy.",
+            "context": "The issue occurs when using the 'annotate' function with an array as the 'xy' parameter. Modifying the array after the annotation is created affects the position of the arrow.",
+            "stepsToReproduce": [
+                "Create a figure and add an axes.",
+                "Set the x and y limits for the axes.",
+                "Define two arrays, 'xy_0' and 'xy_f', for the annotation.",
+                "Use the 'annotate' function with 'xy_0' as the 'xy' parameter and 'xy_f' as the 'xytext' parameter.",
+                "Modify the 'xy_0' array after the annotation is created."
+            ],
+            "expectedResults": "Both arrows should be horizontal.",
+            "actualResults": "The arrow position changes when the 'xy' array is modified after the annotation is created.",
+            "supplementaryImages": [
+                "The provided image shows the arrows before and after modifying the 'xy' array."
+            ],
+            "additionalNotes": "Using a copy of the array for the 'xy' parameter helps in identifying the issue."
+        }
+    },
+    {
+        "instance_id": "mwaskom__seaborn-2576",
+        "structure_problem": {
+            "problemSummary": "The `lmplot` function in Seaborn does not behave as expected when `sharey=False` is specified, and there is a request to allow `xlim` as a parameter for `lmplot`.",
+            "context": "The user is using Seaborn version 0.11.1 and Matplotlib version 3.3.1. The issue is observed when using `lmplot` with `sharey=False`, where the plots do not rescale individually as expected. Additionally, there is a feature request to allow `xlim` as a parameter for `lmplot` to control the x-axis limits.",
+            "stepsToReproduce": [
+                "Create a DataFrame with columns 'x', 'y', and 't'.",
+                "Use `sns.lmplot(data=df, x='x', y='y', col='t', sharey=False);` to generate the plots."
+            ],
+            "expectedResults": "The plots should rescale individually when `sharey=False` is specified.",
+            "actualResults": "The plots do not rescale individually, behaving as if `sharey=True`.",
+            "supplementaryImages": [
+                "Two plots showing the issue with `sharey=False` not working as expected."
+            ],
+            "additionalNotes": "A workaround is to use `sharex=False, sharey=False` in the `lmplot` function. There is also a feature request to allow `xlim` as a parameter for `lmplot` to control the x-axis limits."
+        }
+    },
+    {
+        "instance_id": "mwaskom__seaborn-2846",
+        "structure_problem": {
+            "problemSummary": "The relplot function in seaborn does not handle numpy types for dimensional variables correctly, leading to incorrect plot generation or lack of feedback.",
+            "context": "The issue arises when attempting to use numpy arrays for dimensional variables in the relplot function. The expected behavior is to create a plot with the correct dimensions based on the provided data, but the actual behavior results in either an incorrect plot or no useful feedback.",
+            "stepsToReproduce": [
+                "Import seaborn and numpy libraries.",
+                "Create a dataset (e.g., tips dataset).",
+                "Use the relplot function with numpy arrays for dimensional variables (e.g., x='total_bill', y=tips['tip'].to_numpy(), col=tips['time'].to_numpy())."
+            ],
+            "expectedResults": "The relplot function should generate a plot with the correct dimensions based on the provided numpy arrays for dimensional variables.",
+            "actualResults": "The relplot function either generates an incorrect plot or does not provide useful feedback about why it is not working.",
+            "supplementaryImages": [
+                "A scatter plot with blue dots representing data points.",
+                "Two side-by-side plots with blue squares representing data points."
+            ],
+            "additionalNotes": "The displot function handles numpy types for dimensional variables better than the relplot function. The internal name used for the y variable in the relplot function shows up in the y label, which may not be desirable."
+        }
+    },
+    {
+        "instance_id": "mwaskom__seaborn-2979",
+        "structure_problem": {
+            "problemSummary": "The visibility of internal axis labels is incorrect in a wrapped pair plot.",
+            "context": "The issue arises when using a pair plot with a wrap parameter, causing the top two subplots to have the same x-axis label instead of distinct ones.",
+            "stepsToReproduce": [
+                "Create a pair plot using the specified data and variables.",
+                "Set the wrap parameter to 2.",
+                "Observe the x-axis labels of the top two subplots."
+            ],
+            "expectedResults": "The top two subplots should have distinct x-axis labels.",
+            "actualResults": "The top two subplots have the same x-axis label.",
+            "supplementaryImages": [
+                "The first image shows the incorrect x-axis labels in the top two subplots.",
+                "The second image is a duplicate of the first image, showing the same issue."
+            ],
+            "additionalNotes": "The issue is specific to the wrapped pair plot and does not occur in other types of plots."
+        }
+    },
+    {
+        "instance_id": "mwaskom__seaborn-3180",
+        "structure_problem": {
+            "problemSummary": "Overlapping labels in relplot with seaborn 0.12",
+            "context": "The issue occurs when using seaborn's relplot function with specific parameters, leading to overlapping labels in the resulting plots.",
+            "stepsToReproduce": [
+                "Import seaborn and set context and style.",
+                "Load the iris dataset and scale the data.",
+                "Use relplot with the specified parameters to create the plots."
+            ],
+            "expectedResults": "The plots should display without overlapping labels.",
+            "actualResults": "The plots display with overlapping labels.",
+            "supplementaryImages": [
+                "Images showing the plots with overlapping labels."
+            ],
+            "additionalNotes": "The issue is observed in seaborn version 0.12."
+        }
+    },
+    {
+        "instance_id": "mwaskom__seaborn-3187",
+        "structure_problem": {
+            "problemSummary": "The legend values for large ranges in a plot created using `ScalarFormatter` with an offset are formatted without their multiplicative offset value, leading to incorrect representation of the data.",
+            "context": "The issue was observed in seaborn version 0.12.1. The problem occurs when creating a plot with large numbers that are formatted using `ScalarFormatter` with an offset. The offset value is not used in the legend, causing the legend to display incorrect values.",
+            "stepsToReproduce": [
+                "Load the penguins dataset using `seaborn.load_dataset('penguins')`.",
+                "Create a new column 'body_mass_mg' by multiplying the 'body_mass_g' column by 1000.",
+                "Use `seaborn.objects.Plot` to create a plot with 'bill_length_mm' on the x-axis, 'bill_depth_mm' on the y-axis, 'species' as the color, and 'body_mass_mg' as the point size.",
+                "Add a dot layer to the plot using `so.Dot()`.",
+                "Display the plot."
+            ],
+            "expectedResults": "The legend should correctly represent the values of 'body_mass_mg' with the appropriate multiplicative offset.",
+            "actualResults": "The legend displays incorrect values for 'body_mass_mg', not accounting for the multiplicative offset.",
+            "supplementaryImages": [
+                "A scatter plot showing the relationship between 'bill_length_mm' and 'bill_depth_mm' with points colored by 'species' and sized by 'body_mass_mg'. The legend incorrectly represents the values of 'body_mass_mg'."
+            ],
+            "additionalNotes": "The issue may depend on the rcParam settings `mpl.rcParams['axes.formatter.useoffset']` and `mpl.rcParams['axes.formatter.offset_threshold']`, but this has not been tested."
+        }
+    },
+    {
+        "instance_id": "mwaskom__seaborn-3216",
+        "structure_problem": {
+            "problemSummary": "Seaborn objects API removes figure titles when plotting on subfigures.",
+            "context": "The issue occurs when using the seaborn objects API with subfigures. A minimal example demonstrates that the figure title is missing when plotting on a subfigure, but it reappears when the plotting is commented out.",
+            "stepsToReproduce": [
+                "Import seaborn and matplotlib libraries.",
+                "Create a figure with subfigures.",
+                "Load the 'tips' dataset from seaborn.",
+                "Use the seaborn objects API to create a plot with bars and a histogram.",
+                "Plot the data on the first subfigure.",
+                "Create a scatter plot on the second subfigure.",
+                "Add a suptitle to the figure.",
+                "Display the figure."
+            ],
+            "expectedResults": "The figure title should be present on the plot.",
+            "actualResults": "The figure title is missing from the plot.",
+            "supplementaryImages": [
+                "Histogram of 'total_bill' data with missing title.",
+                "Scatter plot with missing title."
+            ],
+            "additionalNotes": "Changing a line in the seaborn source code (line 186 of _core/subplots.py) from `figure = target.figure` to `figure = target` seems to resolve the issue. This suggests a potential bug in how subfigures are handled in the seaborn objects API."
+        }
+    },
+    {
+        "instance_id": "mwaskom__seaborn-3217",
+        "structure_problem": {
+            "problemSummary": "Width computation after histogram is slightly wrong with log scale, causing a slight overlap in the bars.",
+            "context": "The issue occurs when using a log scale on the x-axis of a histogram plot.",
+            "stepsToReproduce": [
+                "Create a histogram plot using a dataset.",
+                "Apply a log scale to the x-axis.",
+                "Observe the slight overlap in the bars."
+            ],
+            "expectedResults": "Bars should not overlap when using a log scale.",
+            "actualResults": "Bars slightly overlap when using a log scale.",
+            "supplementaryImages": [
+                "Histogram plot with 4 bins and log scale.",
+                "Histogram plot with 8 bins and log scale.",
+                "Bar plot with 4 bins and log scale."
+            ],
+            "additionalNotes": "The overlap becomes nearly imperceptible with more bins."
+        }
+    },
+    {
+        "instance_id": "mwaskom__seaborn-3276",
+        "structure_problem": {
+            "problemSummary": "The heatmap function in seaborn behaves differently when the `norm` argument is set to `None`.",
+            "context": "The user is using the seaborn library to create heatmaps and has observed a discrepancy in behavior when the `norm` argument is specified as `None`.",
+            "stepsToReproduce": [
+                "Create a heatmap using `sns.heatmap(..., vmin=0.0, vmax=1.0, ...)`",
+                "Observe the heatmap with the specified `vmin` and `vmax` values",
+                "Create another heatmap using `sns.heatmap(..., vmin=0.0, vmax=1.0, norm=None, ...)`",
+                "Observe that the `vmin` and `vmax` values are not applied"
+            ],
+            "expectedResults": "The `vmin` and `vmax` values should be applied to the heatmap regardless of the `norm` argument.",
+            "actualResults": "The `vmin` and `vmax` values are not applied to the heatmap when `norm=None` is specified.",
+            "supplementaryImages": [
+                "First heatmap with `vmin` and `vmax` values applied",
+                "Second heatmap with `vmin` and `vmax` values not applied"
+            ],
+            "additionalNotes": "The user is willing to submit a PR if this issue is not already addressed."
+        }
+    },
+    {
+        "instance_id": "mwaskom__seaborn-3394",
+        "structure_problem": {
+            "problemSummary": "When plotting data with `pd.NA`, the axis ordering is reversed into descending order, which is not the expected behavior.",
+            "context": "The issue is observed when using `pd.NA` for missing values in a DataFrame, which affects the axis ordering in the plot.",
+            "stepsToReproduce": [
+                "Create a DataFrame with a 'date' column and a 'value' column.",
+                "Add a 'type' column to the DataFrame to differentiate between different types of missing values.",
+                "For each type (no_NA, pd.NA, np.nan), create a copy of the DataFrame and introduce missing values using the respective method.",
+                "Concatenate the DataFrames and plot the 'value' column against 'date' using seaborn's FacetGrid and lineplot."
+            ],
+            "expectedResults": "NAs should be excluded without reversing the axis order.",
+            "actualResults": "The axis order is reversed into descending order when using `pd.NA`.",
+            "supplementaryImages": [
+                "Three line plots showing the behavior of different missing value types (no_NA, pd.NA, np.nan) in the context of axis ordering."
+            ],
+            "additionalNotes": "The issue does not occur when using `np.nan` for missing values."
+        }
+    },
+    {
+        "instance_id": "pydata__xarray-4182",
+        "structure_problem": {
+            "problemSummary": "The issue is about the default display of data and attributes in the HTML representation of DataArray/Variable in xarray. The current implementation requires users to click on icons to expand sections to view data or attributes, which may not be easily discoverable.",
+            "context": "The HTML representation of DataArray/Variable in xarray currently shows a compact view with icons to expand sections for viewing data and attributes. This is inconsistent with the text representation, which shows these sections by default.",
+            "expectedResults": "The proposal suggests that the data and attributes should be expanded by default in the HTML representation to be consistent with the text representation and to improve discoverability.",
+            "actualResults": "The current implementation requires users to click on icons to expand sections to view data or attributes.",
+            "supplementaryImages": [
+                "The first image shows the current HTML representation of DataArray/Variable with icons to expand sections.",
+                "The second image shows the expanded view of the data array after clicking on the icon.",
+                "The third image shows the expanded view of the chunk information after clicking on the icon."
+            ],
+            "additionalNotes": "The proposal aims to improve the user experience by making the data and attributes more easily accessible in the HTML representation."
+        }
+    }
+]

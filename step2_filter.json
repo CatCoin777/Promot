@@ -1,0 +1,92 @@
+[
+    {
+        "instance_id": "astropy__astropy-13838",
+        "description_list": [
+            {
+                "image_id": "1",
+                "description": "The first image shows a table with a length of 3, displaying the columns 'col0' and 'str1'. The values in 'col0' are 'A', 'B', and 'C'.",
+                "analysis": "This image represents the initial structure of the table being created. It shows the column names and their respective values, which are crucial for understanding the data structure. The presence of 'A', 'B', and 'C' in 'col0' indicates that these are the fields being used to populate the table."
+            },
+            {
+                "image_id": "2",
+                "description": "The second image shows a table with a length of 3, displaying the columns 'A', 'B', and 'C'. The values in 'A' are 0, 1, and 2, while 'B' has values 0, 0, and 2. 'C' contains an empty array for the first two rows and an array with values [0, 1] for the third row.",
+                "analysis": "This image demonstrates the expected behavior of the table when it is populated with data. The values in 'A' and 'B' are integers, and 'C' contains arrays. The issue arises when the table is populated with events that have null array data, leading to an IndexError. This image helps to understand the data structure and the expected output."
+            }
+        ]
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-22931",
+        "description_list": [
+            {
+                "image_id": "1",
+                "description": "The image shows a simple line plot with a straight line connecting the points (0,0) and (1,1). The line is blue and appears to be solid without any dashes or patterns.",
+                "analysis": "This image is relevant to the issue because it demonstrates the expected outcome of the code provided in the bug report. The code is intended to create a line plot with a specific linestyle, but due to a bug introduced in a recent commit, the line is not being displayed as expected. The image serves as a reference for the correct behavior of the code before the bug was introduced."
+            }
+        ]
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-24189",
+        "description_list": [
+            {
+                "image_id": "1",
+                "description": "The image shows a plot with three sections labeled 'A', 'B', and 'C'. Section 'A' is a large square occupying the left side of the plot, while sections 'B' and 'C' are smaller squares placed vertically on the right side of the plot.",
+                "analysis": "This image represents the intended layout of the mosaic plot that the user is trying to create. The layout is specified in the code snippet provided, where 'A' is intended to be a larger section, and 'B' and 'C' are smaller sections. The issue arises when trying to implement this layout using the `plt.subplot_mosaic()` function with `width_ratios` specified, leading to an error due to the mismatch in the number of width ratios and the number of columns in the grid."
+            }
+        ]
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-24768",
+        "description_list": [
+            {
+                "image_id": "1",
+                "description": "This image is a color plot generated using matplotlib's `pcolormesh` function with the `rasterized=True` parameter. The plot is a polar coordinate system with a grid of colors representing different values. The annotation in the center of the plot displays the version of matplotlib being used, which is 3.7.0.dev447+g2d18bba0ea.",
+                "analysis": "The image is directly related to the issue described in the text. It demonstrates the use of `pcolormesh` with `rasterized=True`, which is one of the methods mentioned in the documentation for rasterizing a color plot. The presence of the annotation with the matplotlib version number indicates that the code was run successfully up to this point, but the issue arises when attempting to save the figure, as described in the actual outcome section of the bug summary."
+            }
+        ]
+    },
+    {
+        "instance_id": "mwaskom__seaborn-3276",
+        "description_list": [
+            {
+                "image_id": "1",
+                "description": "The first image shows a heatmap with values ranging from 0.0 to 1.0, where the color intensity represents the value of each cell. The heatmap is normalized, and the values are clearly visible.",
+                "analysis": "This image demonstrates the expected behavior of a heatmap when no normalization is specified. The values are correctly represented, and the color intensity corresponds to the value of each cell."
+            },
+            {
+                "image_id": "2",
+                "description": "The second image shows a heatmap with values ranging from 0.0 to 1.0, but the color intensity does not correspond to the actual values. The heatmap appears to be improperly normalized, leading to incorrect representation of the data.",
+                "analysis": "This image highlights the issue reported by the user, where specifying `norm=None` in the heatmap function causes the `vmin` and `vmax` parameters to be ignored, resulting in incorrect color representation."
+            }
+        ]
+    },
+    {
+        "instance_id": "sphinx-doc__sphinx-11502",
+        "description_list": [
+            {
+                "image_id": "1",
+                "description": "The image shows a note in French indicating that the page is not yet fully translated, with a progress of 95%.",
+                "analysis": "This image is significant as it represents the issue at hand, which is the presence of partially translated pages in internationalized documentation. The note serves as a warning to users that they may encounter English content and encourages them to contribute to the translation process. It highlights the need for a more efficient way to identify and mark untranslated or partially translated pages, which is the motivation behind the feature request described in the text."
+            }
+        ]
+    },
+    {
+        "instance_id": "sphinx-doc__sphinx-8120",
+        "description_list": [
+            {
+                "image_id": "1",
+                "description": "The image shows a screenshot of a Sphinx documentation page with a Python logo and a code snippet. The page is titled 'Welcome to test sphinx20 locale's documentation!' and includes a navigation section with links to different parts of the documentation. The code snippet is a simple Python script that prints 'Hello world!', and the Python logo is labeled as 'figur 1 The Python logo.'",
+                "analysis": "This image is significant as it demonstrates the issue described in the bug report. The Sphinx documentation page is intended to show the updated translations for the figure and code block captions, but the expected translations ('Foobar 1' and 'Whatever 1') are not displayed, indicating a problem with the translation process."
+            }
+        ]
+    },
+    {
+        "instance_id": "sphinx-doc__sphinx-9698",
+        "description_list": [
+            {
+                "image_id": "1",
+                "description": "The image shows a screenshot of an index entry with parens for a `py:method` directive with `:property:` option. The entry is for `Foo.bar` and `Foo.baz` properties.",
+                "analysis": "This image is significant because it visually demonstrates the issue described in the text, where the index entry for the property includes unnecessary parens. This visual representation helps to clarify the problem and aids in understanding the expected behavior without parens."
+            }
+        ]
+    }
+]

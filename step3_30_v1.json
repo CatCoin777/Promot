@@ -1,0 +1,607 @@
+[
+    {
+        "instance_id": "astropy__astropy-11693",
+        "structure_problem": {
+            "problemSummary": "'WCS.all_world2pix' failed to converge when plotting WCS with non linear distortions",
+            "context": "When trying to plot an image with a WCS as projection that contains non linear Distortions it fails with a `NoConvergence` error.",
+            "stepsToReproduce": [
+                "Create a WCS object with non-linear distortions using the `Sip` class.",
+                "Plot the image using the WCS projection with `plt.subplot(projection=wcs)`.",
+                "Add a grid to the plot with `plt.grid(color='white', ls='solid')`."
+            ],
+            "expectedResults": "The plot should be generated without any errors.",
+            "actualResults": "'WCS.all_world2pix' failed to converge to the requested accuracy. After 20 iterations, the solution is diverging at least for one input point.",
+            "supplementaryImages": [
+                "The provided images show the expected plot with non-linear distortions."
+            ],
+            "additionalNotes": "Adding `quiet=True` as a parameter to the call `pixel = self.all_world2pix(*world_arrays, 0)` at line 326 of `astropy/wcs/wcsapi/fitswcs.py` allows the plot to be generated without errors."
+        }
+    },
+    {
+        "instance_id": "astropy__astropy-13838",
+        "structure_problem": {
+            "problemSummary": "Printing tables with 0-length array cells in Astropy does not work correctly, causing an IndexError.",
+            "context": "The issue arises when attempting to print a table created from a list of dictionaries where some events contain null array data. The table prints correctly until the first event with data in the array fields. When only events with null array data are printed, an IndexError occurs.",
+            "stepsToReproduce": [
+                "Create a list of dictionaries with some events containing null array data.",
+                "Use the `QTable(rows=events)` function to create a table from the list of dictionaries.",
+                "Attempt to print the table."
+            ],
+            "expectedResults": "The table should print correctly even when it contains only events with null array data.",
+            "actualResults": "An IndexError is raised when attempting to print the table with only events containing null array data.",
+            "supplementaryImages": [
+                "Image 1: Shows the table with correct printing for events with array data.",
+                "Image 2: Shows the table with an IndexError when only events with null array data are printed."
+            ],
+            "additionalNotes": "The issue is related to the handling of 0-length array cells in the table printing process."
+        }
+    },
+    {
+        "instance_id": "astropy__astropy-14295",
+        "structure_problem": {
+            "problemSummary": "The presence of SIP keywords in the FITS header causes astropy to ignore PV keywords, leading to unexpected behavior in the WCS solution.",
+            "context": "The user is updating the FITS header for a telescope, aiming to represent distortions in SIP convention with a 'CAR' projection. The issue arises when SIP coefficients are present in the header and/or '-SIP' is added to CTYPE keywords, causing astropy to treat PV keywords as redundant.",
+            "stepsToReproduce": [
+                "Initialize the header with SIP and PV keywords.",
+                "Parse the header using astropy.wcs.WCS.",
+                "Plot the graticule using the parsed WCS.",
+                "Remove the PV keywords and run the process again.",
+                "Compare the resulting graticules."
+            ],
+            "expectedResults": "The image should be centered at RA=120 and Dec=29 with lines of constant RA and Dec looking like the image generated using wcslib.",
+            "actualResults": "Astropy WCS throws a warning about removing redundant SCAMP distortion parameters and produces a different graticule compared to wcslib. The PV keywords are ignored, and the astropy WCS grid does not change whether the PV keywords are kept or removed.",
+            "supplementaryImages": [
+                "An image showing the expected grid generated using wcslib.",
+                "An image showing the actual grid generated using astropy WCS."
+            ],
+            "additionalNotes": "The behavior can be replicated by initializing a header with SIP and PV keywords, parsing it with astropy.wcs.WCS, and plotting the graticule. Removing the PV keywords and running the process again will show that the PV keywords are completely ignored by astropy WCS."
+        }
+    },
+    {
+        "instance_id": "astropy__astropy-8292",
+        "structure_problem": {
+            "problemSummary": "The implementation of the `littleh` equivalency in Astropy seems to be incorrect, as it does not correctly convert distances when using the `littleh` unit.",
+            "context": "The `littleh` unit is a dimensionless version of the Hubble constant, often used in extragalactic astrophysics. The issue arises when converting distances using this unit, as the conversion does not yield the expected results.",
+            "stepsToReproduce": [
+                "Import astropy.units as u",
+                "Set H0_70 = 70 * u.km/u.s / u.Mpc",
+                "Set distance = 100 * (u.Mpc/u.littleh)",
+                "Convert distance to u.Mpc using u.with_H0(H0_70)"
+            ],
+            "expectedResults": "The expected result is that the distance should be equivalent to 140 Mpc when h=0.7.",
+            "actualResults": "The actual result is 67.74 Mpc, which is incorrect.",
+            "supplementaryImages": [
+                "The image shows the incorrect conversion result when using the `littleh` unit."
+            ],
+            "additionalNotes": "The issue is not a typo and can be consistently reproduced."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-13908",
+        "structure_problem": {
+            "problemSummary": "Minor ticklabels are missing at positions of major ticks in a matplotlib plot.",
+            "context": "The issue occurs when using a `DayLocator` for major ticks and an `HourLocator` for minor ticks on the x-axis of a plot.",
+            "stepsToReproduce": [
+                "Import necessary libraries: numpy, matplotlib.dates, and matplotlib.pyplot.",
+                "Create an array of dates using numpy's datetime64.",
+                "Generate a random array of values for plotting.",
+                "Create a figure and axis using matplotlib.",
+                "Plot the dates and values on the axis.",
+                "Set the major locator and formatter for the x-axis to display days.",
+                "Set the minor locator and formatter for the x-axis to display hours.",
+                "Display the plot."
+            ],
+            "expectedResults": "The expected outcome is to see the hours throughout the plot, as it was in matplotlib 3.0.2 or below.",
+            "actualResults": "The actual outcome is that the minor ticklabels showing the '00:00' hours are missing.",
+            "supplementaryImages": [
+                "The first image shows the plot with missing minor ticklabels.",
+                "The second image shows the expected plot with hours displayed throughout."
+            ],
+            "additionalNotes": "The issue is observed with the current master version of matplotlib on a Windows 8 operating system with Python 3.6."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-13980",
+        "structure_problem": {
+            "problemSummary": "The issue is about the unexpected autoset of the bottom y_limit in a polar plot, which is not zero, causing confusion and a misleading appearance of a hole around the origin.",
+            "context": "The user encountered this problem while plotting data in a Jupyter Notebook using Matplotlib version 3.0.2. The issue is observed on both Windows 10 and Ubuntu Linux operating systems with Python versions 3.7 and 3.6.",
+            "stepsToReproduce": [
+                "Create a set of random data points for theta and r.",
+                "Plot the data on a polar plot using Matplotlib.",
+                "Observe the autoset bottom y_limit, which is not zero."
+            ],
+            "expectedResults": "The user expected the bottom y_limit to be zero, which is the default behavior.",
+            "actualResults": "The actual result was that the bottom y_limit was not zero, leading to a misleading appearance of a hole around the origin.",
+            "supplementaryImages": [
+                "Two polar plots are provided: one with the expected behavior (bottom y_limit set to zero) and one with the unexpected behavior (autoset bottom y_limit not zero)."
+            ],
+            "additionalNotes": "The user mentioned that it took some time to realize that the issue was with the axis scaling and not with the data analysis."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-13983",
+        "structure_problem": {
+            "problemSummary": "Removing a shared axes in a matplotlib plot prevents the remaining axes from using unit-provided formatters, leading to incorrect tick formatting.",
+            "context": "The issue occurs when using the `remove()` method on a shared axis in a subplot arrangement. This prevents the remaining axes from acquiring the correct tick formatter and locator.",
+            "stepsToReproduce": [
+                "Create a figure with subplots sharing an axis.",
+                "Remove one of the shared axes using the `remove()` method.",
+                "Plot data on the remaining axes.",
+                "Observe the tick formatting on the remaining axes."
+            ],
+            "expectedResults": "The remaining axes should retain the correct tick formatter and locator after removing a shared axis.",
+            "actualResults": "The remaining axes do not acquire the correct tick formatter and locator, leading to incorrect tick formatting.",
+            "supplementaryImages": [
+                "A plot showing the incorrect tick formatting after removing a shared axis."
+            ],
+            "additionalNotes": "Using `fig.delaxes()` instead of `remove()` does not exhibit the same bug. The issue is related to the `_remove_ax` method in matplotlib, where the call to `set_major_formatter` makes Matplotlib believe that a user-provided formatter is being used, which should not be overridden by the unit framework."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-13984",
+        "structure_problem": {
+            "problemSummary": "Tick mark color cannot be set on Axes3D using the `ax.tick_params` method.",
+            "context": "The issue was reported on StackOverflow, indicating that the `ax.tick_params` method only changes the color of tick labels, not the tick marks themselves. Workarounds were proposed, and it was noted that this functionality worked as expected in version 1.3.1.",
+            "stepsToReproduce": [
+                "Create a 3D plot using `mpl_toolkits.mplot3d.Axes3D`.",
+                "Use `ax.scatter` to plot points.",
+                "Set the color of the axes lines using `ax.w_xaxis.line.set_color`, `ax.w_yaxis.line.set_color`, and `ax.w_zaxis.line.set_color`.",
+                "Set the color of the axis labels using `ax.xaxis.label.set_color`, `ax.yaxis.label.set_color`, and `ax.zaxis.label.set_color`.",
+                "Attempt to set the color of the tick marks using `ax.tick_params(axis='x', colors='red')`, `ax.tick_params(axis='y', colors='red')`, and `ax.tick_params(axis='z', colors='red')`."
+            ],
+            "expectedResults": "The tick marks on the 3D plot should change to the specified color.",
+            "actualResults": "Only the tick labels change color, not the tick marks.",
+            "supplementaryImages": [
+                "A 3D plot with red axes lines and labels, but unchanged tick marks."
+            ],
+            "additionalNotes": "The issue was observed in a version of matplotlib where this functionality did not work as expected, unlike in version 1.3.1."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-14043",
+        "structure_problem": {
+            "problemSummary": "Bar plot error bars break when zorder is greater than 1.",
+            "context": "The issue occurs when using the `bar` function with the `yerr` parameter and setting the `zorder` parameter to a value greater than 1. The error bars do not respect the zorder and appear incorrectly.",
+            "stepsToReproduce": [
+                "Create a figure and an axis using `plt.subplots(1,1)`.",
+                "Define the x and y data for the bar plot.",
+                "Use the `bar` function to plot the bars with `yerr` and `capsize` parameters.",
+                "Set the `zorder` parameter to different values for each bar."
+            ],
+            "expectedResults": "The error bars should respect the zorder parameter and appear correctly.",
+            "actualResults": "The error bars do not respect the zorder parameter and appear incorrectly.",
+            "supplementaryImages": [
+                "A bar plot with error bars that do not respect the zorder parameter."
+            ],
+            "additionalNotes": "The issue is related to the handling of error bars in bar plots and may be connected to issue #1622."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-14623",
+        "structure_problem": {
+            "problemSummary": "Inverting an axis using its limits does not work for log scale in matplotlib 3.1.0.",
+            "context": "The issue arises when attempting to invert a log scale axis using its limits, which is expected to work but fails in matplotlib 3.1.0.",
+            "stepsToReproduce": [
+                "Import numpy and matplotlib.pyplot.",
+                "Create a linearly spaced array `y`.",
+                "Create an exponentially spaced array `x`.",
+                "For each yscale ('linear' and 'log'), create a figure and axis.",
+                "Plot `x` against `y`.",
+                "Set the yscale of the axis.",
+                "Set the y-axis limits to invert the axis."
+            ],
+            "expectedResults": "The y-axis should be inverted for both 'linear' and 'log' scales.",
+            "actualResults": "The y-axis is only inverted for the 'linear' scale, not for the 'log' scale.",
+            "supplementaryImages": [
+                "Two graphs showing the expected and actual outcomes for the 'linear' and 'log' scales."
+            ],
+            "additionalNotes": "The issue is observed in matplotlib version 3.1.0 on Linux and MacOS operating systems with Python version 3.7.3 installed via conda."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-19763",
+        "structure_problem": {
+            "problemSummary": "Multicursor disappears when not moving on nbagg backend with useblit=False and causes high CPU usage.",
+            "context": "The issue was originally noticed by @ipcoder in https://github.com/matplotlib/ipympl/issues/306. The problem occurs on the nbagg backend when the multicursor is added to a plot. The multicursor disappears when the mouse is not moving, and the CPU usage increases significantly.",
+            "stepsToReproduce": [
+                "Run the provided code snippet to reproduce the issue.",
+                "Observe the multicursor disappearing when the mouse is not moving.",
+                "Note the high CPU usage and the flashing kernel busy indicator."
+            ],
+            "expectedResults": "The multicursor should not disappear when the mouse is not moving, and the CPU usage should not increase significantly.",
+            "actualResults": "The multicursor disappears when the mouse is not moving, and the CPU usage increases significantly.",
+            "supplementaryImages": [
+                "Image of the plot without the multicursor.",
+                "Image of the plot with the multicursor."
+            ],
+            "additionalNotes": "The issue occurs on Ubuntu with Matplotlib version 3.3.4.post2456+gfd23bb238, nbagg backend, Python version 3.9.1, and Jupyter Notebook 6.2.0 - IPython 7.20.0."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-20470",
+        "structure_problem": {
+            "problemSummary": "Text objects with a 'label' keyword argument do not create handles or labels for the legend in Matplotlib.",
+            "context": "The issue occurs when using the 'label' keyword argument with the 'text' function in Matplotlib. The expected behavior is for the text to be included in the legend, but it is not.",
+            "stepsToReproduce": [
+                "Import matplotlib.pyplot as plt.",
+                "Define x and y arrays for a line plot.",
+                "Create a figure and an axis.",
+                "Plot a line with a label.",
+                "Add text with a label at a specific position.",
+                "Add a legend to the axis.",
+                "Display the plot."
+            ],
+            "expectedResults": "The legend should include an entry for the text.",
+            "actualResults": "The legend does not include an entry for the text.",
+            "supplementaryImages": [
+                "A plot with a line and text, but no legend entry for the text."
+            ],
+            "additionalNotes": "Matplotlib version: 3.3.3"
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-20518",
+        "structure_problem": {
+            "problemSummary": "Calls to `set_sketch_params()` are ignored by the PGF backend and do not have any influence in the resulting pgf or pdf file.",
+            "context": "The issue occurs when using the PGF backend in Matplotlib version 3.0.2.",
+            "stepsToReproduce": [
+                "Import matplotlib and set the backend to 'pgf'.",
+                "Update matplotlib's rcParams with specific settings for font family, text rendering, and pgf preamble.",
+                "Create a figure and add a subplot.",
+                "Plot a range of numbers.",
+                "Set sketch parameters for the bottom spine of the subplot.",
+                "Save the figure as a pgf file."
+            ],
+            "expectedResults": "The sketch parameters should be applied to the bottom spine of the plot.",
+            "actualResults": "The sketch parameters are ignored and have no effect on the resulting pgf or pdf file.",
+            "supplementaryImages": [
+                "The first image shows the expected outcome with the sketch parameters applied.",
+                "The second image shows the actual outcome where the sketch parameters are ignored."
+            ],
+            "additionalNotes": "The user is working on a fix for this issue."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-20584",
+        "structure_problem": {
+            "problemSummary": "The user is experiencing a coarsening effect on lines after manipulating them post plotting with `contourf`. Specifically, a simple `lc.set_segments(lc.get_segments())` operation causes the lines to become coarser than expected.",
+            "context": "The issue occurs when attempting to retrieve and manipulate lines after using `contourf` for plotting. The user expects the manipulation to have no effect, but instead, it results in coarser lines.",
+            "stepsToReproduce": [
+                "Plot a contour using `contourf`.",
+                "Retrieve the lines using `lc.get_segments()`.",
+                "Set the segments back to the lines using `lc.set_segments(segments)`."
+            ],
+            "expectedResults": "The lines should remain unchanged after the manipulation.",
+            "actualResults": "The lines become coarser after the manipulation.",
+            "supplementaryImages": [
+                "Comparison of default plot and plot after resetting segments."
+            ],
+            "additionalNotes": "This issue is observed with matplotlib version 3.4.2."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-20761",
+        "structure_problem": {
+            "problemSummary": "The position of a subfigure shifts lower on the y-axis when the 'x' keyword argument is used for supxlabel for that subfigure.",
+            "context": "The issue occurs when using matplotlib to create a figure with subfigures and subplots, and attempting to add a supxlabel to one of the subfigures.",
+            "stepsToReproduce": [
+                "Create a figure with subfigures and subplots using matplotlib.",
+                "Add a supxlabel to one of the subfigures using the 'x' keyword argument.",
+                "Observe the shift in the subfigure's position on the y-axis."
+            ],
+            "expectedResults": "The subfigure position should not change, and the supxlabel should shift to the right.",
+            "actualResults": "The body of the subfigure shifts downward (lower on the y-axis) and covers the supxlabel.",
+            "supplementaryImages": [
+                "Images showing the subfigure position before and after adding the supxlabel with the 'x' keyword argument."
+            ],
+            "additionalNotes": "The issue was reported on StackOverflow and is related to the use of the 'x' keyword argument for supxlabel in matplotlib version 3.4.2."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-20826",
+        "structure_problem": {
+            "problemSummary": "When using shared axes in matplotlib and calling `ax.clear()`, extra ticks and tick labels appear that should be hidden, which is a behavior change between matplotlib 3.4.1 and 3.4.2.",
+            "context": "The issue occurs when using shared axes (e.g., from `plt.subplots(2, 2, sharex=True, sharey=True)`) and clearing the axes with `ax.clear()`. This behavior is observed in matplotlib 3.4.2 but not in 3.4.1.",
+            "stepsToReproduce": [
+                "Import numpy and matplotlib.pyplot.",
+                "Create a figure with subplots using `plt.subplots(2, 2, sharex=True, sharey=True)`.",
+                "Generate data for plotting.",
+                "Iterate over the axes and clear each one with `ax.clear()`.",
+                "Plot the data on each axis."
+            ],
+            "expectedResults": "The plot should not show extra ticks and tick labels that should be hidden due to the shared axes.",
+            "actualResults": "Extra ticks and tick labels appear along the top and right side of each subplot, which are not part of the default plotting style.",
+            "supplementaryImages": [
+                "Images showing the difference in behavior between matplotlib 3.4.1 and 3.4.2."
+            ],
+            "additionalNotes": "The issue is observed when using shared axes and clearing the axes. The shared axes still function correctly, but the extra ticks and labels are problematic. The issue is not specific to multiple subplots and also occurs with a single subplot."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-21443",
+        "structure_problem": {
+            "problemSummary": "When setting axes position with `ax = plt.axes(position = [...])`, the position data is not being incorporated, causing two axes to completely overlap instead of being separate.",
+            "context": "The issue occurs when using the `plt.axes()` function with a specified position, expecting two separate axes but resulting in overlapping axes.",
+            "stepsToReproduce": [
+                "Import matplotlib.pyplot as plt.",
+                "Define figure and positions for two axes.",
+                "Create the first axes using `plt.axes(position = pos1)` and plot a line.",
+                "Create the second axes using `plt.axes(position = pos2)` and plot a line."
+            ],
+            "expectedResults": "Two separate axes with different positions.",
+            "actualResults": "Two axes completely overlap.",
+            "supplementaryImages": [
+                "Two overlapping axes with a red line and a blue dashed line."
+            ],
+            "additionalNotes": "The expected behavior was achieved by manually setting the axes positions after creation, which should not be necessary."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-21490",
+        "structure_problem": {
+            "problemSummary": "Line2D does not copy its inputs, leading to potential unintended changes in the drawn line when the input arrays are modified in-place.",
+            "context": "Line2D should copy its inputs to prevent unintended changes due to in-place modifications of the input arrays. This issue was previously rejected due to memory-saving arguments, but it is now recognized as a bug.",
+            "stepsToReproduce": [
+                "Create a line plot using Line2D with an array as input.",
+                "Modify the input array in-place.",
+                "Observe the effect on the drawn line."
+            ],
+            "expectedResults": "Modifying the input array a posteriori should not affect the Line2D.",
+            "actualResults": "Modifying the input array a posteriori can affect the Line2D, especially when a cache invalidation is triggered.",
+            "supplementaryImages": [
+                "Image 1: Original line plot.",
+                "Image 2: Line plot after in-place modification of the input array (no effect).",
+                "Image 3: Line plot after in-place modification of the input array and cache invalidation (only x array updated)."
+            ],
+            "additionalNotes": "Compare with AxesImage, which does copy its inputs and does not exhibit this behavior."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-21550",
+        "structure_problem": {
+            "problemSummary": "Display issue with matplotlib-3.5.0.dev2445+gb09aad279b on Windows 10",
+            "context": "The display is not working well when swapping matplotlib-3.4.3 with matplotlib-3.5.0.dev2445+gb09aad279b, all the rest being strictly equal. It was also bad with rc1, so the issue was tested with the latest master.",
+            "stepsToReproduce": [
+                "Install matplotlib-3.5.0.dev2445+gb09aad279b on Windows 10",
+                "Run the provided code snippet in JupyterLab",
+                "Observe the display issue"
+            ],
+            "expectedResults": "The display should work correctly as it does with matplotlib-3.4.3.",
+            "actualResults": "The display is not working well with matplotlib-3.5.0.dev2445+gb09aad279b.",
+            "supplementaryImages": [
+                "The first image shows the display issue with matplotlib-3.5.0.dev2445+gb09aad279b.",
+                "The second image shows the expected display with matplotlib-3.4.3."
+            ],
+            "additionalNotes": "The issue was also observed with rc1 and was tested with the latest master. The code snippet was run in JupyterLab."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-21568",
+        "structure_problem": {
+            "problemSummary": "The spacing for a datetime axis is unclear when using `usetex=True` in matplotlib version 3.4 compared to version 3.3.",
+            "context": "The issue is observed when plotting a datetime axis with random data using matplotlib. The spacing appears different between versions 3.3.4 and 3.4.3.",
+            "stepsToReproduce": [
+                "Import necessary libraries: matplotlib, matplotlib.pyplot, numpy, pandas.",
+                "Set the seed for numpy.",
+                "Configure matplotlib to use TeX for text rendering.",
+                "Create a date range from '2020-01-01 00:00:00' to '2020-01-01 00:10:00' with 100 periods.",
+                "Generate random data.",
+                "Create a figure and axis with constrained layout.",
+                "Plot the dates and data on the axis.",
+                "Save the plot with the matplotlib version number."
+            ],
+            "expectedResults": "The spacing for the datetime axis should be consistent between matplotlib versions 3.3 and 3.4 when using `usetex=True`.",
+            "actualResults": "The spacing for the datetime axis is unclear in matplotlib version 3.4 when using `usetex=True`.",
+            "supplementaryImages": [
+                "Example of how it looks in 3.3.4.",
+                "Example of how it looks in 3.4.3."
+            ],
+            "additionalNotes": "Operating system: Windows, Matplotlib Version: 3.4.3, Matplotlib Backend: Not specified, Python version: Not specified, Jupyter version: Not specified, Other libraries: Not specified, Installation: conda, Conda channel: conda-forge."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-21617",
+        "structure_problem": {
+            "problemSummary": "Text labels and titles are missing when figures are saved to EPS format using cartopy and matplotlib version 3.4.3.",
+            "context": "The issue was noticed after an update to matplotlib version 3.4.3. The labels and title were rendered correctly in Jupyter notebook but not in the saved EPS file. The problem does not occur with matplotlib version 3.3.4.",
+            "stepsToReproduce": [
+                "Create a figure using cartopy's NorthPolarStereo projection.",
+                "Set the extent of the plot.",
+                "Add gridlines with labels.",
+                "Save the figure to an EPS file."
+            ],
+            "expectedResults": "The EPS file should contain the text labels and title.",
+            "actualResults": "The EPS file does not contain the text labels and title.",
+            "supplementaryImages": [
+                "Two images showing the difference between the expected and actual results."
+            ],
+            "additionalNotes": "The testing environment was created using conda with specific versions of matplotlib and cartopy. The issue might be related to another bug (#20364)."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-22865",
+        "structure_problem": {
+            "problemSummary": "Colorbar with drawedges=True and extend='both' does not draw edges at extremities",
+            "context": "When creating a matplotlib colorbar, it is possible to set drawedges to True which separates the colors of the colorbar with black lines. However, when the colorbar is extended using extend='both', the black lines at the extremities do not show up.",
+            "stepsToReproduce": [
+                "Import matplotlib as mpl",
+                "Import numpy as np",
+                "Import matplotlib.pyplot as plt",
+                "Import matplotlib.colors as colors",
+                "Define a colormap (my_cmap) using mpl.cm.viridis",
+                "Define bounds using np.arange(10)",
+                "Calculate the number of colors (nb_colors) as len(bounds) + 1",
+                "Create colors using my_cmap(np.linspace(100, 255, nb_colors).astype(int))",
+                "Create a colormap and normalization (my_cmap, my_norm) using from_levels_and_colors(bounds, colors, extend='both')",
+                "Create a figure with a specified size",
+                "Create a subplot",
+                "Create a colorbar (cbar) using mpl.colorbar.ColorbarBase(ax, cmap=my_cmap, norm=my_norm, orientation='horizontal', drawedges=True)",
+                "Adjust the subplot layout",
+                "Display the plot"
+            ],
+            "expectedResults": "The colorbar should display black lines at the extremities when extend='both' is used.",
+            "actualResults": "The black lines at the extremities of the colorbar do not show up.",
+            "supplementaryImages": [
+                "The first image shows the expected outcome with black lines at the extremities.",
+                "The second image shows the actual outcome without black lines at the extremities."
+            ],
+            "additionalNotes": "The issue occurs with Matplotlib version 3.5.1."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-22871",
+        "structure_problem": {
+            "problemSummary": "ConciseDateFormatter not showing year anywhere when plotting <12 months",
+            "context": "The issue occurs when plotting data for less than a year and January is not included in the x-axis, resulting in the year not being displayed anywhere.",
+            "stepsToReproduce": [
+                "Create a time array with dates from February 14, 2021, to a later date.",
+                "Create a data array with corresponding values.",
+                "Plot the data using matplotlib with ConciseDateFormatter for the x-axis.",
+                "Observe that the year is not displayed in the offset to the right of the x-axis."
+            ],
+            "expectedResults": "The year '2021' should be displayed in the offset to the right of the x-axis.",
+            "actualResults": "The year is not displayed anywhere in the plot.",
+            "supplementaryImages": [
+                "A graph showing temperature over time from March to September, with the x-axis formatted by ConciseDateFormatter."
+            ],
+            "additionalNotes": "The issue is different from bug #21670 (fixed in #21785). The environment includes Spyder IDE v5.1.5, Windows 10, Matplotlib 3.4.3, Qt5Agg backend, Python 3.9.1, and Jupyter version not specified."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-22931",
+        "structure_problem": {
+            "problemSummary": "Regression in dashes due to #22569 causing previously working plotting code to fail.",
+            "context": "The issue occurs when attempting to draw a line with a specific linestyle in Matplotlib.",
+            "stepsToReproduce": [
+                "Import matplotlib.pyplot as plt.",
+                "Create a figure and axis using plt.subplots().",
+                "Plot a line with the linestyle ls=(0, ()) using ax.plot().",
+                "Display the plot using plt.show()."
+            ],
+            "expectedResults": "The line should be displayed as expected.",
+            "actualResults": "No line is shown, and an error is raised while drawing.",
+            "supplementaryImages": [
+                "A screenshot of the expected line plot."
+            ],
+            "additionalNotes": "The issue may be due to a weird/bad/incorrect convention in the code, and a workaround/fix might be necessary. A nicer error message could be helpful."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-23047",
+        "structure_problem": {
+            "problemSummary": "Gaps and overlapping areas between bins occur when creating a histogram from float16 data due to lower precision.",
+            "context": "The issue arises when using float16 data to create a histogram, leading to gaps between bins and overlapping areas, which is not expected behavior.",
+            "stepsToReproduce": [
+                "Import numpy and matplotlib.pyplot.",
+                "Generate float16 data using numpy.random.normal and clip it between 0 and 1.",
+                "Create a histogram using plt.hist with the float16 data and specify the number of bins.",
+                "Display the histogram."
+            ],
+            "expectedResults": "A histogram with bins that do not have gaps or overlapping areas.",
+            "actualResults": "Gaps between certain bins and overlapping areas between neighboring bins.",
+            "supplementaryImages": [
+                "Histogram with float16 data showing gaps and overlapping areas.",
+                "Histogram with float32 data showing expected behavior without gaps or overlapping areas."
+            ],
+            "additionalNotes": "A possible solution is to calculate the bins in float32 to avoid numerical errors. Converting the data to float32 before calculating the histogram is another option but may not be ideal due to memory limitations."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-23111",
+        "structure_problem": {
+            "problemSummary": "When using imshow to display a numpy array filled with identical negative values, hovering the mouse over the displayed image throws math domain errors.",
+            "context": "The issue occurs when attempting to display an image with all negative values using imshow. The error is related to the calculation of the number of significant digits in the value display.",
+            "stepsToReproduce": [
+                "Create a numpy array filled with identical negative values.",
+                "Use plt.imshow to display the array.",
+                "Hover the mouse over the displayed image."
+            ],
+            "expectedResults": "The value area should be displayed correctly without any errors.",
+            "actualResults": "Hovering the mouse over the plot spews math domain errors into the console and stops the value and coordinate under the mouse from being displayed in the top right.",
+            "supplementaryImages": [
+                "Image showing the math domain error message.",
+                "Image showing the missing coordinates and values in the top right of the window."
+            ],
+            "additionalNotes": "The errors do not occur if a single value in the array is different (negative or positive) or if set_clim() is used. The issue is related to the calculation of the number of significant digits in the value display, which may result in a negative delta value."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-23412",
+        "structure_problem": {
+            "problemSummary": "The offset dash linestyle has no effect in patch objects.",
+            "context": "When setting the linestyle on a patch object using a dash tuple, the offset has no effect.",
+            "stepsToReproduce": [
+                "Import matplotlib.pyplot and matplotlib as mpl.",
+                "Create a figure with a specified size.",
+                "Get the current axes.",
+                "Add a patch object (Rectangle) with specified parameters including linestyle with an offset.",
+                "Set the limits for the y and x axes.",
+                "Display the plot."
+            ],
+            "expectedResults": "The patch edge lines should have an offset as specified in the linestyle.",
+            "actualResults": "The patch edge lines overlap, not adhering to the offset.",
+            "supplementaryImages": [
+                "A plot showing the expected outcome with Line2D objects."
+            ],
+            "additionalNotes": "The issue has been tested with Ellipse patch objects and found to be the same. It has been reproduced in Ubuntu 18.04 VM running matplotlib 3.5.0 with agg backend."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-24088",
+        "structure_problem": {
+            "problemSummary": "An error occurs when attempting to add a colorbar to a histogram plot using matplotlib version 3.6.0.",
+            "context": "The issue arises when using the `plt.colorbar()` function with a `plt.hist()` plot. The error message indicates that the function is unable to determine which Axes to use for the colorbar.",
+            "stepsToReproduce": [
+                "Import matplotlib.pyplot and numpy.",
+                "Generate random data using numpy.",
+                "Create a histogram using plt.hist().",
+                "Set the color of each bar in the histogram based on the bin edges.",
+                "Attempt to add a colorbar using plt.colorbar()."
+            ],
+            "expectedResults": "The colorbar should be added to the histogram plot without any errors.",
+            "actualResults": "An error is raised with the message 'ValueError: Unable to determine Axes to steal space for Colorbar.'",
+            "supplementaryImages": [
+                "Two images are provided, one showing the expected outcome in matplotlib version 3.5.1 and the other showing the actual outcome in matplotlib version 3.6.0."
+            ],
+            "additionalNotes": "The issue is specific to matplotlib version 3.6.0 and does not occur in version 3.5.1. The operating system is macOS 12.6, and the Python version is 3.10. The installation method is pip."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-24177",
+        "structure_problem": {
+            "problemSummary": "The histogram's density axis is not automatically adjusted to fit the whole histogram when using `histtype='step'` with `density=True`.",
+            "context": "The issue occurs when plotting a histogram of data using `matplotlib.axes.Axes.hist` function. The density axis does not scale appropriately when `histtype='step'` is used, even though rescaling the data should only affect the x-axis values.",
+            "stepsToReproduce": [
+                "Load the data from a binary file using `numpy.load`.",
+                "Create a figure with two subplots.",
+                "Plot the histogram of the data in the first subplot using `histtype='bar'` and `density=True`.",
+                "Plot the histogram of the same data in the second subplot using `histtype='step'` and `density=True`.",
+                "Observe the difference in the density axis scaling between the two subplots."
+            ],
+            "expectedResults": "The density axis should be automatically adjusted to fit the whole histogram regardless of the `histtype` parameter.",
+            "actualResults": "The density axis is not automatically adjusted to fit the whole histogram when using `histtype='step'` with `density=True`.",
+            "supplementaryImages": [
+                "Histograms generated using `histtype='bar'` and `histtype='step'` with `density=True`."
+            ],
+            "additionalNotes": "The issue can be observed by playing with different combinations of parameters, such as `scale` and `histtype`."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-24189",
+        "structure_problem": {
+            "problemSummary": "Error occurs when using width_ratios with nested mosaic in subplot_mosaic() if outer and inner mosaics have different numbers of columns.",
+            "context": "The issue arises due to the recursive nature of the layout building process, where the same gridspec_kw is passed to subgridspec() at each level of nesting.",
+            "stepsToReproduce": [
+                "Import matplotlib.pyplot as plt.",
+                "Define a nested mosaic layout.",
+                "Attempt to create a subplot_mosaic with the nested mosaic and width_ratios."
+            ],
+            "expectedResults": "The layout should be created without errors.",
+            "actualResults": "A ValueError is raised indicating that the number of width ratios does not match the number of columns of the grid.",
+            "supplementaryImages": [
+                "Three plots with labels A, B, and C, indicating the expected layout."
+            ],
+            "additionalNotes": "The user suggests implementing a feature to specify width_ratios for the outer list or providing a helpful error message explaining the limitation."
+        }
+    }
+]

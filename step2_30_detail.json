@@ -1,0 +1,453 @@
+[
+    {
+        "instance_id": "astropy__astropy-11693",
+        "description_list": [
+            {
+                "image_id": "1",
+                "context": "The image is referenced in the issue description as a good enough looking plot that was obtained by adding `quiet=True` as a parameter to the call `pixel = self.all_world2pix(*world_arrays, 0)` at line 326 of `astropy/wcs/wcsapi/fitswcs.py`.",
+                "description": "The image shows a grid plot with a dark purple background. The grid lines are white and form a series of curved lines that intersect at various points. The grid lines are labeled with numerical values along the axes, with the x-axis values ranging from 500 to 2000 and the y-axis values ranging from 500 to 1500. The grid lines are evenly spaced and create a pattern of intersecting curves.",
+                "technical_details": "The image is a grid plot generated using the `astropy` library, specifically the `WCS` (World Coordinate System) functionality. The plot is created with a non-linear distortion applied, as indicated by the curved grid lines. The `Sip` (Simple Imaging Polynomial) transformation is used to apply the distortion, with coefficients provided in the code snippet. The plot is intended to demonstrate the issue of `WCS.all_world2pix` failing to converge when plotting a WCS with non-linear distortions."
+            }
+        ]
+    },
+    {
+        "instance_id": "astropy__astropy-13838",
+        "description_list": [
+            {
+                "image_id": "1",
+                "context": "The first image appears to be a code snippet or output related to the issue.",
+                "description": "The image shows a code snippet or output with the text 'QTable(rows=events[0])' at the top, followed by 'QTable length=3'. Below this, there are three rows labeled 'col0', 'str1', 'A', 'B', and 'C'. The text is presented in a monospace font, indicating it is likely code or output from a programming environment.",
+                "technical_details": "The text 'QTable(rows=events[0])' suggests the use of a QTable object with rows from the first element of an 'events' list. The 'QTable length=3' indicates the table has three columns. The labels 'col0', 'str1', 'A', 'B', and 'C' likely represent column names or data types."
+            },
+            {
+                "image_id": "2",
+                "context": "The second image appears to be another code snippet or output related to the issue.",
+                "description": "The image shows a code snippet or output with the text 'QTable(rows=events)' at the top, followed by 'QTable length=3'. Below this, there is a table with three columns labeled 'A', 'B', and 'C'. The rows contain data types 'int64', 'int64', and 'object', followed by rows of data with values '0', '0', '[]', '1', '0', '[]', and '2', '2', '[0 1]'. The text is presented in a monospace font, indicating it is likely code or output from a programming environment.",
+                "technical_details": "The text 'QTable(rows=events)' suggests the use of a QTable object with rows from an 'events' list. The 'QTable length=3' indicates the table has three columns. The table shows data types for each column ('int64', 'int64', 'object') and specific data values, including an empty array '[]' and an array '[0 1]'."
+            }
+        ]
+    },
+    {
+        "instance_id": "astropy__astropy-14295",
+        "description_list": [
+            {
+                "image_id": "1",
+                "context": "The first image appears in the issue description as an example of the expected grid generated using wcslib.",
+                "description": "This image shows a grid of lines representing constant equatorial coordinates in pixel space. The grid is plotted on a black background with white lines. The horizontal axis is labeled 'RA---CAR-SIP' and ranges from 07h45m to 24m. The vertical axis is labeled 'DEC--CAR-SIP' and ranges from 26° to 35°. The grid lines are curved, indicating the distortion of the coordinates in pixel space.",
+                "technical_details": "The grid lines represent the distortion of the equatorial coordinates (RA and DEC) when projected into pixel space using the CAR-SIP projection. The curvature of the lines indicates the non-linear nature of the distortion."
+            },
+            {
+                "image_id": "2",
+                "context": "The second image appears in the issue description as the actual grid generated using astropy wcs.",
+                "description": "This image shows a grid of lines representing constant equatorial coordinates in pixel space. The grid is plotted on a white background with blue lines. The horizontal axis is labeled 'x' and ranges from 0 to 1000. The vertical axis is labeled 'y' and ranges from 0 to 1000. The grid lines are straight, indicating the lack of distortion in pixel space.",
+                "technical_details": "The grid lines represent the equatorial coordinates (RA and DEC) when projected into pixel space using the CAR-SIP projection without the PV keywords. The straight lines indicate that the distortion has been ignored or removed."
+            },
+            {
+                "image_id": "3",
+                "context": "The third image appears in the issue description as another example of the expected grid generated using wcslib.",
+                "description": "This image shows a grid of lines representing constant equatorial coordinates in pixel space. The grid is plotted on a black background with white lines. The horizontal axis is labeled 'RA---CAR-SIP' and ranges from 07h44m to 26m. The vertical axis is labeled 'DEC--CAR-SIP' and ranges from 26° to 35°. The grid lines are curved, indicating the distortion of the coordinates in pixel space.",
+                "technical_details": "The grid lines represent the distortion of the equatorial coordinates (RA and DEC) when projected into pixel space using the CAR-SIP projection. The curvature of the lines indicates the non-linear nature of the distortion."
+            }
+        ]
+    },
+    {
+        "instance_id": "astropy__astropy-8292",
+        "description_list": [
+            {
+                "image_id": "1",
+                "context": "The image is a screenshot from a documentation page discussing the equivalence between the Hubble constant and the dimensionless version known as 'little h'. It provides code examples using the Astropy library to demonstrate the conversion between physical and 'little h' units.",
+                "description": "The image shows a section of text explaining the concept of 'little h' and its use in extragalactic astrophysics. It includes a code snippet demonstrating how to use the Astropy library to convert between physical units and 'little h' units. The code snippet shows the conversion of a distance and luminosity value from 'little h' units to physical units using the H0_70 value.",
+                "technical_details": "The code snippet uses the following variables and functions: `import astropy.units as u`, `H0_70 = 70 * u.km/u.s / u.Mpc`, `distance = 100 * (u.Mpc/u.littleh)`, `distance.to(u.Mpc, u.with_H0(H0_70))`, `luminosity = 1 * u.Lsun * u.littleh**-2`, `luminosity.to(u.Lsun, u.with_H0(H0_70))`."
+            },
+            {
+                "image_id": "2",
+                "context": "The image is a screenshot highlighting a potential issue with the implementation of the 'littleh' equivalency in the Astropy library. It shows a code snippet and its output, which seems to contradict the expected behavior of the 'littleh' equivalency.",
+                "description": "The image shows a code snippet where a distance value is set to 100 Mpc/h, and then converted to physical Mpc units using the `u.with_H0()` function. The output of the conversion is highlighted, showing a result of 67.74 Mpc.",
+                "technical_details": "The code snippet uses the following variables and functions: `distance = 100 * (u.Mpc/u.littleh)`, `distance.to(u.Mpc, u.with_H0())`."
+            }
+        ]
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-13908",
+        "description_list": [
+            {
+                "image_id": "1",
+                "context": "The first image in the issue demonstrates the problem of missing minor ticklabels at positions of major ticks.",
+                "description": "This image shows a time series plot with dates on the x-axis. The x-axis has major ticks labeled with days of the week (Sat, Sun, Mon) and minor ticks labeled with hours (00:00, 06:00, 12:00, 18:00). However, the minor ticklabel for 00:00 is missing at the positions of the major ticks.",
+                "technical_details": "The plot is generated using matplotlib, with the x-axis set to show major ticks at every day and minor ticks at every 6 hours. The major ticks are formatted to show the day of the week, while the minor ticks are formatted to show the hour in 24-hour format."
+            },
+            {
+                "image_id": "2",
+                "context": "The second image in the issue shows the expected outcome where minor ticklabels are present at positions of major ticks.",
+                "description": "This image is a time series plot similar to the first one, with dates on the x-axis. The x-axis has major ticks labeled with days of the week (Sat, Sun, Mon) and minor ticks labeled with hours (00:00, 06:00, 12:00, 18:00). Unlike the first image, the minor ticklabel for 00:00 is present at the positions of the major ticks.",
+                "technical_details": "The plot is generated using matplotlib, with the x-axis set to show major ticks at every day and minor ticks at every 6 hours. The major ticks are formatted to show the day of the week, while the minor ticks are formatted to show the hour in 24-hour format. This image represents the expected behavior where minor ticklabels are correctly displayed at the positions of major ticks."
+            }
+        ]
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-13980",
+        "description_list": [
+            {
+                "image_id": "1",
+                "context": "This image is part of a Jupyter Notebook demonstrating an issue with polar plot scaling in Matplotlib.",
+                "description": "The image shows two polar plots side by side. Both plots are circular with angles marked from 0° to 360° around the circumference. The left plot is labeled 'expected' and shows a dense cluster of blue points distributed evenly across the plot, filling the entire circular area. The right plot is labeled 'unexpected' and also shows a dense cluster of blue points, but there is a noticeable hole in the center where no points are plotted. The points in both plots are plotted using small blue circles.",
+                "technical_details": "The left plot has the y-axis limits set to bottom=0, while the right plot has the default y-axis limits, which results in a negative minimum value (-0.04989219852580686) and a positive maximum value (1.0497180912808268). This causes the 'unexpected' plot to have a hole in the center where the data points do not reach the origin."
+            }
+        ]
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-13983",
+        "description_list": [
+            {
+                "image_id": "1",
+                "context": "This image is a plot generated by the code snippet provided in the issue.",
+                "description": "The image shows a simple line plot with a single blue line. The x-axis is labeled with numerical values ranging from 730120 to 730150, and the y-axis is labeled with numerical values ranging from 0.0 to 1.0. The line starts at the bottom left corner (730120, 0.0) and ends at the top right corner (730150, 1.0), indicating a linear relationship between the x and y values.",
+                "technical_details": "The plot is generated using matplotlib, a plotting library for Python. The specific code snippet provided in the issue uses the `plot` function to create the line plot. The x-axis values are dates converted to numerical values, and the y-axis values are numerical values ranging from 0 to 1."
+            }
+        ]
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-13984",
+        "description_list": [
+            {
+                "image_id": "1",
+                "context": "This image is a 3D scatter plot generated using Matplotlib's Axes3D in Python.",
+                "description": "The image shows a 3D scatter plot with three blue dots positioned at coordinates (0,0,1), (0,1,0), and (1,0,0). The plot has a grid-like structure with axes labeled from 0 to 1 in increments of 0.2. The x, y, and z axes are colored red, as indicated by the red lines and labels. However, the tick marks on the axes remain black, indicating that the tick mark color could not be set using the `ax.tick_params` method.",
+                "technical_details": "The plot was generated using the following code snippet: `ax.scatter((0, 0, 1), (0, 1, 0), (1, 0, 0))` to plot the points, and `ax.tick_params(axis='x', colors='red')`, `ax.tick_params(axis='y', colors='red')`, and `ax.tick_params(axis='z', colors='red')` to attempt to change the tick mark colors, which did not work as expected."
+            }
+        ]
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-14043",
+        "description_list": [
+            {
+                "image_id": "1",
+                "context": "The image is a bar plot with error bars, demonstrating the issue described in the bug report.",
+                "description": "The image shows a bar plot with four groups of bars, each group representing different zorder values (-1, 1, 2, 3). The bars are colored in blue, orange, green, and red respectively. Each bar has error bars with caps, and the error bars for the bars with zorder 3 (red bars) are not properly aligned with the bars, indicating the issue with error bars when zorder is greater than 1.",
+                "technical_details": "The x-axis ranges from -2 to 10, and the y-axis ranges from 0 to 35. The error bars are represented with caps, and the capsize is set to 5. The zorder values are set to -1, 1, 2, and 3 for the four groups of bars respectively."
+            }
+        ]
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-14623",
+        "description_list": [
+            {
+                "image_id": "1",
+                "context": "The first image in the issue demonstrates the problem with inverting a log scale axis.",
+                "description": "This image shows a plot with a linear y-axis scale. The y-axis ranges from 1e5 (100,000) at the top to 1 at the bottom. The x-axis ranges from 0.4 to 1.0. The plot displays a curve that starts at the top left corner and decreases smoothly towards the bottom right corner. The curve represents the relationship between the x and y values, where the y values decrease exponentially as the x values increase.",
+                "technical_details": "The y-axis is labeled with values in scientific notation, starting from 1e5 at the top and decreasing by powers of 10 (1e4, 1e3, 1e2, 1e1, 1e0) towards the bottom. The x-axis is labeled with decimal values ranging from 0.4 to 1.0."
+            },
+            {
+                "image_id": "2",
+                "context": "The second image in the issue demonstrates the expected outcome when inverting a log scale axis.",
+                "description": "This image shows a plot with a logarithmic y-axis scale. The y-axis ranges from 10^5 (100,000) at the top to 10^0 (1) at the bottom. The x-axis ranges from 0.4 to 1.0. The plot displays a curve that starts at the bottom left corner and increases smoothly towards the top right corner. The curve represents the relationship between the x and y values, where the y values increase exponentially as the x values increase.",
+                "technical_details": "The y-axis is labeled with values in powers of 10 (10^5, 10^4, 10^3, 10^2, 10^1, 10^0) from top to bottom. The x-axis is labeled with decimal values ranging from 0.4 to 1.0."
+            }
+        ]
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-19763",
+        "description_list": [
+            {
+                "image_id": "1",
+                "context": "The first image is a screenshot of a terminal window showing a list of processes and their details.",
+                "description": "The image displays a terminal window with a list of processes. Each process is represented by a row containing the following columns: PID (process ID), USER (user name), PRI (priority), NI (nice value), VIRT (virtual memory size), RES (resident memory size), SHR (shared memory size), S (state), CPU% (CPU usage percentage), MEM% (memory usage percentage), TIME+ (CPU time), and Command (command name). The processes are related to Python scripts and Jupyter notebook kernels.",
+                "technical_details": "The processes listed are associated with Python scripts and Jupyter notebook kernels, as indicated by the command column. The CPU and memory usage percentages are shown for each process, along with the amount of virtual, resident, and shared memory used."
+            },
+            {
+                "image_id": "2",
+                "context": "The second image is a screenshot of a terminal window showing a list of processes and their details, similar to the first image.",
+                "description": "This image also displays a terminal window with a list of processes, similar to the first image. The columns include PID, USER, PRI, NI, VIRT, RES, SHR, S, CPU%, MEM%, TIME+, and Command. The processes are related to Python scripts and Jupyter notebook kernels.",
+                "technical_details": "The processes listed are associated with Python scripts and Jupyter notebook kernels, as indicated by the command column. The CPU and memory usage percentages are shown for each process, along with the amount of virtual, resident, and shared memory used."
+            },
+            {
+                "image_id": "3",
+                "context": "The third image is a screenshot of a Jupyter notebook cell showing a plot with two subplots.",
+                "description": "The image shows a Jupyter notebook cell with a plot containing two subplots. The top subplot displays a sine wave with two cycles, while the bottom subplot displays a sine wave with four cycles. The x-axis of both subplots ranges from 0 to 2, and the y-axis ranges from -1 to 1. The plot is labeled as 'Figure 1' and has a toolbar at the bottom with options such as home, back, forward, zoom, and save.",
+                "technical_details": "The plot is generated using matplotlib, as indicated by the toolbar and the syntax used in the code snippet provided in the issue. The x-axis and y-axis ranges are explicitly defined, and the plot is displayed in a Jupyter notebook cell."
+            }
+        ]
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-20470",
+        "description_list": [
+            {
+                "image_id": "1",
+                "context": "The image is a screenshot of a plot generated by the code provided in the bug report.",
+                "description": "The image shows a simple line plot with a single blue line that starts at the origin (0,0) and extends to the point (10,10) on a Cartesian coordinate system. The x-axis ranges from 0 to 10, and the y-axis also ranges from 0 to 10. There is a legend in the upper left corner with a single entry labeled 'line', which corresponds to the blue line in the plot. Additionally, there is a text label placed at the coordinates (2,5) within the plot area, which reads 'text'.",
+                "technical_details": "The plot is created using Matplotlib version 3.3.3. The code snippet provided in the bug report generates this plot, which is intended to demonstrate an issue with legend handling for text objects in Matplotlib."
+            }
+        ]
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-20518",
+        "description_list": [
+            {
+                "image_id": "1",
+                "context": "The first image appears to be a plot generated by the code provided in the bug report.",
+                "description": "The image shows a simple line plot with a blue line. The x-axis ranges from 0 to 2, and the y-axis ranges from 0 to 2. The plot appears to be a straight line with a positive slope, indicating a linear relationship between the x and y values.",
+                "technical_details": "This plot is likely generated using the PGF backend in Matplotlib, as indicated by the code snippet provided in the bug report. The plot does not show any sketch parameters, which is the issue being reported."
+            },
+            {
+                "image_id": "2",
+                "context": "The second image appears to be another plot generated by the code provided in the bug report.",
+                "description": "The image shows a plot with a blue line and a black line. The blue line is similar to the one in the first image, indicating a linear relationship. The black line appears to be a more complex, jagged line, possibly representing a different dataset or a different type of plot.",
+                "technical_details": "This plot is also likely generated using the PGF backend in Matplotlib. The presence of the black line suggests that the code may be attempting to apply sketch parameters, but they are not being applied correctly, as reported in the bug."
+            }
+        ]
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-20584",
+        "description_list": [
+            {
+                "image_id": "1",
+                "context": "The first image appears to be a plot generated by the code provided in the issue.",
+                "description": "The image shows a smooth, continuous circle plotted on a graph. The circle is centered at the origin (0,0) and has a radius of 1. The x-axis and y-axis range from -1.0 to 1.0, and the circle is drawn with a solid black line. The plot has a white background, and the axes are labeled with numerical values at regular intervals.",
+                "technical_details": "This plot is likely the result of the initial `contourf` call in the code, before any manipulation of the line segments."
+            },
+            {
+                "image_id": "2",
+                "image_context": "The second image appears to be a plot generated after manipulating the line segments as described in the issue.",
+                "description": "The image shows a circle that appears to be composed of straight line segments rather than a smooth curve. The circle is centered at the origin (0,0) and has a radius of 1. The x-axis and y-axis range from -1.0 to 1.0, and the circle is drawn with a series of connected straight lines, giving it a polygonal appearance. The plot has a white background, and the axes are labeled with numerical values at regular intervals.",
+                "technical_details": "This plot is likely the result of the code snippet where the line segments are reset after the initial `contourf` call, demonstrating the coarseness issue mentioned in the issue."
+            }
+        ]
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-20761",
+        "description_list": [
+            {
+                "image_id": "1",
+                "context": "The first image appears to be a screenshot of a Python script and its associated output.",
+                "description": "The Python script is shown in a code editor window. The script is importing matplotlib and using it to create a figure with subfigures and subplots. The figure is divided into two subfigures, one on top and one on the bottom. The top subfigure contains a single subplot, while the bottom subfigure is further divided into two subfigures, one on the left and one on the right. The left subfigure contains three subplots arranged horizontally, and the right subfigure contains a single subplot. The subplots are labeled with titles indicating date ranges. The script also includes code to set supxlabel labels for the subfigures.",
+                "technical_details": "The script uses matplotlib version 3.4.2 and Python version 3.9.5. It is run in a Jupyter environment with version 3.0.16. The installation method is conda, and the conda channel is conda-forge."
+            },
+            {
+                "image_id": "2",
+                "context": "The second image appears to be a screenshot of a Python script and its associated output.",
+                "description": "The Python script is shown in a code editor window. The script is importing matplotlib and using it to create a figure with subfigures and subplots. The figure is divided into two subfigures, one on top and one on the bottom. The top subfigure contains a single subplot, while the bottom subfigure is further divided into two subfigures, one on the left and one on the right. The left subfigure contains three subplots arranged horizontally, and the right subfigure contains a single subplot. The subplots are labeled with titles indicating date ranges. The script also includes code to set supxlabel labels for the subfigures.",
+                "technical_details": "The script uses matplotlib version 3.4.2 and Python version 3.9.5. It is run in a Jupyter environment with version 3.0.16. The installation method is conda, and the conda channel is conda-forge."
+            }
+        ]
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-20826",
+        "description_list": [
+            {
+                "image_id": "1",
+                "context": "The first image in the issue report",
+                "description": "The image shows a 2x2 grid of subplots, each containing a sine wave plot. The x-axis ranges from 0 to 6, and the y-axis ranges from -1 to 1. The sine wave starts at 0, reaches a peak at approximately x=2, crosses the x-axis at x=3, reaches a trough at approximately x=4, and starts to rise again towards the end of the plot. The plots are identical in each subplot.",
+                "technical_details": "The sine wave is plotted using the numpy.arange function to generate x values from 0 to 2π with a step of 0.01. The y values are calculated using the numpy.sin function. The plots are created using matplotlib's subplots function with sharex=True and sharey=True to share x and y axes across subplots."
+            },
+            {
+                "image_id": "2",
+                "context": "The second image in the issue report",
+                "description": "This image is identical to the first image, showing the same 2x2 grid of subplots with sine wave plots. The x-axis ranges from 0 to 6, and the y-axis ranges from -1 to 1. The sine wave starts at 0, reaches a peak at approximately x=2, crosses the x-axis at x=3, reaches a trough at approximately x=4, and starts to rise again towards the end of the plot. The plots are identical in each subplot.",
+                "technical_details": "The sine wave is plotted using the numpy.arange function to generate x values from 0 to 2π with a step of 0.01. The y values are calculated using the numpy.sin function. The plots are created using matplotlib's subplots function with sharex=True and sharey=True to share x and y axes across subplots."
+            }
+        ]
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-21443",
+        "description_list": [
+            {
+                "image_id": "1",
+                "context": "The first image in the issue",
+                "description": "This image shows a plot with two lines crossing each other. The x-axis ranges from 0.0 to 1.0, and the y-axis ranges from 0.0 to 1.0. One line is solid red, starting from the bottom left corner (0.0, 0.0) and ending at the top right corner (1.0, 1.0). The other line is dashed blue, starting from the top left corner (0.0, 1.0) and ending at the bottom right corner (1.0, 0.0).",
+                "technical_details": "The plot appears to be generated using matplotlib, as indicated by the syntax in the code snippet provided in the issue. The axes are not positioned as expected, with both lines overlapping in the same plot area."
+            },
+            {
+                "image_id": "2",
+                "context": "The second image in the issue",
+                "description": "This image shows two separate plots side by side. The plot on the left has a solid red line that starts from the bottom left corner (0.0, 0.0) and ends at the top right corner (1.0, 1.0). The plot on the right has a dashed blue line that starts from the top left corner (0.0, 1.0) and ends at the bottom right corner (1.0, 0.0). Each plot has its own x-axis and y-axis, with the x-axis ranging from 0.0 to 1.0 and the y-axis ranging from 0.0 to 1.0.",
+                "technical_details": "The plots appear to be generated using matplotlib, as indicated by the syntax in the code snippet provided in the issue. The axes are positioned correctly, with each plot occupying a separate area, unlike the first image where the axes overlapped."
+            }
+        ]
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-21490",
+        "description_list": [
+            {
+                "image_id": "1",
+                "context": "The first image in the issue, demonstrating the initial plot of the line.",
+                "description": "This image shows a line plot with a straight diagonal line connecting two points. The x-axis ranges from 0.0 to 4.0, and the y-axis ranges from 0.0 to 4.0. The line starts at the origin (0,0) and ends at the point (4,4), indicating a linear relationship with a slope of 1.",
+                "technical_details": "The plot uses a blue line with a marker at each end point. The x and y values are evenly spaced, suggesting a simple linear function."
+            },
+            {
+                "image_id": "2",
+                "context": "The second image in the issue, showing the plot after an in-place change to the input array.",
+                "description": "This image is identical to the first image, showing the same straight diagonal line connecting the points (0,0) and (4,4). The x-axis ranges from 0.0 to 4.0, and the y-axis ranges from 0.0 to 4.0. There are no visible changes to the plot, indicating that the in-place change to the input array did not affect the drawn line.",
+                "technical_details": "The plot uses the same blue line with markers at the end points, and the x and y values remain evenly spaced."
+            },
+            {
+                "image_id": "3",
+                "context": "The third image in the issue, demonstrating the plot after setting the drawstyle to 'steps'.",
+                "description": "This image shows a step plot with a horizontal line at y=2.0 from x=0.0 to x=1.0, and a vertical line at x=1.0 from y=2.0 to y=4.0. The x-axis ranges from 0.0 to 4.0, and the y-axis ranges from 0.0 to 4.0. The plot indicates a step function with a step at x=1.0.",
+                "technical_details": "The plot uses a blue line with a marker at the step point (1,2). The x and y values are evenly spaced, but the plot style has changed to a step function."
+            }
+        ]
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-21550",
+        "description_list": [
+            {
+                "image_id": "1",
+                "context": "The first image appears to be a screenshot of a code cell in a Jupyter notebook.",
+                "description": "The image shows a code cell with a Python script that imports various libraries like matplotlib, networkx, and others. It includes a function `plot_random_graph` that generates random graphs using different graph generation functions and plots them using matplotlib. The function takes parameters like `n`, `m`, `k`, `p`, and `generator` to customize the graph generation. The code uses the `@interact` decorator from ipywidgets to create interactive sliders for adjusting these parameters.",
+                "technical_details": "The code imports matplotlib, networkx, and other libraries. It defines a function `plot_random_graph` that takes parameters `n`, `m`, `k`, `p`, and `generator` to generate and plot random graphs. The function uses the `@interact` decorator from ipywidgets to create interactive sliders for adjusting these parameters."
+            }
+        ]
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-21568",
+        "description_list": [
+            {
+                "image_id": "1",
+                "context": "The first image is provided as an example of how the datetime axis looks in matplotlib version 3.3.4.",
+                "description": "The image shows a line plot with a datetime axis on the x-axis and a numerical axis on the y-axis. The x-axis ranges from 01:00:00 to 01:00:10, and the y-axis ranges from 0 to 1. The plot displays a series of random data points over time, with the data appearing as a jagged, oscillating line.",
+                "technical_details": "The datetime axis is formatted with a clear and readable style, showing the time in hours, minutes, and seconds. The plot is generated using matplotlib version 3.3.4."
+            },
+            {
+                "image_id": "2",
+                "context": "The second image is provided as an example of how the datetime axis looks in matplotlib version 3.4.3.",
+                "description": "The image shows a line plot with a datetime axis on the x-axis and a numerical axis on the y-axis. The x-axis ranges from 01:00:00 to 01:00:10, and the y-axis ranges from 0 to 1. The plot displays a series of random data points over time, with the data appearing as a jagged, oscillating line.",
+                "technical_details": "The datetime axis is formatted with a less clear and less readable style compared to version 3.3.4, showing the time in hours, minutes, and seconds. The plot is generated using matplotlib version 3.4.3."
+            }
+        ]
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-21617",
+        "description_list": [
+            {
+                "image_id": "1",
+                "context": "The first image appears to be a screenshot of a software application displaying a polar coordinate system.",
+                "description": "The image shows a polar coordinate system with concentric circles and radial lines emanating from the center. The circles represent different radii, while the lines represent different angles. The coordinate system is displayed within a square boundary. In the top left corner, there is a small preview window showing a zoomed-in view of the center of the polar coordinate system. The application interface includes a toolbar at the top with various icons and a zoom level indicator showing 23.9%. The file name 'bad.eps' is visible in the title bar.",
+                "technical_details": "The polar coordinate system is a two-dimensional coordinate system in which each point is determined by a distance from a reference point (the pole, analogous to the origin in Cartesian coordinates) and an angle from a reference direction (the polar axis, analogous to the positive x-axis in Cartesian coordinates). The concentric circles represent different radii, and the radial lines represent different angles."
+            },
+            {
+                "image_id": "2",
+                "context": "The second image appears to be a screenshot of a software application displaying a polar coordinate system with a title.",
+                "description": "The image shows a polar coordinate system with concentric circles and radial lines emanating from the center, similar to the first image. However, this image includes a title '>>> do you see me <<<' at the top of the coordinate system. The coordinate system is displayed within a square boundary. In the top left corner, there is a small preview window showing a zoomed-in view of the center of the polar coordinate system. The application interface includes a toolbar at the top with various icons and a zoom level indicator showing 23.9%. The file path '/tmp/bad.eps' is visible in the title bar.",
+                "technical_details": "The polar coordinate system is a two-dimensional coordinate system in which each point is determined by a distance from a reference point (the pole, analogous to the origin in Cartesian coordinates) and an angle from a reference direction (the polar axis, analogous to the positive x-axis in Cartesian coordinates). The concentric circles represent different radii, and the radial lines represent different angles. The title '>>> do you see me <<<' is positioned at the top of the coordinate system."
+            }
+        ]
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-22865",
+        "description_list": [
+            {
+                "image_id": "1",
+                "context": "The first image is provided as part of the code for reproduction in the bug summary.",
+                "description": "The image shows a horizontal colorbar with a gradient ranging from dark blue on the left to yellow on the right. The colorbar is divided into ten segments, each representing a different shade of the gradient. The segments are numbered from 0 to 9, with the numbers positioned below the colorbar. The colorbar is set to 'extend=both', which means it should show additional colors at both ends of the gradient, but the black lines separating the colors are missing at the extremities.",
+                "technical_details": "The colorbar is created using matplotlib's `ColorbarBase` function with the parameters `cmap=my_cmap`, `norm=my_norm`, `orientation='horizontal'`, and `drawedges=True`. The colormap `my_cmap` is derived from the 'viridis' colormap with adjusted levels and colors, and the normalization `my_norm` is set up to handle the extended color range."
+            },
+            {
+                "image_id": "2",
+                "context": "The second image is provided as part of the code for reproduction in the bug summary.",
+                "description": "This image is identical to the first image, showing the same horizontal colorbar with a gradient ranging from dark blue to yellow, divided into ten segments numbered from 0 to 9. The purpose of this image is to illustrate the issue where the black lines separating the colors are not drawn at the extremities of the colorbar when `extend='both'` and `drawedges=True` are set.",
+                "technical_details": "The image is a duplicate of the first image, demonstrating the bug described in the bug summary. The issue is related to the rendering of the colorbar's edges when extending the color range at both ends."
+            }
+        ]
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-22871",
+        "description_list": [
+            {
+                "image_id": "1",
+                "context": "The image is a plot generated by the code provided in the issue.",
+                "description": "The image shows a line graph with the x-axis representing dates from March to September and the y-axis representing temperature in degrees Celsius. The line starts at 0°C in March and gradually decreases to approximately -2°C by September. The graph is plotted on a grid with horizontal lines marking the temperature intervals.",
+                "technical_details": "The x-axis labels are formatted using the ConciseDateFormatter, which is the focus of the bug report. The y-axis is labeled as 'Temperature (°C)' and the graph is plotted using matplotlib."
+            }
+        ]
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-22931",
+        "description_list": [
+            {
+                "image_id": "1",
+                "context": "The image is a screenshot of a Matplotlib plot generated by the code provided in the issue.",
+                "description": "The image shows a simple line plot with a single blue line that starts at the origin (0,0) and extends to the point (1,1) on a Cartesian coordinate system. The x-axis ranges from 0 to 1, and the y-axis also ranges from 0 to 1. The plot has a white background, and the line is a solid blue color. The plot is displayed in a window with a title bar labeled 'Figure 1'. The window includes a toolbar at the top with various icons for home, back, forward, download, zoom, and other plot manipulation tools.",
+                "technical_details": "The plot is generated using Matplotlib, as indicated by the toolbar and the style of the plot. The line is specified with a linestyle parameter 'ls=(0, ())', which is causing an issue as per the bug report."
+            }
+        ]
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-23047",
+        "description_list": [
+            {
+                "image_id": "1",
+                "context": "The first image in the issue, demonstrating the histogram with float16 data.",
+                "description": "This image shows a histogram with 100 bins. The x-axis ranges from 0.0 to 1.0, and the y-axis represents the frequency of occurrence. The histogram bars are filled with a blue color. There are noticeable gaps between certain bins, particularly between the bins at 0.0 and 0.2, and between 0.8 and 1.0. Additionally, there are overlapping areas between neighboring bins, which is more visible when the alpha value is less than 1.",
+                "technical_details": "The histogram is created using float16 data, which results in lower precision and causes gaps and overlapping between bins."
+            },
+            {
+                "image_id": "2",
+                "context": "The second image in the issue, demonstrating the histogram with float16 data.",
+                "description": "This image is identical to the first image, showing the same histogram with 100 bins. The x-axis ranges from 0.0 to 1.0, and the y-axis represents the frequency of occurrence. The histogram bars are filled with a blue color. The image highlights the same issues as the first image: gaps between certain bins and overlapping areas between neighboring bins, which are more visible when the alpha value is less than 1.",
+                "technical_details": "The histogram is created using float16 data, which results in lower precision and causes gaps and overlapping between bins."
+            }
+        ]
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-23111",
+        "description_list": [
+            {
+                "image_id": "1",
+                "context": "This image is a screenshot of a code snippet provided in the issue description.",
+                "description": "The image shows a Python code snippet with a white background and black text. The code is written in a monospace font. The snippet includes an import statement for matplotlib.pyplot and numpy, followed by the creation of a numpy array filled with identical negative values. The code then uses plt.imshow to display the array and plt.show to display the plot.",
+                "technical_details": "The code snippet demonstrates the reproduction of the bug described in the issue, where using imshow with a numpy array filled with identical negative values leads to math domain errors when hovering the mouse over the displayed image."
+            },
+            {
+                "image_id": "2",
+                "context": "This image is a screenshot of a code snippet provided in the issue description.",
+                "description": "The image shows a Python code snippet with a white background and black text. The code is written in a monospace font. The snippet includes an import statement for matplotlib.pyplot and numpy, followed by the creation of a numpy array filled with identical negative values. The code then uses plt.imshow to display the array and plt.show to display the plot.",
+                "technical_details": "The code snippet demonstrates the reproduction of the bug described in the issue, where using imshow with a numpy array filled with identical negative values leads to math domain errors when hovering the mouse over the displayed image."
+            }
+        ]
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-23412",
+        "description_list": [
+            {
+                "image_id": "1",
+                "context": "The first image in the issue demonstrates the problem with offset dash linestyle in patch objects.",
+                "description": "The image shows two overlapping rectangles with dashed lines. The rectangles are centered at coordinates (0.5, 0.5) with a width and height of 1. The dashed lines are intended to have an offset, but they appear to overlap, indicating that the offset is not applied correctly.",
+                "technical_details": "The rectangles are created using the `mpl.patches.Rectangle` function with the following properties: alpha=0.5, edgecolor='r' and 'b', linewidth=4, and ls=(0,(10,10)) and ls=(10,(10,10)). The expected outcome is that the dashed lines should not overlap due to the specified offset, but they do overlap in the image."
+            },
+            {
+                "image_id": "2",
+                "context": "The second image in the issue shows the expected outcome with Line2D objects.",
+                "description": "The image displays two sine wave lines plotted against a linearly spaced x-axis. The blue line represents the sine wave of x + π/2, while the red line represents the sine wave of x + π/4. The lines are plotted with different dashed line styles, demonstrating the expected offset effect that is missing in the patch objects.",
+                "technical_details": "The sine waves are plotted using the `plt.plot` function with the following properties: x = np.linspace(0, np.pi*4, 100), y = np.sin(x + np.pi/2), z = np.sin(x + np.pi/4), w = np.sin(x), ls=(0, (10, 10)), and ls=(10, (10, 10)). The expected outcome is that the dashed lines should have a proper offset, which is demonstrated in this image."
+            }
+        ]
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-24088",
+        "description_list": [
+            {
+                "image_id": "1",
+                "context": "This image is an example of a histogram plot generated by the code provided in the issue.",
+                "description": "The image shows a histogram plot with 10 bars of varying heights. Each bar represents a frequency count of data points falling within a specific range. The x-axis is labeled with values from 0.0 to 1.0, incremented by 0.2. The y-axis is labeled with values from 0 to 16, incremented by 2. The bars are colored in a gradient from dark red to yellow, indicating the frequency count of each bin.",
+                "technical_details": "The histogram is created using the `plt.hist()` function from matplotlib. The data used to generate the histogram is a random array of 100 values between 0 and 1. The color of each bar corresponds to the frequency count of the data points in that bin, with a color map applied to the bars."
+            },
+            {
+                "image_id": "2",
+                "context": "This image is an example of a histogram plot with a colorbar generated by the code provided in the issue.",
+                "description": "The image shows a histogram plot with 10 bars of varying heights. Each bar represents a frequency count of data points falling within a specific range. The x-axis is labeled with values from 0.0 to 1.0, incremented by 0.2. The y-axis is labeled with values from 0 to 16, incremented by 2. The bars are colored in a gradient from dark red to yellow, indicating the frequency count of each bin. A colorbar is displayed on the right side of the plot, showing a gradient from 0.0 to 1.0, corresponding to the color map applied to the bars.",
+                "technical_details": "The histogram is created using the `plt.hist()` function from matplotlib. The data used to generate the histogram is a random array of 100 values between 0 and 1. The color of each bar corresponds to the frequency count of the data points in that bin, with a color map applied to the bars. The colorbar is created using the `plt.colorbar()` function, with a ScalarMappable object that maps the frequency counts to the color map."
+            }
+        ]
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-24189",
+        "description_list": [
+            {
+                "image_id": "1",
+                "context": "The image is part of a bug report for a matplotlib issue related to using subplot_mosaic with nested mosaics and width_ratios.",
+                "description": "The image shows a simple matplotlib plot with three subplots arranged in a mosaic pattern. The main subplot is labeled 'A' and occupies the left half of the plot. To the right of 'A', there are two smaller subplots, 'B' and 'C', arranged vertically. 'B' is at the top right, and 'C' is directly below 'B'. The plot has a grid with x and y axes labeled from 0.0 to 1.0, indicating the relative positions of the subplots within the overall plot area.",
+                "technical_details": "The image demonstrates the intended layout of the subplots when using subplot_mosaic with a nested mosaic and width_ratios. The width_ratios parameter is set to [2, 1], which should make the 'A' subplot twice as wide as the combined width of 'B' and 'C'. However, the error message indicates that this configuration is not supported due to the nested mosaic structure."
+            }
+        ]
+    }
+]
