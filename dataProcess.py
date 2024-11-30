@@ -440,7 +440,7 @@ def step3(data_file):
 
         message1 = system_message(SystemPrompt_step3_v2)
         message2 = user_message_step3(problem_list, image_list)
-        print(message2)
+        # print(message2)
         completion = client.chat.completions.create(
             model="/gemini/platform/public/llm/huggingface/Qwen/Qwen2-VL-72B-Instruct",
             messages=[message1, message2],
@@ -449,7 +449,7 @@ def step3(data_file):
         )
 
         input_str = completion.choices[0].message.content
-        print(instance_id, "success,inputstr=" + input_str)
+        # print(instance_id, "success,inputstr=" + input_str)
         try:
             structure_problem = json.loads(input_str.strip().split('\n', 1)[1].rsplit('```', 1)[0].strip())
             save_data_list.append({
@@ -463,6 +463,6 @@ def step3(data_file):
 
 
 if __name__ == '__main__':
-    step2('multi_data_onlyimage.json')
+    # step2('multi_data_onlyimage.json')
     step3('multi_data_onlyimage.json')
     #step2("test.json")
