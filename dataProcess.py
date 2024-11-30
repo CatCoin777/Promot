@@ -421,8 +421,8 @@ def step3(data_file):
     #           "description": step2_data_list[i]["description_list"][j]["description"],
     #           "analysis": step2_data_list[i]["description_list"][j]["analysis"]
     #       })
-    data_list = data_list[30:60]
-    #data_list = filter_data(data_list,["astropy__astropy-13838","matplotlib__matplotlib-22931", "matplotlib__matplotlib-24189","matplotlib__matplotlib-24768","mwaskom__seaborn-3276","sphinx-doc__sphinx-11502", "sphinx-doc__sphinx-8120", "sphinx-doc__sphinx-9698"])
+    # data_list = data_list[30:60]
+    # data_list = filter_data(data_list,["astropy__astropy-13838","matplotlib__matplotlib-22931", "matplotlib__matplotlib-24189","matplotlib__matplotlib-24768","mwaskom__seaborn-3276","sphinx-doc__sphinx-11502", "sphinx-doc__sphinx-8120", "sphinx-doc__sphinx-9698"])
     save_data_list = []
     for data in tqdm(data_list):
         problem_list = []
