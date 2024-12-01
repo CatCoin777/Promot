@@ -375,7 +375,7 @@ def step2(data_file):
                 problem_list.append(problem)
                 image_list.append(0)
 
-        message1 = system_message(SystemPrompt_step2_analysisv2)
+        message1 = system_message(SystemPrompt_step2_des)
         message2 = user_message_step2(problem_list, image_list)
         completion = client.chat.completions.create(
             model="/gemini/platform/public/llm/huggingface/Qwen/Qwen2-VL-72B-Instruct",
