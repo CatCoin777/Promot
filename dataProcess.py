@@ -334,7 +334,7 @@ def step1(data_file):
                 message1 = system_message(SystemPrompt_step1_des)
                 message2 = user_message_step1(f"images/{instance_id}/图片{index}.png")
                 completion = client.chat.completions.create(
-                    model="/gemini/platform/public/llm/huggingface/Qwen/Qwen2-VL-7B-Instruct",
+                    model="/gemini/platform/public/llm/huggingface/Qwen/Qwen2-VL-2B-Instruct",
                     messages=[message1, message2],
                     temperature=0.2,
                     seed=42
@@ -347,7 +347,7 @@ def step1(data_file):
             "instance_id": instance_id,
             "raw_description_list": raw_description_list
         })
-    with open("output_qwen2vl7b/step1.json", 'w', encoding='utf-8') as outfile:
+    with open("output_qwen2vl2b/step1.json", 'w', encoding='utf-8') as outfile:
         json.dump(save_data_list, outfile, ensure_ascii=False, indent=4)
 
 
@@ -375,7 +375,7 @@ def step2(data_file, type="des"):
             message1 = system_message(SystemPrompt_step2_analysisv2)
         message2 = user_message_step2(problem_list, image_list)
         completion = client.chat.completions.create(
-            model="/gemini/platform/public/llm/huggingface/Qwen/Qwen2-VL-7B-Instruct",
+            model="/gemini/platform/public/llm/huggingface/Qwen/Qwen2-VL-2B-Instruct",
             messages=[message1, message2],
             temperature=0.3,
             seed=42
@@ -396,10 +396,10 @@ def step2(data_file, type="des"):
             print(instance_id, f"error,input_str=" + input_str)
             # 你可以选择在这里记录错误、跳过当前字符串或采取其他措施
     if type == "des":
-        with open(f"output_qwen2vl7b/step2_des.json", 'w', encoding='utf-8') as outfile:
+        with open(f"output_qwen2vl2b/step2_des.json", 'w', encoding='utf-8') as outfile:
             json.dump(save_data_list, outfile, ensure_ascii=False, indent=4)
     if type == "analysis":
-        with open(f"output_qwen2vl7b/step2_analysis.json", 'w', encoding='utf-8') as outfile:
+        with open(f"output_qwen2vl2b/step2_analysis.json", 'w', encoding='utf-8') as outfile:
             json.dump(save_data_list, outfile, ensure_ascii=False, indent=4)
 
 
@@ -427,7 +427,7 @@ def step3(data_file):
         message2 = user_message_step3(problem_list, image_list)
         # print(message2)
         completion = client.chat.completions.create(
-            model="/gemini/platform/public/llm/huggingface/Qwen/Qwen2-VL-7B-Instruct",
+            model="/gemini/platform/public/llm/huggingface/Qwen/Qwen2-VL-2B-Instruct",
             messages=[message1, message2],
             #temperature = 0.3,
             # seed = 42
@@ -443,7 +443,7 @@ def step3(data_file):
             })
         except:
             print(instance_id, "error,input_str=" + input_str)
-    with open("output_qwen2vl7b/step3.json", 'w', encoding='utf-8') as outfile:
+    with open("output_qwen2vl2b/step3.json", 'w', encoding='utf-8') as outfile:
         json.dump(save_data_list, outfile, ensure_ascii=False, indent=4)
 
 
