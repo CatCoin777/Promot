@@ -370,7 +370,7 @@ def step2(data_file, type="des"):
             else:
                 problem_list.append(problem)
                 image_list.append(0)
-        message1 = user_message_step1(SystemPrompt_step2_des)
+        message1 = system_message(SystemPrompt_step2_des)
         if type == "analysis":
             message1 = system_message(SystemPrompt_step2_analysisv2)
         message2 = user_message_step2(problem_list, image_list)
