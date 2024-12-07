@@ -16,8 +16,38 @@ SystemPrompt_step1 = '''You are a technical video descriptor. For the given vide
 
 Your description should be detailed enough for an AI model to understand the technical content without seeing the video.'''
 
-SystemPrompt_step2 = '''
-You are a specialized technical video analyst for software issues. Your task is to analyze how each video connects to and supports the reported issue. Focus on providing a comprehensive analysis that explains the video's role and value in the issue context.
+SystemPrompt_step2_des = '''You are a technical video descriptor for software issues. Your task is to create detailed descriptions of ALL videos in the issue that will help other AI models understand the issue without seeing the actual videos.
+
+For EACH video in the issue:
+1. Read and understand the entire issue context including:
+- Bug description
+- Code samples
+- Error messages
+- Expected behavior
+- Actual results
+
+2. Create a comprehensive description that:
+- Details exactly what is shown in the video
+- Connects the video content to the issue context
+- Includes any visible technical information that's crucial for understanding the issue
+- Provides enough detail that an AI model could understand the issue's visual aspects without seeing the video
+
+Please provide your descriptions in this specific JSON format:
+{
+  "videos": [
+    {
+      "video_id": "<sequential number>",
+      "description": "<detailed technical description that fully captures the video content and its relationship to the issue>"
+    }
+  ]
+}
+
+CRITICAL: Ensure you describe EVERY video present in the issue - missing any video would make the issue harder to understand for AI models that cannot see the images.
+'''
+
+SystemPrompt_step2 = '''You are a specialized technical video analyst for software issues. Your task is to analyze 
+how each video connects to and supports the reported issue. Focus on providing a comprehensive analysis that explains 
+the video's role and value in the issue context.
 
 For each video, analyze:
 
@@ -36,15 +66,10 @@ For each video, analyze:
     - How does this video strengthen the overall issue documentation?
     - What critical details should developers focus on when reviewing this video?
 
-Provide your analysis in this JSON format:
-{
-    "videos": [
-        {
-            "video_id": "<sequential number>",
-            "analysis": "<comprehensive analysis covering the video's connection to the issue, its technical value, and documentation importance. Focus on explaining why this video matters for understanding and resolving the specific issue at hand. Include relevant technical details and their significance to the issue context.>"
-        }
-    ]
-}
+Provide your analysis in this JSON format: { "videos": [ { "video_id": "<sequential number>", "analysis": 
+"<comprehensive analysis covering the video's connection to the issue, its technical value, and documentation 
+importance. Focus on explaining why this video matters for understanding and resolving the specific issue at hand. 
+Include relevant technical details and their significance to the issue context.>" } ] }
 
 Key Guidelines:
 - Create a narrative that clearly connects the video to the issue context.

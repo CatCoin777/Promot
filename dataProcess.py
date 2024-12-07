@@ -332,7 +332,7 @@ def step1(data_file):
                 message1 = system_message(SystemPrompt_step1_des)
                 message2 = user_message_step1(f"images/{instance_id}/图片{index}.png")
                 completion = client.chat.completions.create(
-                    model="/gemini/platform/public/llm/huggingface/Qwen/Qwen2-VL-72B-Instruct",
+                    model="/gemini/platform/public/llm/huggingface/Qwen/Qwen2-VL-7B-Instruct",
                     messages=[message1, message2],
                     temperature=0.2,
                     seed=42
@@ -345,23 +345,15 @@ def step1(data_file):
             "instance_id": instance_id,
             "raw_description_list": raw_description_list
         })
-    with open("step1_des.json", 'w', encoding='utf-8') as outfile:
+    with open("output_qwen2vl7b/step1.json", 'w', encoding='utf-8') as outfile:
         json.dump(save_data_list, outfile, ensure_ascii=False, indent=4)
 
 
-def step2(data_file):
+def step2(data_file, type="des"):
     with open(data_file, "r") as f:
         data_list = json.load(f)
     save_data_list = []
-    # data_list = data_list[:60]
-    # data_list = filter_data(data_list,
-    #                         ["astropy__astropy-13838", "matplotlib__matplotlib-22931", "matplotlib__matplotlib-24189",
-    #                          "matplotlib__matplotlib-24768", "mwaskom__seaborn-3276", "sphinx-doc__sphinx-11502",
-    #                          "sphinx-doc__sphinx-8120", "sphinx-doc__sphinx-9698",
-    #                          "matplotlib__matplotlib-23412", "matplotlib__matplotlib-25499", "pydata__xarray-4182"])
     for data in tqdm(data_list):
-        # if data["instance_id"] != "matplotlib__matplotlib-21550":
-        #    continue
         problem_list = []
         image_list = []
         instance_id = data["instance_id"]
@@ -374,11 +366,12 @@ def step2(data_file):
             else:
                 problem_list.append(problem)
                 image_list.append(0)
-
-        message1 = system_message(SystemPrompt_step2_analysisv2)
+        message1 = user_message_step1(SystemPrompt_step2_des)
+        if type == "analysis":
+            message1 = system_message(SystemPrompt_step2_analysisv2)
         message2 = user_message_step2(problem_list, image_list)
         completion = client.chat.completions.create(
-            model="/gemini/platform/public/llm/huggingface/Qwen/Qwen2-VL-72B-Instruct",
+            model="/gemini/platform/public/llm/huggingface/Qwen/Qwen2-VL-7B-Instruct",
             messages=[message1, message2],
             temperature=0.3,
             seed=42
@@ -398,9 +391,12 @@ def step2(data_file):
             # 如果解析失败，捕获JSONDecodeError异常并处理
             print(instance_id, f"error,input_str=" + input_str)
             # 你可以选择在这里记录错误、跳过当前字符串或采取其他措施
-
-    with open("step2.json", 'w', encoding='utf-8') as outfile:
-        json.dump(save_data_list, outfile, ensure_ascii=False, indent=4)
+    if type == "des":
+        with open(f"output_qwen2vl7b/step2_des.json", 'w', encoding='utf-8') as outfile:
+            json.dump(save_data_list, outfile, ensure_ascii=False, indent=4)
+    if type == "analysis":
+        with open(f"output_qwen2vl7b/step2_analysis.json", 'w', encoding='utf-8') as outfile:
+            json.dump(save_data_list, outfile, ensure_ascii=False, indent=4)
 
 
 def step3(data_file):
@@ -442,7 +438,7 @@ def step3(data_file):
         message2 = user_message_step3(problem_list, image_list)
         # print(message2)
         completion = client.chat.completions.create(
-            model="/gemini/platform/public/llm/huggingface/Qwen/Qwen2-VL-72B-Instruct",
+            model="/gemini/platform/public/llm/huggingface/Qwen/Qwen2-VL-7B-Instruct",
             messages=[message1, message2],
             #temperature = 0.3,
             # seed = 42
@@ -458,11 +454,12 @@ def step3(data_file):
             })
         except:
             print(instance_id, "error,input_str=" + input_str)
-    with open("step3.json", 'w', encoding='utf-8') as outfile:
-       json.dump(save_data_list, outfile, ensure_ascii=False, indent=4)
+    with open("output_qwen2vl7b/step3.json", 'w', encoding='utf-8') as outfile:
+        json.dump(save_data_list, outfile, ensure_ascii=False, indent=4)
 
 
 if __name__ == '__main__':
-    # step2('multi_data_onlyimage.json')
+    step1('multi_data_onlyimage.json')
+    step2('multi_data_onlyimage.json', "des")
+    step2('multi_data_onlyimage.json', "analysis")
     step3('multi_data_onlyimage.json')
-    #step2("test.json")
