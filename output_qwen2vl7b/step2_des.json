@@ -43,6 +43,23 @@
         ]
     },
     {
+        "instance_id": "astropy__astropy-14295",
+        "description_list": [
+            {
+                "image_id": "1",
+                "description": "A graph showing lines of constant equatorial coordinates in pixel space, with the x-axis representing Right Ascension (RA) and the y-axis representing Declination (DEC). The graph is generated using wcslib and displays the expected behavior of the grid when the SIP coefficients are present in the header."
+            },
+            {
+                "image_id": "2",
+                "description": "A graph showing lines of constant equatorial coordinates in pixel space, with the x-axis representing Right Ascension (RA) and the y-axis representing Declination (DEC). The graph is generated using wcslib and displays the expected behavior of the grid when the SIP coefficients are present in the header."
+            },
+            {
+                "image_id": "3",
+                "description": "A graph showing lines of constant equatorial coordinates in pixel space, with the x-axis representing Right Ascension (RA) and the y-axis representing Declination (DEC). The graph is generated using wcslib and displays the expected behavior of the grid when the SIP coefficients are present in the header."
+            }
+        ]
+    },
+    {
         "instance_id": "matplotlib__matplotlib-13908",
         "description_list": [
             {
@@ -1490,5 +1507,76 @@
                 "description": "The same bar chart as in image 1, but with the legend handles reversed and the legend labels updated to match the new order of the handles. The handles for Adelie, Chinstrap, and Gentoo are now in the correct order of the legend labels. This is the desired behavior as the legend handles should correspond to the legend labels."
             }
         ]
+    },
+    {
+        "instance_id": "astropy__astropy-8292",
+        "description_list": [
+            {
+              "image_id": "1",
+              "description": "Documentation for the `littleh` equivalency in Astropy, showing an example of using the `distance.to` method with `u.Mpc/u.littleh` and `u.with_H0(H0_70)` to convert distances to \"little h\" units. The example code snippet demonstrates the conversion of a distance of 100 Mpc/h to \"little h\" units, resulting in a value of 67.74 Mpc. The highlighted text in the code snippet indicates the incorrect conversion, suggesting that the implementation of `littleh` is flawed."
+            }
+        ]
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-23111",
+        "description_list": [
+            {
+              "image_id": "1",
+              "description": "A screenshot of the mouse cursor hovering over a plot displayed using imshow with a numpy array filled with identical negative values. The plot shows a single pixel with a value of -1. The mouse cursor is positioned over the pixel, but the value and coordinate under the mouse are not displayed in the top right corner of the window."
+            },
+            {
+              "image_id": "2",
+              "description": "A screenshot of the mouse cursor hovering over a plot displayed using imshow with a numpy array filled with identical negative values. The plot shows a single pixel with a value of -1. The mouse cursor is positioned over the pixel, but the value and coordinate under the mouse are not displayed in the top right corner of the window. The error message \"math domain error\" is displayed in the console."
+            }
+        ]
+    },
+    {
+        "instance_id": "sympy__sympy-15151",
+        "description_list": [
+            {
+              "image_id": "1",
+              "description": "A Jupyter notebook cell with code and output. The code imports all symbols from SymPy and initializes printing. It then defines a symbol 'i' and prints an indexed expression 'x_{1,i}'. The output shows the indexed expression 'Indexed('x1', i)' instead of the expected LaTeX formatted expression 'x_{1,i}'."
+            }
+        ]
+    },
+    {
+        "instance_id": "sympy__sympy-16003",
+        "description_list": [
+            {
+              "image_id": "1",
+              "description": "MathML presentation printing of multiple derivatives messed up. The expression `Derivative(f(x, y, z), x, z, x, z, z, y)` is printed incorrectly as: \\(\\frac{\\partial(f(x, y, z))}{\\partial x} \\frac{\\partial(f(x, y, z))}{\\partial z} \\frac{\\partial(f(x, y, z))}{\\partial x} \\frac{\\partial(f(x, y, z))}{\\partial z} \\frac{\\partial(f(x, y, z))}{\\partial z} \\frac{\\partial(f(x, y, z))}{\\partial y}\\). The correct rendering should be more along the lines of the LaTeX equivalent: \\(\\frac{\\partial^6(f(x, y, z))}{\\partial x \\partial z \\partial x \\partial z \\partial z \\partial y}\\)."
+            },
+            {
+              "image_id": "2",
+              "description": "LaTeX equivalent of the expression `Derivative(f(x, y, z), x, z, x, z, z, y)`. The correct rendering should be: \\(\\frac{\\partial^6(f(x, y, z))}{\\partial x \\partial z \\partial x \\partial z \\partial z \\partial y}\\)."
+            },
+            {
+              "image_id": "3",
+              "description": "LaTeX equivalent of the expression `Derivative(f(x, y, z), x, z, x, z, z, y)`. The correct rendering should be: \\(\\frac{\\partial^6(f(x, y, z))}{\\partial x \\partial z \\partial x \\partial z \\partial z \\partial y}\\)."
+            },
+            {
+              "image_id": "4",
+              "description": "LaTeX equivalent of the expression `Derivative(f(x, y, z), x, z, x, z, z, y)`. The correct rendering should be: \\(\\frac{\\partial^6(f(x, y, z))}{\\partial x \\partial z \\partial x \\partial z \\partial z \\partial y}\\)."
+            }
+        ]
+    },
+    {
+        "instance_id": "sympy__sympy-18922",
+        "description_list": [
+            {
+              "image_id": "1",
+              "description": "The image shows a Python code snippet using SymPy for plotting a function. The code imports the plot function from SymPy and calls it with an argument that is not specified. The resulting plot is a horizontal line at y=3, with the x-axis values ranging from -10 to 10. The plot is displayed in a Jupyter notebook environment, indicated by the \"In [5]\" and \"Out[5]\" labels."
+            }
+        ]
+    },
+    {
+        "instance_id": "plotly__plotly.py-2600",
+        "description_list": [
+            {
+              "image_id": "1",
+              "description": "A scatter plot with marginal histograms, showing the relationship between actual and predicted values. The scatter plot has a line of best fit, with the x-axis labeled 'actual' and the y-axis labeled 'prediction'. The marginal histograms display the distribution of actual and predicted values, with the range_y parameter set to [0,30]. The code snippet used to generate the plot is also provided, which includes the px.scatter function with parameters such as y=model.predict(X), x=y, marginal_x=\"histogram\", marginal_y=\"histogram\", and range_x=[0,30], range_y=[0,30]. The plot suggests that the range_y parameter may be impacting the marginal histograms, as the distribution of predicted values appears to be affected by the range_y setting."
+            }
+        ]
     }
+
 ]

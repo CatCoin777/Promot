@@ -21,6 +21,25 @@
         }
     },
     {
+        "instance_id": "astropy__astropy-13838",
+        "structure_problem":{
+            "problemSummary": "Printing tables with an empty array column in the last row results in a ValueError: index 0 is out of bounds for axis 1 with size 0.",
+            "context": "The user is working with a dataset that contains an integer value for the 'A' field, a boolean value for the 'B' field, and an array of integers for the 'C' field. When the 'C' field is empty, printing the last row of the table results in a ValueError.",
+            "stepsToReproduce": [
+                "Create a table and fill it with data having an empty array in the 'C' field, as shown in the example dataset: \n\n```python\nevents = [{\"A\":0,\"B\":0, \"C\":np.array([], dtype=np.uint64)}\n          ,{\"A\":1,\"B\":0, \"C\":np.array([], dtype=np.uint64)}\n          ,{\"A\":2,\"B\":2, \"C\":np.array([0,1], dtype=np.uint64)}\n]`",
+                "Print the first 2 events using: \n\n```python\nQTable(rows=events[:2])`",
+                "Print all 3 events to observe correct behavior: \n\n```python\nQTable(rows=events)`",
+                "Attempt to print the last row of the table with an empty array in the 'C' field: \n\n```python\nQTable(rows=events[-1:])`"
+            ],
+            "expectedResults": "Correctly prints the first 2 events with an empty array in the 'C' field.",
+            "actualResults": "Throws a ValueError: index 0 is out of bounds for axis 1 with size 0 when trying to print the last row of the table with an empty array in the 'C' field.",
+            "supplementaryImages": [
+                "A screenshot showing the error message generated when trying to print the last row of a QTable with an empty array in the 'C' field. The error message indicates that the index 0 is out of bounds for axis 1 with size 0."
+            ],
+            "additionalNotes": "The issue is not present when printing the first 2 events or printing all 3 events, suggesting that the problem arises specifically when the table is truncated to only show the last row when the 'C' field is empty."
+        }
+    },
+    {
         "instance_id": "astropy__astropy-14295",
         "structure_problem": {
             "problemSummary": "PV keywords are ignored when SIP coefficients are present in the header.",
@@ -326,6 +345,31 @@
         }
     },
     {
+        "instance_id": "matplotlib__matplotlib-21490",
+        "structure_problem": {
+            "problemSummary": "Line2D does not properly copy its inputs, leading to unexpected changes in the drawn line when modifying the input arrays.",
+            "context": "The issue arises from the fact that Line2D does not copy its inputs, even when they are already arrays, which can result in in-place modifications affecting the draw line.",
+            "stepsToReproduce": [
+                "Import necessary libraries and data.",
+                "Plot a line using the input data.",
+                "Save the figure.",
+                "Modify the input data in place to trigger a change in the line.",
+                "Save the figure again.",
+                "Set the drawstyle of the line to 'steps' and save the figure."
+            ],
+            "expectedResults": "The figure should not change after modifying the input data in place.",
+            "actualResults": "The figure changes after modifying the input data in place when the drawstyle is set to 'steps'.",
+            "supplementaryImages": [
+                "Figure (1): Initial plot with default drawstyle.",
+                "Figure (2): No change in the figure after modifying the input data in place.",
+                "Figure (3): Change in the figure after modifying the input data in place when the drawstyle is set to 'steps'.",
+                "Figure (4): Original image plotted using AxesImage.",
+                "Figure (5): Image after modifying the input data in place when using AxesImage."
+            ],
+            "additionalNotes": "The issue is not present when using AxesImage, which always copies its inputs. This suggests that there is a memory-saving argument in #736 that might lead to unexpected changes in Line2D."
+        }
+    },
+    {
         "instance_id": "matplotlib__matplotlib-21550",
         "structure_problem": {
             "problemSummary": "The matplotlib widget and graph display is not working properly when transitioning from matplotlib-3.4.3 to matplotlib-3.5.0.dev2445+gb09aad279b, with the code demonstrating this issue on JupyterLab.",
@@ -345,6 +389,27 @@
                 "The third image shows the text-based bug report, highlighting the specific version of matplotlib that causes the issue."
             ],
             "additionalNotes": "The issue was further confirmed by testing the code on matplotlib-3.5.1, which also showed the same behavior. The problem was reproducible across different operating systems, including Windows 10 and macOS."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-21568",
+        "structure_problem": {
+            "problemSummary": "The spacing of the datetime axis in matplotlib version 3.4 is unclear when using `usetex=True`, compared to version 3.3.",
+            "context": "The user observed that the spacing of the datetime axis is unclear when using `usetex=True` in matplotlib version 3.4, compared to version 3.3.",
+            "stepsToReproduce": [
+                "Install matplotlib version 3.4 and import necessary libraries",
+                "Set `matplotlib.rcParams[\"text.usetex\"] = True`",
+                "Generate random data and dates",
+                "Create a plot with datetime axis",
+                "Save the plot and compare with version 3.3"
+            ],
+            "expectedResults": "The spacing for the datetime axis should be similar to what it was in matplotlib version 3.3.",
+            "actualResults": "The spacing for the datetime axis is unclear when using `usetex=True` in matplotlib version 3.4, compared to version 3.3.",
+            "supplementaryImages": [
+                "A screenshot of the datetime axis in matplotlib version 3.3",
+                "A screenshot of the datetime axis in matplotlib version 3.4"
+            ],
+            "additionalNotes": "The user observed that the spacing of the datetime axis is unclear when using `usetex=True` in matplotlib version 3.4, compared to version 3.3. The issue is present in both the Axes and matplotlib.figure.Figure classes."
         }
     },
     {
@@ -527,6 +592,30 @@
                 "A histogram with `histtype='step'` showing the left and right panel."
             ],
             "additionalNotes": "The issue occurs with `matplotlib.axes.Axes.hist` function and involves the `density=True` and `histtype='step'` parameters. The problem is reproducible in Python version 3.10.4 using pip installed versions of `matplotlib` and `numpy`."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-24189",
+        "structure_problem": {
+            "problemSummary": "Error using width_ratios with nested mosaic in subplot_mosaic()",
+            "context": "The bug occurs when passing width_ratios (or height_ratios) with a nested list mosaic, unless all outer and inner mosaics have the same number of columns (or rows).",
+            "stepsToReproduce": [
+                "import matplotlib.pyplot as plt",
+                "mosaic = [[\"A\", [[\"B\"], [\"C\"]]]]",
+                "fig, axd = plt.subplot_mosaic(mosaic, width_ratios=[2, 1])"
+            ],
+            "expectedResults": "The code should run without errors.",
+            "actualResults": "The code raises a ValueError",
+            "supplementaryImages": [
+                "A screenshot showing the error message."
+            ],
+            "additionalNotes": "The bug occurs because the layout is built recursively, passing the same gridspec_kw to subgridspec() at each level of nesting. The user expects to be able to specify width_ratios / height_ratios / gridspec_kw for the outer list or in some other way implement this feature for nested list layouts. If not, a helpful error message explaining this limitation would be appreciated.",
+            "os": "Windows 10",
+            "mplVersion": "3.6.0",
+            "backend": "QtAgg",
+            "pythonVersion": "3.10",
+            "jupyterVersion": "_No response_",
+            "installation": "conda"
         }
     },
     {
@@ -770,6 +859,45 @@
         }
     },
     {
+        "instance_id": "matplotlib__matplotlib-25405",
+        "structure_problem": {
+            "problemSummary": "LogLocator with subs argument fragile.",
+            "context": "Logarithmic tick markers do not appear if the y-axis scales a sufficient range, with the `subs` keyword argument of `ticker.LogLocator` set to non-trivial values.",
+            "stepsToReproduce": [
+                "import matplotlib.pyplot as plt",
+                "import matplotlib.ticker",
+                "import numpy as np",
+                "ll = matplotlib.ticker.LogLocator(subs=(1, 2, 5))",
+                "fig, ax = plt.subplots()",
+                "x = np.arange(8)",
+                "plt.semilogy(x, 10 ** x)",
+                "ax.yaxis.set_major_locator(ll)",
+                "ax.yaxis.set_minor_locator(ll)",
+                "plt.title(\"Good Plot\")",
+                "plt.show()",
+                "fig, ax = plt.subplots()",
+                "x = np.arange(9) // The only change is this line",
+                "plt.semilogy(x, 10 ** x)",
+                "ax.yaxis.set_major_locator(ll)",
+                "ax.yaxis.set_minor_locator(ll)",
+                "plt.title(\"Bad Plot\")",
+                "plt.show()",
+                "print(ll.tick_values(1, 1e7)) // This line is used to reproduce the issue",
+                "print(ll.tick_values(1, 1e8))"
+            ],
+            "expectedResults": "I expect to see ticks in both cases, as appears in the \"Good Plot\".",
+            "actualResults": "The following code produces a plot with no y-axis ticks, which is unexpected and undesired.\n\n",
+            "supplementaryImages": [
+                "https://github.com/user/image1.png",
+                "https://github.com/user/image2.png",
+                "https://github.com/user /image3.png",
+                "https://github.com/user/image4.png",
+                "https://github.com/user/image5.png"
+            ],
+            "additionalNotes": "The problem is isolated to `ticker.LogLocator.tick_values()`. This returns correct values in the first case (e.g., `np.array([1.e-01 2.e-01 5.e-01 1.e+00 2.e+00 5.e+00 1.e+01 2.e+01 5.e+01 1.e+022.e+02 5.e+02])`), but `np.array([])` in the second case."
+        }
+    },
+    {
         "instance_id": "matplotlib__matplotlib-25499",
         "structure_problem": {
             "problemSummary": "Setting bbox_inches in fig.savefig resizes the colorbar relative to when bbox_inches is not set.",
@@ -962,6 +1090,27 @@
                 "A relplot showing the issue with numpy types for dimensional variables."
             ],
             "additionalNotes": "The issue with `sns.relplot` was never documented and the behavior was not intentional or a failure of implementation. It was unlikely to be a regression since the behavior of `sns.relplot` has not changed significantly over time."
+        }
+    },
+    {
+        "instance_id": "mwaskom__seaborn-2979",
+        "structure_problem": {
+            "problemSummary": "Internal axis labels are not visible in the top two subplots of the wrapped pair plot.",
+            "context": "The given code snippet is attempting to create a pair plot with a wrapped layout for the 'mpg' data, but the x-axis labels in the top two subplots are not visible.",
+            "stepsToReproduce": [
+                "Install seaborn using `pip install seaborn`",
+                "Import seaborn and pandas: `import seaborn as sns; import pandas as pd`",
+                "Load the 'mpg' dataset: `mpg = sns.load_dataset('mpg')`",
+                "Run the given code snippet `mpg.pair([\"displacement\", \"weight\", \"horsepower\", \"cylinders\"], wrap=2)`"
+            ],
+            "expectedResults": "All subplots should display the internal axis labels correctly.",
+            "actualResults": "Internal axis labels are not visible in the top two subplots.",
+            "supplementaryImages": [
+                "The first image shows the subplot with the x-axis label 'horsepower'.",
+                "The second image shows the subplot with the x-axis label 'cylinders'. Both subplots are part of the wrapped pair plot.",
+                "The issue is that the x-axis labels are not visible in the top two subplots, despite being present in the code."
+            ],
+            "additionalNotes": "The issue is specific to the x-axis labels in the top two subplots and does not affect other subplots in the pair plot."
         }
     },
     {
@@ -1294,6 +1443,25 @@
         }
     },
     {
+        "instance_id": "sphinx-doc__sphinx-10435",
+        "structure_problem": {
+            "problemSummary": "Whitespace is added at the start and end of inline code in LaTeX output when using the code role.",
+            "context": "The bug is related to the #10251 enhancement that activates syntax highlighting for the Docutils `code` role in LaTeX output.",
+            "stepsToReproduce": [
+                "Run `make latexpdf` from `test_build_latex.py`",
+                "Open `index.rst` and ensure it contains the following code block: `\\sphinxcode{\\sphinxupquote{<--- this produces a space in output\n\\PYG{k}{def} \\PYG{n+nf}{foo}\\PYG{p}{(}\\PYG{l+m+mi}{1} \\PYG{o}{+} \\PYG{l+m+mi}{2} \\PYG{o}{+} \\PYG{k+kc}{None} \\PYG{o}{+} \\PYG{l+s+s2}{\\PYGZdq{}}\\PYG{l+s+s2}{abc}\\PYG{l+s+s2}{\\PYGZdq{}}}\\PYG{p}{)}\\PYG{p}{:} \\PYG{k}{pass}--\\PYG{p}{>\\PYG{p}{>\\PYG{p}{>\\PYG{p}{>\\PYG{p}{>\\PYG{p}{>\\PYG{p}{>\\PYG{p}{>\\PYG{p}{>\\PYG{p}{>\\PYG{p}{>\\PYG{p}{>\\PYG{p}{>}}}}}}}}}}\\PYG{k}{pass}}\\PYG{p}{}`",
+                "Compare the LaTeX output with and without the space characters"
+            ],
+            "expectedResults": "LaTeX output should not contain any additional space characters.",
+            "actualResults": "LaTeX output contains space characters at the start and end of inline code.",
+            "supplementaryImages": [
+                "A screenshot showing LaTeX output with space characters at the start and end of inline code.",
+                "A screenshot showing LaTeX output without space characters at the start and end of inline code."
+            ],
+            "additionalNotes": "The bug is related to the #10251 enhancement that activates syntax highlighting for the Docutils `code` role in LaTeX output. The issue is reproducible by running `make latexpdf` from `test_build_latex.py` and comparing the LaTeX output with and without the space characters."
+        }
+    },
+    {
         "instance_id": "sphinx-doc__sphinx-11266",
         "structure_problem": {
             "problemSummary": "Missing space before colon after 'Voir aussi' directive in French",
@@ -1325,6 +1493,24 @@
         }
     },
     {
+        "instance_id": "sphinx-doc__sphinx-7615",
+        "structure_problem": {
+            "problemSummary": "Sphinx incorrectly renders four or more consecutive backslashes.",
+            "context": "Sphinx, unlike Docutils, incorrectly renders consecutive backslashes.\n\nThe following snippet demonstrates the buggy rendering: Two backslashes should be rendered as `\\`. Three still as `<p>\\</p>`. Four and five as `\\`. Six as `\\` and so on. This is how it works in Docutils.",
+            "stepsToReproduce": [
+                "Create a Sphinx document",
+                "Add the following content: Two \\",
+                "Observe the incorrect rendering of four or more consecutive backslashes"
+            ],
+            "expectedResults": "Two backslashes should be rendered as `\\`. Three still as `<p>\\</p>`. Four and five as `\\`. Six as `\\` and so on.",
+            "actualResults": "Sphinx incorrectly renders four or more consecutive backslashes.\n\nThe following screenshot shows the incorrect rendering.",
+            "supplementaryImages": [
+                "The first screenshot shows how Sphinx incorrectly renders the four or more consecutive backslashes. The Docutils version is shown in the second screenshot. The third screenshot is the Sphinx version again, but this time it correctly renders four or more consecutive backslashes."
+            ],
+            "additionalNotes": "This issue affects Sphinx version 3.0.2 and does not occur in Docutils."
+        }
+    },
+    {
         "instance_id": "sphinx-doc__sphinx-7757",
         "structure_problem": {
             "problemSummary": "Positional-only argument default value is missing in the generated documentation.",
@@ -1339,6 +1525,27 @@
                 "Documentation is missing the default value for the positional-only argument."
             ],
             "additionalNotes": "No Sphinx extensions or extra tools are used, and the issue is not reproducible in previous versions of Sphinx."
+        }
+    },
+    {
+        "instance_id": "sphinx-doc__sphinx-8028",
+        "structure_problem": {
+            "problemSummary": "Instance attributes are not documented by autosummary in Sphinx 3.1.2 when using inline attributes in class definitions.",
+            "context": "The user encountered an issue where instance attributes were not included in the documentation generated by the autosummary directive in Sphinx 3.1.2, despite being included when using the `:members:` option in the autoclass directive. This is a follow-up to #7948, which mentioned a related problem.",
+            "stepsToReproduce": [
+                "Create a class with instance attributes in Python, for example: `class Test: ...`",
+                "Include inline attributes in the class definition, for example: `int a = 1`",
+                "Create a ReST file using Sphinx, for example: `.. autoclass:: Test`",
+                "Use the `autosummary` directive to include the class in the documentation, for example: `.. autosummary:: Test.a Test.test`",
+                "Build the documentation and observe that the instance attributes are not documented"
+            ],
+            "expectedResults": "All attributes, both class and instance, should be documented.",
+            "actualResults": "Only class attributes are documented; instance attributes are omitted.",
+            "supplementaryImages": [
+                "Documentation generated by Sphinx 3.1.2, showing only class attributes are documented.",
+                "Screenshot of index.html showing the missing instance attributes"
+            ],
+            "additionalNotes": "This issue was encountered when using Sphinx 3.1.2 and inline attributes in class definitions. It did not occur in previous versions of Sphinx."
         }
     },
     {
@@ -1462,6 +1669,23 @@
         }
     },
     {
+        "instance_id": "sphinx-doc__sphinx-8621",
+        "structure_problem": {
+            "problemSummary": "The :kbd: role produces incorrect HTML when compound-key separators (-, + or ^) are used as keystrokes.",
+            "context": "The `:kbd:` role in Sphinx does not handle compound-key separators (-, + or ^) correctly, resulting in incorrect HTML output.",
+            "stepsToReproduce": [
+                "Define a standalone keystroke using any of the compound-key separators (-, +, ^)",
+                "Define a compound keystroke where one or more keystrokes use any of the compound-key separators (-, +, ^)"
+            ],
+            "expectedResults": "A single kbd element should be created for single keystrokes using -, +, or ^, and the algorithm should differentiate between -, +, and ^ characters appearing in separator vs keystroke positions.",
+            "actualResults": "The :kbd: role produces incorrect HTML output, treating - as a separator with two \"blank\" keystrokes around it, + as a separator with two \"blank\" keystrokes around it, and ^ as a separator within a compound-keystroke, with two \"blank\" keystrokes around it.",
+            "supplementaryImages": [
+                "A screenshot of the incorrect HTML output generated by the :kbd: role."
+            ],
+            "additionalNotes": "The bug occurs on Windows operating system, with Python version 3.9.1 and Sphinx version 3.4.0. Other tools and Sphinx extensions are not specified."
+        }
+    },
+    {
         "instance_id": "sphinx-doc__sphinx-8638",
         "structure_problem": {
             "problemSummary": "Autodoc links instance variables to global variables with the same name, which can cause documentation inconsistencies and confusion.",
@@ -1576,6 +1800,26 @@
         }
     },
     {
+        "instance_id": "sphinx-doc__sphinx-9350",
+        "structure_problem": {
+            "problemSummary": "Man page uses :samp: with braces incorrectly",
+            "context": "The :samp: directive in man pages is used to embed example text. The issue is that the font does not reset to its original state after the :samp: closure, causing text to be displayed incorrectly.",
+            "stepsToReproduce": [
+                "Enter :samp:`{text}` into a man page",
+                "Observe the text is not reset to the original font after the :samp: closure",
+                "Continue with the man page content to see the issue persist",
+                "Test different :samp: closures to identify the reset elements"
+            ],
+            "expectedResults": "The font should reset to the original state after the :samp: closure",
+            "actualResults": "The font does not reset to the original state after the :samp: closure",
+            "supplementaryImages": [
+                "A screenshot showing the man page with the :samp: closure not resetting the font",
+                "A screenshot showing the man page content after the :samp: closure, with the font still in the incorrect state"
+            ],
+            "additionalNotes": "The issue affects only the :samp: with braces, not :samp:`without braces`. HTML and LaTeX formats are not affected. The :samp: directive does not cause this issue in the MWE provided."
+        }
+    },
+    {
         "instance_id": "sphinx-doc__sphinx-9464",
         "structure_problem": {
             "problemSummary": "Autodoc renders PEP 585 generic annotations incorrectly",
@@ -1591,6 +1835,21 @@
                 "Documentation rendering showing `list` instead of `list[str]`"
             ],
             "additionalNotes": "This issue affects PEP 585 generic annotations rendered by Sphinx's autodoc extension. A fix involves modifying the rendering logic to check for `__args__` and return a custom string representation if present."
+        }
+    },
+    {
+        "instance_id": "sphinx-doc__sphinx-9673",
+        "structure_problem": {
+            "problemSummary": "Missing type for return values in documentation generated with Napoleon and autodoc_typehints_description_target",
+            "context": "When using the config option `autodoc_typehints_description_target = 'documented'` combined with the Napoleon plugin (using Google style), the return types were missing from the resulting documentation.",
+            "stepsToReproduce": [
+                "Generate the documentation using Napoleon and the config options",
+                "Add the following docstring to the function: `\"Description. Parameters:    param1: First parameter.    param2: Second parameter. Returns:    The returned value. \""
+            ],
+            "expectedResults": "Return types should be present in the documentation.",
+            "actualResults": "Return types were missing in the documentation.",
+            "supplementaryImages": [],
+            "additionalNotes": "This issue was encountered with the following project details and Python version: Project: Tuxemon, Python version: 3.8, Sphinx version: 4.2.0, Sphinx extensions: 'sphinx.ext.autodoc', 'sphinx.ext.todo', 'sphinx.ext.viewcode', 'sphinx.ext.githubpages', 'sphinx.ext.napoleon'."
         }
     },
     {
@@ -1728,6 +1987,25 @@
         }
     },
     {
+        "instance_id": "sympy__sympy-11788",
+        "structure_problem": {
+            "problemSummary": "Singularity function powers do not print correctly in the qtconsole.",
+            "context": "The user is trying to solve a beam problem using SymPy and Continuum Mechanics, but is experiencing issues with singularity function powers not printing correctly in the qtconsole.",
+            "stepsToReproduce": [
+                "Import SymPy and Continuum Mechanics modules.",
+                "Define symbols and beam parameters.",
+                "Create a beam object and apply loads.",
+                "Print the beam object and load the solution."
+            ],
+            "expectedResults": "The singularity function powers should be printed correctly in the qtconsole.",
+            "actualResults": "The singularity function powers are not printed correctly in the qtconsole.",
+            "supplementaryImages": [
+                "The provided code snippet showing the issue in the qtconsole."
+            ],
+            "additionalNotes": "No additional notes are available as the issue is clearly visible in the code snippet."
+        }
+    },
+    {
         "instance_id": "sympy__sympy-13840",
         "structure_problem": {
             "problemSummary": "The user encounters difficulties when trying to convert Max and Min expressions using SymPy in JavaScript.",
@@ -1764,6 +2042,47 @@
                 "A screenshot showing the output of the indexed expression as Indexed('x1', i), without the expected pretty formatting."
             ],
             "additionalNotes": "The user is unsure if this behavior is expected, but they are expecting the expression to be printed in a more readable format, with subscripts and superscripts."
+        }
+    },
+    {
+        "instance_id": "sympy__sympy-15304",
+        "structure_problem":{
+            "problemSummary": "Issue with Beam module in sympy when applying a force with an order bigger than 1, leading to incorrect reaction loads.",
+            "context": "The user is using the sympy library to analyze a beam problem. They have encountered an issue where the reaction loads do not behave as expected when a higher-order force is applied to the beam.",
+            "stepsToReproduce": [
+                "Import the necessary modules from sympy and sympy.physics.continuum_mechanics.beam.",
+                "Define the symbols E, I, R, and M.",
+                "Create a Beam object with the given parameters.",
+                "Apply forces to the beam with an order higher than 1.",
+                "Solve for reaction loads and view the results."
+            ],
+            "expectedResults": "The reaction loads R and M should align with the applied forces and the beam's properties.",
+            "actualResults": "The reaction loads R do not remain constant as expected, and the calculation appears incorrect.",
+            "supplementaryImages": ["A screenshot of the code execution showing the input and output, highlighting the issue with incorrect reaction loads for the applied forces"],
+            "additionalNotes": "The user believes the issue lies within the formation of the load equation, suggesting a potential error in handling higher-order forces."
+        }
+    },
+    {
+        "instance_id": "sympy__sympy-15625",
+        "structure_problem":{
+            "problemSummary": "LaTeX output in Jupyter notebook breaks when LaTeX is executed, due to an incorrect math environment delimiter.",
+            "context": "This issue occurs when converting a Jupyter notebook to LaTeX and then executing the LaTeX code in a LaTeX document. The error arises because the `equation*` environment is not properly formatted by the incorrect math environment delimiter.",
+            "stepsToReproduce": [
+                "Create a Jupyter notebook with the following content: `import sympy as sp; sp.init_printing(); 1`",
+                "Convert the notebook to LaTeX using the `--execute` flag",
+                "Observe the LaTeX code generated",
+                "Run the LaTeX code in a LaTeX document",
+                "Notice the error message `Bad math environment delimiter`"
+            ],
+            "expectedResults": "The LaTeX code should be rendered correctly in the LaTeX document.",
+            "actualResults": "The LaTeX code is not rendered correctly due to the `Bad math environment delimiter` error.",
+            "supplementaryImages": [
+                "The first image shows a Jupyter notebook with the code that causes the issue.",
+                "The second image shows the LaTeX output generated by the notebook.",
+                "The third image shows the error message in the LaTeX document.",
+                "The fourth image shows the LaTeX code generated by the notebook."
+            ],
+            "additionalNotes": "The issue can be fixed by changing the LaTeX wrapping from `$$`...`$$` to `$\\displaystyle `...`$`, which allows left-aligning expressions in LaTeX documents. This change is proposed in the referenced pull request."
         }
     },
     {
@@ -2126,6 +2445,25 @@
                 "A screenshot showing the incorrect positioning of shells with one element, where the shell appears to have an exaggerated radius compared to shells with multiple elements."
             ],
             "additionalNotes": "This issue is reproducible with networkX version 2.4 and appears to be the opposite of issue #3188, where shells of one element collapsed to zero radius."
+        }
+    },
+    {
+        "instance_id": "vega__altair-2785",
+        "structure_problem": {
+            "problemSummary": "Proposing a change in the default chart dimensions in Altair from unequal (4/3 aspect ratio) to equal (1:1 aspect ratio) to make it easier to compare the distribution of data between variables.",
+            "context": "The current default theme in Altair specifies an aspect ratio of 4/3, with a width of 400 and a height of 300 (for continuous data). This is different from the default in VegaLite, which is to make both dimensions of equal length, spreading the data over the same amount of pixels on both the X and Y axis. The default in Vega-Lite is to use 200 px for the width and height which is considered a bit small, but setting both to 300 px looks good.",
+            "stepsToReproduce": [
+                "Examine the current default chart dimensions in Altair.",
+                "Compare them with the default in VegaLite.",
+                "Propose changing the default width in Altair to 300 px, so that both the X and Y axes occupy the same amount of pixels by default."
+            ],
+            "expectedResults": "The data distribution is compared between the current default and the proposed equal aspect ratio.",
+            "actualResults": "The current default aspect ratio makes it easier to compare the distribution of data between variables, but with the proposed equal aspect ratio, the comparison becomes more straightforward.",
+            "supplementaryImages": [
+                "An image of the current default chart dimensions in Altair showing an unequal aspect ratio (4/3).",
+                "An image of the proposed equal aspect ratio chart dimensions in Altair showing a 1:1 aspect ratio."
+            ],
+            "additionalNotes": "The proposed change in the default chart dimensions in Altair is aimed at making it easier to compare the distribution of data between variables. The current default aspect ratio of 4/3 makes it easier to compare the distribution of data between variables, but with the proposed equal aspect ratio, the comparison becomes more straightforward."
         }
     },
     {
