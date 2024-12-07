@@ -326,6 +326,8 @@ def step1(data_file):
     for data in tqdm(data_list):
         raw_description_list = []
         instance_id = data["instance_id"]
+        if instance_id == "sympy__sympy-13264" :
+            continue
         index = 0
         for problem in data["problem_statement"]:
             if problem.startswith('http'):
@@ -357,6 +359,8 @@ def step2(data_file, type="des"):
         problem_list = []
         image_list = []
         instance_id = data["instance_id"]
+        if instance_id == "sympy__sympy-13264" :
+            continue
         index = 0
         for problem in data["problem_statement"]:
             if problem.startswith('http'):
@@ -402,28 +406,13 @@ def step2(data_file, type="des"):
 def step3(data_file):
     with open(data_file, "r") as f:
         data_list = json.load(f)
-
-    #with open(step1_file, "r") as f:
-    #    step1_data_list = json.load(f)
-
-    #with open(step2_file, "r") as f:
-    #   step2_data_list = json.load(f)
-
-    #description_list = []
-    #for i in range(len(data_list)):
-    #   for j in range(len(step2_data_list[i]["description_list"])):
-    #       description_list.append({
-    #           "raw description": step1_data_list[i]["raw_description_list"][j],
-    #           "description": step2_data_list[i]["description_list"][j]["description"],
-    #           "analysis": step2_data_list[i]["description_list"][j]["analysis"]
-    #       })
-    # data_list = data_list[30:60]
-    # data_list = filter_data(data_list,["astropy__astropy-13838","matplotlib__matplotlib-22931", "matplotlib__matplotlib-24189","matplotlib__matplotlib-24768","mwaskom__seaborn-3276","sphinx-doc__sphinx-11502", "sphinx-doc__sphinx-8120", "sphinx-doc__sphinx-9698"])
     save_data_list = []
     for data in tqdm(data_list):
         problem_list = []
         image_list = []
         instance_id = data["instance_id"]
+        if instance_id == "sympy__sympy-13264" :
+            continue
         index = 0
         for problem in data["problem_statement"]:
             if problem.startswith('http'):
