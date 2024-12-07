@@ -1282,5 +1282,94 @@
                 "analysis": "The third image is identical to the first image, showing the same histogram plot with the same legend. This image is necessary for documenting the issue because it provides a direct comparison between the first and second images, highlighting the issue of the reversed legend handles when the labels are renamed. The technical value of this image lies in its ability to show the problem in a clear and concise manner. The documentation importance of this image is that it reinforces the issue by showing that the problem persists even when the labels are renamed."
             }
         ]
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-20518",
+        "description_list": [
+            {
+                "image_id": "1",
+                "analysis": "The first image shows a plot with a blue line representing the data points. The x-axis ranges from 0 to 2, and the y-axis ranges from 0 to 2. The plot is generated using the PGF backend, as indicated by the use of `mpl.use(\"pgf\")` in the code snippet. The `set_sketch_params()` function is called with the parameters `scale=5`, `length=10`, and `randomness=42`, but these parameters are not reflected in the plot. The second image shows the same plot with some additional lines and markers, but the parameters set by `set_sketch_params()` are still not visible. This image demonstrates that the parameters set by `set_sketch_params()` are ignored by the PGF backend and do not have any influence in the resulting pgf or pdf file. This image is necessary for documenting the issue because it shows the actual outcome of the code snippet, which is different from the expected outcome. The image also reveals that the parameters set by `set_sketch_params()` are not reflected in the plot, which is the key technical detail that needs to be addressed in the fix. This image also provides a visual representation of the issue, which can help developers understand the problem and troubleshoot it more effectively. The image also conveys the importance of the issue by showing that the parameters set by `set_sketch_params()` are not reflected in the plot, which can lead to unexpected results and make it difficult to reproduce the desired effect. Therefore, this image is critical for documenting the issue and ensuring that the fix addresses the root cause of the problem."
+            }
+        ]
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-22871",
+        "description_list": [
+            {
+                "image_id": "1",
+                "analysis": "This image is a line plot that shows the temperature in degrees Celsius over time from March to September. The plot demonstrates the issue at hand, which is that the year \"2021\" does not appear in the offset to the right of the x-axis when plotting less than a year of data and January is not included in the x-axis. This image is necessary for documenting the issue because it visually represents the problem and shows that the year is missing, which is the key detail needed to understand and resolve the issue. The plot also reveals that the year \"2021\" is missing in the offset, which is the expected outcome but not shown in the actual outcome. The image provides critical technical details such as the temperature data and the time range, which are important for troubleshooting and resolution. This image strengthens the overall issue documentation by providing a clear and concise representation of the problem, which can be easily understood by developers and stakeholders. The image also highlights the specific elements in the code that are causing the issue, such as the use of `AutoDateLocator` and `ConciseDateFormatter`, which can be focused on when reviewing the code."
+            }
+        ]
+    },
+    {
+        "instance_id": "sphinx-doc__sphinx-7615",
+        "description_list": [
+            {
+                "image_id": "1",
+                "analysis": "This image demonstrates the issue where Sphinx incorrectly renders consecutive backslashes, unlike Docutils. The screenshot shows the same input text in RST, Docutils, and Sphinx. In Docutils, the backslashes are rendered correctly according to the RST spec. In Sphinx, the backslashes are rendered incorrectly, with four or more consecutive backslashes being rendered as `\\`, instead of `\\`, `\\`, and so on. This image is necessary for documenting the issue because it visually compares the correct and incorrect rendering, highlighting the problem. The technical value of this image lies in its ability to show how the RST spec is implemented differently in Docutils and Sphinx, and how this discrepancy affects the output. The documentation importance of this image is that it provides a clear and concise way to explain the issue to developers and users, and to demonstrate the need for a fix in the Sphinx rendering process."
+            }
+        ]
+    },
+    {
+        "instance_id": "sphinx-doc__sphinx-8621",
+        "description_list": [
+            {
+                "image_id": "1",
+                "analysis": "This image demonstrates the issue where the `:kbd:` role produces incorrect HTML when compound-key separators (`-`, `+` and `^`) are used as keystrokes. The image shows the incorrect output generated for standalone keystrokes and compound keystrokes that use compound-key separators. The key points to note are:- Standalone keystrokes with compound-key separators are treated as separators with two \"blank\" keystrokes around them.- Compound keystrokes with compound-key separators are treated as separators within a compound-keystroke, with two \"blank\" keystrokes around them.- The incorrect output is generated regardless of the specific compound-key separator used.- This image is necessary for documenting the issue because it visually demonstrates the problem and helps developers understand the specific behavior of the `:kbd:` role in this context."
+            }
+        ]
+    },
+    {
+        "instance_id": "sphinx-doc__sphinx-9350",
+        "description_list": [
+            {
+                "image_id": "1",
+                "analysis": "This image demonstrates the issue with the man page rendering when using :samp:`{blah}`. The font change doesn't reset after the closure of the samp but runs onto subsequent lines until certain 'resetting' elements are encountered, such as a bullet, heading and probably others I haven't tested for. The image shows the man page text with :samp:`{and this text in braces}` and the text that should be plain, but the font change doesn't reset after the closure of the samp. This image is necessary for understanding the specific issue and for developers to see the problem firsthand. The image also reveals the technical details of the issue, such as the use of :samp:`{}` and the lack of reset after the closure of the samp. This image strengthens the overall issue documentation by providing a visual representation of the problem and by showing the specific elements that cause the issue. Developers should focus on the text and the font change to understand the problem and find a solution."
+            }
+        ]
+    },
+    {
+        "instance_id": "sympy__sympy-15151",
+        "description_list": [
+            {
+                "image_id": "1",
+                "analysis": "This image shows a code snippet in a Jupyter notebook, where SymPy is being imported and used to define a symbol 'i' and an indexed variable 'x_{1,i}'. The output is an indexed variable 'Indexed('x1', i)', which is not formatted as expected. The expected output is 'x_{1,i}', which is a subscripted variable with the subscript 'i'. The image is necessary for documenting this issue because it provides a clear example of the problem with SymPy's pretty printing functionality, specifically with indexed variables. This image reveals that SymPy is not formatting the indexed variable as expected, which is a critical detail for troubleshooting and resolving the issue. The image also conveys that the issue is not expected behavior, which is important for developers to understand the problem context. The image's technical value lies in its ability to demonstrate the issue with SymPy's pretty printing functionality, which can help developers identify and fix the problem. The documentation importance of this image is that it provides a concrete example of the issue, which can be referenced when discussing and resolving the problem with other developers."
+            }
+        ]
+    },
+    {
+        "instance_id": "sympy__sympy-16003",
+        "description_list": [
+            {
+                "image_id": "1",
+                "analysis": "This image shows the MathML presentation printed version of the expression `Derivative(f(x, y, z), x, z, x, z, z, y)`. The issue is that the rendering is incorrect, with the derivative variables not being printed on a single line and the correct power in the numerator not being displayed. The MathML presentation printed version looks like: [\\frac{\\partial f(x, y, z)}{\\partial x}\\frac{\\partial f(x, y, z)}{\\partial z}\\frac{\\partial f(x, y, z)}{\\partial x}\\frac{\\partial f(x, y, z)}{\\partial z}\\frac{\\partial f(x, y, z)}{\\partial z}\\frac{\\partial f(x, y, z)}{\\partial y}] while a proper rendering would be more along the lines of the LaTeX equivalent: [\\frac{\\partial^6 f(x, y, z)}{\\partial x\\partial z\\partial x\\partial z\\partial z\\partial y}] The `_print_Derivative` method should be improved to print all the derivative variables on a single line and to get the correct power in the numerator. The image is necessary for documenting this issue because it provides a visual representation of the incorrect rendering, which helps to understand the problem and its impact. The image also shows the expected correct rendering, which can be used as a reference for troubleshooting and resolution. The image reveals key technical details such as the incorrect grouping of derivative variables and the incorrect power in the numerator. This information is crucial for developers to understand the issue and implement a solution. The image also conveys unique information that text alone couldn't, such as the specific rendering issues with the MathML presentation printed version. This information strengthens the overall issue documentation and helps developers focus on the critical details when reviewing the image."
+            }
+        ]
+    },
+    {
+        "instance_id": "plotly__plotly.py-1966",
+        "description_list": [
+            {
+                "image_id": "1",
+                "analysis": "This image shows scatter plots with facet labels that do not respect the 'labels' kwarg. The scatter plots are created using Plotly Express with the 'time' and 'day' variables as facet rows and columns, respectively. The 'labels' kwarg is set to {'time': 'THE TIME', 'day': 'THE DAY'}, but the facet labels still display 'time' and 'day' instead of 'THE TIME' and 'THE DAY'. This image is necessary for documenting the issue because it visually demonstrates the problem with the facet labels not respecting the 'labels' kwarg. The technical value of this image lies in its ability to show the discrepancy between the expected and actual facet labels, which is crucial for troubleshooting and resolving the issue. The documentation importance of this image is that it provides a clear and concise way to convey the problem to developers, who can use this image to understand the issue and work on a solution."
+            }
+        ]
+    },
+    {
+        "instance_id": "mwaskom__seaborn-3458",
+        "description_list": [
+            {
+                "image_id": "1",
+                "analysis": "This image shows the expected behavior of a seaborn `pair` plot with log-scaling on the y-axis. The scatter plot on the left demonstrates the correct log-scaling for the 'price' variable. The scatter plot on the right shows the expected log-scaling for the 'price' variable when using the `scale(y=\"log\")` method. These images are necessary for understanding the issue because they visually demonstrate the expected behavior of the seaborn `pair` plot with log-scaling. The technical value of these images lies in their ability to show the correct log-scaling for the 'price' variable, which is crucial for troubleshooting the reported issue. These images also provide critical documentation for the issue, as they show the expected behavior and the unexpected behavior of the seaborn `pair` plot with log-scaling."
+            },
+            {
+                "image_id": "2",
+                "analysis": "This image shows the unexpected behavior of a seaborn `pair` plot with log-scaling on the y-axis. The scatter plot on the left demonstrates the incorrect log-scaling for the 'price' variable. The scatter plot on the right shows the incorrect log-scaling for the 'price' variable when using the `scale(y=\"log\")` method. These images are necessary for understanding the issue because they visually demonstrate the unexpected behavior of the seaborn `pair` plot with log-scaling. The technical value of these images lies in their ability to show the incorrect log-scaling for the 'price' variable, which is crucial for troubleshooting the reported issue. These images also provide critical documentation for the issue, as they show the expected behavior and the unexpected behavior of the seaborn `pair` plot with log-scaling."
+            },
+            {
+                "image_id": "3",
+                "analysis": "This image shows the expected behavior of a seaborn `pair` plot with log-scaling on the y-axis. The scatter plot on the left demonstrates the correct log-scaling for the 'price' variable. The scatter plot on the right shows the expected log-scaling for the 'price' variable when using the `scale(y=\"log\")` method. These images are necessary for understanding the issue because they visually demonstrate the expected behavior of the seaborn `pair` plot with log-scaling. The technical value of these images lies in their ability to show the correct log-scaling for the 'price' variable, which is crucial for troubleshooting the reported issue. These images also provide critical documentation for the issue, as they show the expected behavior and the unexpected behavior of the seaborn `pair` plot with log-scaling."
+            }
+        ]
     }
 ]
