@@ -1,0 +1,2340 @@
+[
+    {
+        "instance_id": "astropy__astropy-11693",
+        "structure_problem": {
+            "problemSummary": "Plotting an image with a WCS projection containing non-linear distortions fails with a 'NoConvergence' error.",
+            "context": "The issue is related to plotting an image with a WCS projection that has non-linear distortions. The error occurs when trying to plot the grid using the WCS transform.",
+            "stepsToReproduce": [
+                "Import necessary modules (astropy.wcs, numpy, matplotlib.pyplot)",
+                "Create a WCS object with specified distortions",
+                "Plot the image using the WCS projection",
+                "Add a grid with white color and solid linestyle",
+                "Call the WCS transform function with 'quiet=True'"
+            ],
+            "expectedResults": "The plot should display the image without any distortions and show a clear grid.",
+            "actualResults": "The plot fails to display the image accurately and the grid is not visible.",
+            "supplementaryImages": [
+                "A screenshot of the failed plot (Figure 1)",
+                "A screenshot of a successful plot (Figure 2)"
+            ],
+            "additionalNotes": "The issue occurs when the WCS transform function does not converge to the requested accuracy. This is caused by the non-linear distortions in the WCS projection."
+        }
+    },
+    {
+        "instance_id": "astropy__astropy-14295",
+        "structure_problem": {
+            "problemSummary": "PV keywords are ignored when SIP coefficients are present in the header.",
+            "context": "The issue occurs when using an astropy WCS to parse a FITS header that includes SIP coefficients and PV keywords.",
+            "stepsToReproduce": [
+                "Initialize the header",
+                "Parse the header using astropy.wcs.WCS",
+                "Plot the graticule",
+                "Remove the PV keywords",
+                "Run again"
+            ],
+            "expectedResults": "The image should be centered at ra=120 and dec=29 with lines of constant ra and dec.",
+            "actualResults": "The image is not centered as expected, and the grid is different.",
+            "supplementaryImages": [
+                "The expected centered image",
+                "The actual image with SIP coefficients",
+                "The actual image with PV keywords removed"
+            ],
+            "additionalNotes": "The issue is resolved by removing the PV keywords and running again."
+        }
+    },
+    {
+        "instance_id": "astropy__astropy-8292",
+        "structure_problem": {
+            "problemSummary": "Implementation of the littleh equivalency in the Astropy package is incorrect.",
+            "context": "The user is using the Astropy package to convert distances from Mpc/h to Mpc using the littleh equivalency. The user noticed that the conversion is not correct and expected the output to be 140 Mpc instead of 70 Mpc for a distance of 100 Mpc/h and h = 0.7.",
+            "stepsToReproduce": [
+                "Import the Astropy units and define the Hubble constant as H0_70 = 70 * u.km/u.s / u.Mpc.",
+                "Define a distance as distance = 100 * (u.Mpc/u.littleh).",
+                "Convert the distance to Mpc using distance.to(u.Mpc, u.with_H0(H0_70)).",
+                "Observe the output: quantity 67.74 Mpc instead of 140 Mpc."
+            ],
+            "expectedResults": "The distance should be converted to 140 Mpc.",
+            "actualResults": "The distance is converted to 67.74 Mpc.",
+            "supplementaryImages": [
+                "An image showing the code and output of the conversion from Mpc/h to Mpc using the littleh equivalency."
+            ],
+            "additionalNotes": "The user can reproduce the issue, confirming that it is not a typo."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-13908",
+        "structure_problem": {
+            "problemSummary": "Minor ticklabels are missing at positions of major ticks in the x-axis when running the code with Matplotlib master.",
+            "context": "The issue occurs when running the provided code with the current master version of Matplotlib, where minor ticklabels showing the `00:00` hours are missing.",
+            "stepsToReproduce": [
+                "Run the provided code snippet",
+                "Observe that the minor ticklabels showing the `00:00` hours are missing in the x-axis"
+            ],
+            "expectedResults": "Minor ticklabels showing the `00:00` hours are present in the x-axis",
+            "actualResults": "Minor ticklabels showing the `00:00` hours are missing in the x-axis",
+            "supplementaryImages": [
+                "The first image shows a portion of the x-axis with missing minor ticklabels at positions of major ticks. The second image shows the expected outcome with minor ticklabels present throughout the x-axis."
+            ],
+            "additionalNotes": "The issue occurs with the current master version of Matplotlib (version: master), but it does not occur when running the same code with Matplotlib 3.0.2 or below. The expected outcome is to have minor ticklabels showing the `00:00` hours present throughout the x-axis."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-13980",
+        "structure_problem": {
+            "problemSummary": "Unexpected negative bottom y_limit in polar plot",
+            "context": "When plotting a set of data on a polar plot, the default bottom y_limit might not be zero, resulting in confusion about the meaning of the plot, especially for a user unfamiliar with the concept of a polar plot where r=0 is not at the very center point of the plot.",
+            "stepsToReproduce": [
+                "Plot a set of random data using a polar plot in a Jupyter Notebook.",
+                "View the plot with a negative bottom y_limit, which is unexpected."
+            ],
+            "expectedResults": "The bottom y_limit should default to zero.",
+            "actualResults": "The bottom y_limit defaults to a negative value, creating a misleading plot.",
+            "supplementaryImages": [
+                "Two polar plots are shown, with the left plot showing a correct bottom y_limit of zero and the right plot showing an unexpected negative bottom y_limit."
+            ],
+            "additionalNotes": "This issue was encountered on both Windows 10 and Ubuntu Linux operating systems with Matplotlib version 3.0.2 and Python version 3.7."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-13983",
+        "structure_problem": {
+            "problemSummary": "Removing a shared axis in Matplotlib prevents the remaining axes from using unit-provided formatters, even when `fig.delaxes(axs[1])` is used instead.",
+            "context": "The example code provided demonstrates the issue with `axs[1].remove()` preventing the remaining axes from acquiring the correct tick formatter and locator, whereas `fig.delaxes(axs[1])` does not exhibit the same bug.",
+            "stepsToReproduce": [
+                "Create a figure with two subplots sharing a y-axis.",
+                "Plot data on the first subplot.",
+                "Remove the second subplot.",
+                "Observe that the remaining subplot does not use the unit-provided formatters and locators.",
+                "Use `fig.delaxes(axs[1])` instead of `axs[1].remove()` and observe that the remaining subplot now uses the unit-provided formatters and locators."
+            ],
+            "expectedResults": "The remaining subplot should use the unit-provided formatters and locators.",
+            "actualResults": "The remaining subplot does not use the unit-provided formatters and locators when `axs[1].remove()` is used.",
+            "supplementaryImages": [
+                "A graph showing the issue with `axs[1].remove()`.",
+                "A graph showing the issue resolved with `fig.delaxes(axs[1])`."
+            ],
+            "additionalNotes": "The issue appears to be caused by the call to `set_major_formatter` in `remove_ax` which updates the axis seen by the formatter, even when a user-provided formatter is not used. The master branch of Matplotlib (ca. 3.0.2) is affected by this issue."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-13984",
+        "structure_problem": {
+            "problemSummary": "Changing the color of tick marks on Axes3D in a matplotlib 3D plot is not working as expected.",
+            "context": "The `ax.tick_params` method is only changing the color of tick labels, not the tick marks. This behavior was previously working as expected in version 1.3.1.",
+            "stepsToReproduce": [
+                "Import the necessary modules.",
+                "Create a 3D plot.",
+                "Plot some points.",
+                "Attempt to set the color of the x, y, and z axis lines and labels.",
+                "Try to set the color of the tick marks using `ax.tick_params`.",
+                "Display the plot."
+            ],
+            "expectedResults": "The color of the tick marks should be set to red.",
+            "actualResults": "The color of the tick marks remains unchanged, only the tick labels are colored red.",
+            "supplementaryImages": [
+                "A screenshot of the plot showing the x, y, and z axis lines and labels in red, but the tick marks are not colored red."
+            ],
+            "additionalNotes": "The issue is reproducible using the provided code."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-14043",
+        "structure_problem": {
+            "problemSummary": "Bar plot error bars break when zorder is greater than 1.",
+            "context": "The issue occurs in Matplotlib version 2.2.3 on Arch Linux with Python 3.6. The error bars do not appear correctly when the zorder is set to a value greater than 1.",
+            "stepsToReproduce": [
+                "Install Matplotlib version 2.2.3",
+                "Create a bar plot with multiple yerr bars",
+                "Set the zorder of the yerr bars to different values (e.g., 1, 2, 3)",
+                "Observe that the error bars are not displayed correctly for zorder values greater than 1",
+                "Compare the results with the expected behavior where the error bars should be displayed correctly for all zorder values"
+            ],
+            "expectedResults": "Error bars should be displayed correctly for all zorder values.",
+            "actualResults": "Error bars are not displayed correctly for zorder values greater than 1.",
+            "supplementaryImages": [
+                "A bar plot with yerr bars of different zorder values, showing that the error bars are not displayed correctly when the zorder is greater than 1."
+            ],
+            "additionalNotes": "The issue does not occur in earlier versions of Matplotlib, and it is reproducible in the Jupyter Notebook environment."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-14623",
+        "structure_problem": {
+            "problemSummary": "Inverting a log axis using its limits no longer works starting from matplotlib 3.1.0.",
+            "context": "The issue is observed on both Linux and MacOS operating systems with Python 3.7.3 and matplotlib 3.1.0 installed using conda.",
+            "stepsToReproduce": [
+                "Import numpy, matplotlib.pyplot, and define y and x.",
+                "Plot x vs. y.",
+                "Set the yscale to either 'linear' or 'log'.",
+                "Set the y-axis limits to the maximum and minimum values of y.",
+                "Observe that only the 'linear' scale is inverted."
+            ],
+            "expectedResults": "The y-axis is inverted for both 'linear' and 'log' scales.",
+            "actualResults": "The y-axis is only inverted for the 'linear' scale.",
+            "supplementaryImages": [
+                "The first image shows the plot with a linear scale, where the y-axis is inverted correctly. The second image shows the plot with a log scale, where the y-axis is not inverted as expected."
+            ],
+            "additionalNotes": "The issue is reproducible across different systems and Python versions. It is important to note that the problem is related to matplotlib version 3.1.0 and above."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-19763",
+        "structure_problem": {
+            "problemSummary": "Multicursor disappears and CPU usage increases on nbagg backend when using useblit=False",
+            "context": "The issue was first reported by @ipcoder in https://github.com/matplotlib/ipympl/issues/306. The code snippet provided shows the difference in behavior between the nbagg and qt backends.",
+            "stepsToReproduce": [
+                "Create a plot using `%matplotlib nbagg`",
+                "Add a Multicursor using `MultiCursor(fig.canvas, (ax1, ax2), color='r', lw=1, useblit=False)`",
+                "Stop moving the mouse over the plot"
+            ],
+            "expectedResults": "Red line should remain on the plot and CPU usage should be stable.",
+            "actualResults": "Red line disappears and CPU usage jumps",
+            "supplementaryImages": [
+                "This image shows the plot without the multicursor.",
+                "This image shows the plot with the multicursor.",
+                "This image captures the high CPU usage."
+            ],
+            "additionalNotes": "This issue is observed on Ubuntu with Matplotlib version 3.3.4.post2456+gfd23bb238 installed via conda-forge. The issue occurs on the nbagg backend when using the useblit=False option."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-20470",
+        "structure_problem": {
+            "problemSummary": "Text accepts a label keyword argument but neither its handle nor its label is created and added to the legend.",
+            "context": "This issue is specific to matplotlib version 3.3.3.",
+            "stepsToReproduce": [
+                "Import matplotlib.pyplot as plt",
+                "Define x and y arrays",
+                "Create a figure and add a subplot",
+                "Plot a line and add a text with label",
+                "Add a legend",
+                "Display the plot"
+            ],
+            "expectedResults": "A legend entry for the text should be created and added to the legend.",
+            "actualResults": "The text does not appear in the legend.",
+            "supplementaryImages": [
+                "A plot showing the text at (2, 5) with the label 'text' but no legend entry for the text."
+            ],
+            "additionalNotes": "This issue is specific to matplotlib version 3.3.3."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-20518",
+        "structure_problem": {
+            "problemSummary": "Calls to `set_sketch_params()` are ignored by the PGF backend and do not have any influence in the resulting pgf or pdf file when using the PGF backend with pdf output.",
+            "context": "The user is using Matplotlib version 3.0.2 and has encountered an issue where `set_sketch_params()` calls are ignored by the PGF backend and do not affect the resulting pgf or pdf file when using the PGF backend with pdf output.",
+            "stepsToReproduce": [
+                "Install Matplotlib version 3.0.2",
+                "Create a new Python script using the following code snippet",
+                "Save the script as `test.py`",
+                "Run the script by executing `python3 test.py`",
+                "Observe that the `set_sketch_params()` calls are ignored and do not affect the resulting pgf or pdf file"
+            ],
+            "expectedResults": "The `set_sketch_params()` calls should affect the resulting pgf or pdf file when using the PGF backend with pdf output.",
+            "actualResults": "The `set_sketch_params()` calls are ignored and do not affect the resulting pgf or pdf file when using the PGF backend with pdf output.",
+            "supplementaryImages": [
+                "A screen capture of the issue showing that the `set_sketch_params()` calls are ignored and do not affect the resulting pgf or pdf file."
+            ],
+            "additionalNotes": "The user has mentioned that they are working on a fix for this issue."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-20584",
+        "structure_problem": {
+            "problemSummary": "Plotting a circle and then trying to reset the segments of the contour lines results in a coarser line.",
+            "context": "The user is attempting to manipulate the contours of a plot using `plt.contourf` and then reset the segments of the lines. However, the effect of resetting the segments leads to a coarser line.",
+            "stepsToReproduce": [
+                "Import the necessary libraries: numpy and matplotlib.pyplot.",
+                "Create a grid of points using np.meshgrid.",
+                "Plot a contour using plt.contourf with a specific level.",
+                "Get the segments of the contour lines using lc.get_segments().",
+                "Reset the segments of the contour lines using lc.set_segments(segments).",
+                "Set the aspect ratio of the plot to equal.",
+                "Display the plot using plt.show()."
+            ],
+            "expectedResults": "The plot should show a smooth contour line.",
+            "actualResults": "The plot shows a line that is much coarser than expected.",
+            "supplementaryImages": [
+                "The first image illustrates the default plot with smooth contour lines.",
+                "The second image shows the plot after the segments of the lines have been reset, resulting in a coarse line."
+            ],
+            "additionalNotes": "The issue is observed when using mpl 3.4.2."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-20761",
+        "structure_problem": {
+            "problemSummary": "The location of a subfigure shifts lower on the y-axis when the 'x' kwarg is used for supxlabel in the subfigure.",
+            "context": "This is a bug in Matplotlib version 3.4.2, where the subfigure position shifts lower on the y-axis when 'x' kwarg is used for supxlabel.",
+            "stepsToReproduce": [
+                "Create a figure with multiple subplots using subfigures.",
+                "Add titles to the subplots using the set_title method.",
+                "Use the supxlabel method on one of the subplots and set the 'x' kwarg.",
+                "Observe the shift in the subfigure location on the y-axis."
+            ],
+            "expectedResults": "The subfigure position does not change when the 'x' kwarg is used for supxlabel.",
+            "actualResults": "The subfigure position shifts lower on the y-axis when the 'x' kwarg is used for supxlabel.",
+            "supplementaryImages": [
+                "The first image shows four empty subplots with titles set using the set_title method. The subfigure on the left (subfig_t) is empty, the subfigure on the top (subfig_b) is empty, the subfigure on the left (subfig_bl) has three subplots with titles set using the set_title method, and the subfigure on the right (subfig_br) has one subplot with a title set using the set_title method.",
+                "The second image shows a plot with four subplots in the bottom-left subfigure (subfig_bl) and one subplot in the bottom-right subfigure (subfig_br). The bottom-left subfigure has three subplots with titles set using the set_title method, and the bottom-right subfigure has one subplot with a title set using the set_title method and a supxlabel set using the supxlabel method with the 'x' kwarg."
+            ],
+            "additionalNotes": "This bug has been reported on StackOverflow at the following link: https://stackoverflow.com/q/68567315/9249533. The user is using Matplotlib version 3.4.2 on Windows 10 Pro with the backend set to the default value and Python version 3.9.5. The user did not mention any other libraries or installation details in the issue."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-20826",
+        "structure_problem": {
+            "problemSummary": "When using shared axes in matplotlib 3.4.2, calling ax.clear() results in unexpected tick labels and ticks, which are not present in matplotlib 3.4.1.",
+            "context": "The issue is observed when the `ax.clear()` method is called in a plot created with multiple subplots that share x and y axes. The ticks and tick labels that are hidden by the shared axes are visible after calling `ax.clear()`. The problem is less pronounced when not using multiple subplots.",
+            "stepsToReproduce": [
+                "Import necessary libraries",
+                "Create multiple subplots that share x and y axes",
+                "Plot a sine wave on each subplot",
+                "Call ax.clear() on one of the subplots",
+                "Observe the unexpected appearance of ticks and tick labels"
+            ],
+            "expectedResults": "The plot should remain unchanged after calling ax.clear()",
+            "actualResults": "Unexpected ticks and tick labels appear after calling ax.clear()",
+            "supplementaryImages": [
+                "The plot produced with matplotlib 3.4.2, showing the appearance of unexpected ticks and tick labels after calling ax.clear()",
+                "The plot produced with matplotlib 3.4.1, where the ticks and tick labels are not visible after calling ax.clear()"
+            ],
+            "additionalNotes": "The issue is observed in matplotlib 3.4.2 on Ubuntu 20.04, with matplotlib backend module://matplotlib_inline.backend_inline. The problem does not occur in matplotlib 3.4.1. Other libraries used include numpy, matplotlib, and conda-forge."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-21443",
+        "structure_problem": {
+            "problemSummary": "Axes position settings are not being incorporated correctly for separate axes.",
+            "context": "User is trying to create multiple sets of axes with custom positions using `ax = plt.axes(position = [...])`, but the positions are not being respected.",
+            "stepsToReproduce": [
+                "Create a figure.",
+                "Set the position of the first axis using `ax1 = plt.axes(position = pos1)`. The coordinates `pos1` are set to [0.1, 0.1, 0.3, 0.8] to create a larger area for the red line.",
+                "Plot a red solid line with `ax1.plot([0,1], [0, 1], color = 'r', linewidth = 3)` within this area.",
+                "Set the position of the second axis using `ax2 = plt.axes(position = pos2)` with coordinates `pos2` set to [0.5, 0.1, 0.4, 0.6] to create a smaller area for the blue dashed line.",
+                "Plot a blue dashed line with `ax2.plot([1, 0], [0, 1], color = 'b', linestyle = '--')` within this area.",
+                "The issue arises when trying to create two separate axes with custom positions. Instead, the axes overlap, showing that the positions are not being respected."
+            ],
+            "expectedResults": "The `ax = plt.axes(position = [...])` command should create separate axes at the specified positions, allowing the red line and the blue dashed line to be plotted within their respective areas.",
+            "actualResults": "The axes created with `ax1` and `ax2` overlap, indicating that the position settings are not being applied.",
+            "supplementaryImages": [
+                "First plot shows the axes with the red line overlapping the axes with the blue dashed line, indicating incorrect positioning.",
+                "Second plot shows the axes with the blue dashed line overlapping the axes with the red line, indicating incorrect positioning.",
+                "Third plot shows the axes with the red line and blue dashed line correctly positioned but overlapping, indicating incorrect positioning."
+            ],
+            "additionalNotes": "This issue is specific to the `axes()` function with the `position` argument. The expected behavior is that each `ax1` and `ax2` should have a distinct area for their respective plots without overlap, despite the `position` settings. The `set_axes()` method was used as a workaround, but it is not necessary for creating separate axes. The user expects the `axes()` function to respect the provided positions for separate axes creation."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-21550",
+        "structure_problem": {
+            "problemSummary": "The matplotlib widget and graph display is not working properly when transitioning from matplotlib-3.4.3 to matplotlib-3.5.0.dev2445+gb09aad279b, with the code demonstrating this issue on JupyterLab.",
+            "context": "The issue is specific to the matplotlib widget and graph display functionality, and it only manifests when switching from matplotlib-3.4.3 to a specific version of the 3.5.x release, namely matplotlib-3.5.0.dev2445+gb09aad279b. This was confirmed by testing the code on both matplotlib-3.4.3 and matplotlib-3.5.0.dev2445+gb09aad279b, with the latter showing issues.",
+            "stepsToReproduce": [
+                "Install matplotlib-3.4.3",
+                "Install matplotlib-3.5.0.dev2445+gb09aad279b",
+                "Clone the repository containing the code",
+                "Open the repository on JupyterLab",
+                "Run the provided code snippet"
+            ],
+            "expectedResults": "The graph should be displayed correctly and interactively.",
+            "actualResults": "The graph is not displayed correctly. Instead, it is rendered as an image at the top of the window.",
+            "supplementaryImages": [
+                "The first image shows the expected behavior on matplotlib-3.4.3, where the graph is displayed interactively within the JupyterLab widget.",
+                "The second image shows the actual behavior on matplotlib-3.5.0.dev2445+gb09aad279b, where the graph is rendered as an image at the top of the window, effectively disabling the interactive widget.",
+                "The third image shows the text-based bug report, highlighting the specific version of matplotlib that causes the issue."
+            ],
+            "additionalNotes": "The issue was further confirmed by testing the code on matplotlib-3.5.1, which also showed the same behavior. The problem was reproducible across different operating systems, including Windows 10 and macOS."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-21617",
+        "structure_problem": {
+            "problemSummary": "Text is missing in the saved EPS file when using matplotlib version 3.4.3 and cartopy version 0.18.0.",
+            "context": "The user encountered the issue after upgrading to matplotlib 3.4.3 from version 3.3.4. The problem was not present in the Jupyter notebook environment.",
+            "stepsToReproduce": [
+                "Create a new environment with matplotlib 3.3.4 and cartopy 0.18.0 using conda commands.",
+                "Create a new environment with matplotlib 3.4.3 and cartopy 0.18.0 using conda commands.",
+                "Run the provided code snippet to generate an EPS file.",
+                "Compare the resulting EPS files from both environments."
+            ],
+            "expectedResults": "The EPS file should contain the title '>>> do you see me <<<' when using matplotlib 3.3.4.",
+            "actualResults": "The EPS file generated with matplotlib 3.4.3 does not contain the title '>>> do you see me <<<'.",
+            "supplementaryImages": [
+                "The first image shows the EPS file with the title visible in both environments.",
+                "The second image shows the EPS file with the title missing in the environment using matplotlib 3.4.3."
+            ],
+            "additionalNotes": "The issue seems to be related to label and title rendering in the EPS format when using matplotlib version 3.4.3."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-22865",
+        "structure_problem": {
+            "problemSummary": "Colorbar with drawedges=True and extend='both' does not draw edges at extremities",
+            "context": "The user is creating a colorbar in Matplotlib with a custom colormap and bounds. They expect to see edges between colors as specified by drawedges=True, but these edges do not appear when extend='both'.",
+            "stepsToReproduce": [
+                "Import the necessary libraries (matplotlib, numpy, and matplotlib.pyplot).",
+                "Define the colormap (my_cmap) and norm from the specified bounds and colors.",
+                "Create a horizontal colorbar with drawedges=True.",
+                "Adjust the subplot layout and display the figure."
+            ],
+            "expectedResults": "The colorbar should show edges between colors as defined by drawedges=True.",
+            "actualResults": "The colorbar does not show edges between colors at the extremities.",
+            "supplementaryImages": [
+                "The first image shows the colorbar with edges between colors.",
+                "The second image shows the colorbar with edges missing at the extremities."
+            ],
+            "additionalNotes": "The user was able to reproduce the issue by running the provided code snippet."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-22871",
+        "structure_problem": {
+            "problemSummary": "ConciseDateFormatter not displaying year when plotting less than 1 year and January is not included in the x-axis",
+            "context": "The bug differs from bug #21670 (fixed in #21785).",
+            "stepsToReproduce": [
+                "Import necessary libraries: matplotlib.pyplot, matplotlib.dates, and datetime.",
+                "Create time and data arrays.",
+                "Plot the data using `plt.plot(time_array, data)`.",
+                "Set the x-axis locator and formatter using `ax.xaxis.set_major_locator(locator)` and `ax.xaxis.set_major_formatter(formatter)`.",
+                "Enable grid, set y-axis label, and rotate x-axis labels.",
+                "Use `fig.autofmt_xdate()` for automatically rotating x-labels."
+            ],
+            "expectedResults": "The year '2021' should display to the right of the x-axis.",
+            "actualResults": "The year '2021' does not display anywhere.",
+            "supplementaryImages": [
+                "A graph showing temperature in degrees Celsius over time, with the x-axis ranging from March to September, and no year label."
+            ],
+            "additionalNotes": "The user is using Spyder IDE, version 5.1.5, on Windows 10 with Matplotlib version 3.4.3, Backend Qt5Agg, and Python version 3.9.1. The Jupyter version is not provided. The user installed Matplotlib using conda."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-22931",
+        "structure_problem": {
+            "problemSummary": "Plotting code fails to draw a line with dashes due to a regression in the backend, specifically with the QtAgg backend and PyQt6.",
+            "context": "The issue arises in the context of a bug fix commit (96ddc6728ce09cb61f6b6c53714755fe0936b106) that introduced a regression, causing the code to fail on Ubuntu 22.04 with the QtAgg backend and PyQt6.",
+            "stepsToReproduce": [
+                "Import matplotlib.pyplot as plt",
+                "Create a figure and an axis",
+                "Plot a line with dashes using ls=(0, ())",
+                "Show the plot"
+            ],
+            "expectedResults": "The line with dashes should be displayed.",
+            "actualResults": "The plot fails to display the line, and a ValueError is raised.",
+            "supplementaryImages": [
+                "A screenshot of the error message and the plot's expected appearance"
+            ],
+            "additionalNotes": "The regression occurs specifically with the QtAgg backend and PyQt6, and the code used to reproduce the issue is provided. It is noted that the code used to reproduce the issue is from a bug fix commit and was previously working."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-23047",
+        "structure_problem": {
+            "problemSummary": "Gaps and overlapping areas between bins when using float16 for histogram creation.",
+            "context": "The issue arises when creating a histogram using float16 data, where the bins are calculated in float16. This can lead to two errors: gaps between certain bins and overlapping bins, especially when alpha is less than 1.",
+            "stepsToReproduce": [
+                "Import numpy and matplotlib.pyplot.",
+                "Generate float16 clipped normal data with np.random.normal(0.5, 0.3, size=1000) and astype(np.float16).",
+                "Plot the histogram using plt.hist(values, bins=100, alpha=0.5) and plt.show()."
+            ],
+            "expectedResults": "A histogram with correctly spaced bins and no overlapping.",
+            "actualResults": "A histogram with gaps between some bins and overlapping bins when alpha < 1.",
+            "supplementaryImages": [
+                "A histogram with gaps and overlapping bins.",
+                "A histogram with correctly spaced bins and no overlapping."
+            ],
+            "additionalNotes": "Possible solutions include calculating the bins in float32 or converting the data to float32 before calculating the histogram."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-23111",
+        "structure_problem": {
+            "problemSummary": "Math domain errors occur when using imshow with all negative values in a numpy array.",
+            "context": "The issue affects Matplotlib 3.5.1 with the QtAgg backend on Windows 10 19044.1645.",
+            "stepsToReproduce": [
+                "import matplotlib.pyplot as plt",
+                "import numpy as np",
+                "test = np.full((2, 1), -1)",
+                "plt.imshow(test)",
+                "plt.show()"
+            ],
+            "expectedResults": "The value and coordinate under the mouse should be displayed correctly.",
+            "actualResults": "Hovering the mouse over the plot throws math domain errors into console and stops the value and coordinate under the mouse from being displayed in the top right.",
+            "supplementaryImages": [],
+            "additionalNotes": "The error occurs specifically when using a numpy array filled with identical negative values. Setting a single value in the array to a different value (even if that value is negative or positive) resolves the issue. The errors do not occur if set_clim() is used."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-23412",
+        "structure_problem": {
+            "problemSummary": "The offset dash linestyle has no effect in patch objects.",
+            "context": "When setting the linestyle on a patch object using a dash tuple, the offset has no effect.",
+            "stepsToReproduce": [
+                "Import matplotlib.pyplot and mpl.",
+                "Create a figure and axes.",
+                "Add a patch object with edge color 'r', linewidth=4, and linestyle=(0,(10,10)).",
+                "Add another patch object with edge color 'b', linewidth=4, and linestyle=(10,(10,10)).",
+                "Set the limits of the axes.",
+                "Display the plot."
+            ],
+            "expectedResults": "The patch edge lines should not overlap and should adhere to the offset.",
+            "actualResults": "The patch edge lines overlap, not adhering to the offset.",
+            "supplementaryImages": [
+                "A screenshot showing the overlap of the patch edge lines.",
+                "A screenshot showing Line2D objects with proper offset on the edge line style."
+            ],
+            "additionalNotes": "The issue occurs when using patch objects in a matplotlib plot, regardless of the backend. Reproducible in Ubuntu 18.04 VM running matplotlib 3.5.0 with agg backend."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-24088",
+        "structure_problem": {
+            "problemSummary": "matplotlib 3.6.0 raises ValueError when adding a colorbar to plt.hist()",
+            "context": "The issue was observed in a Python script using matplotlib 3.6.0 on macOS 12.6, where a colorbar was added to a histogram plot. This functionality worked correctly in matplotlib 3.5.1.",
+            "stepsToReproduce": [
+                "Import matplotlib and numpy",
+                "Generate random data",
+                "Plot a histogram",
+                "Set the color of each bar using a color map",
+                "Attempt to add a colorbar to the plot"
+            ],
+            "expectedResults": "A histogram plot with color-coded bars and a colorbar showing the color map",
+            "actualResults": "The colorbar cannot be added to the histogram plot without raising a ValueError",
+            "supplementaryImages": [
+                "The error message from matplotlib 3.6.0 indicating the issue",
+                "A screenshot of the plot generated by matplotlib 3.5.1, where the colorbar was successfully added",
+                "A screenshot of the histogram plot generated by matplotlib 3.6.0, showing the error message without the colorbar"
+            ],
+            "additionalNotes": "The user encountered this issue while developing a visualization for a scientific research project. This code was intended to create a visually informative plot that combines the histogram with a colorbar representing the values in the data. The issue was discovered during testing and debugging, and the user is seeking a solution to resolve the functionality of adding a colorbar in matplotlib 3.6.0."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-24177",
+        "structure_problem": {
+            "problemSummary": "Histogram density axis not auto-scaled when using `histtype='step'`",
+            "context": "The issue is encountered while plotting a histogram with the `matplotlib.axes.Axes.hist` function. The density axis is not automatically adjusted when `density=True` and `histtype='step'` are used.",
+            "stepsToReproduce": [
+                "Import the necessary libraries: `numpy` and `matplotlib`",
+                "Create a random array using `numpy.random.randn()`: `test_random = np.random.randn(100000) * scale`",
+                "Plot the histogram using `matplotlib.axes.Axes.hist`: `fig, ax = plt.subplots(1, 2, figsize=(20, 10))` followed by `hist_bar = ax[0].hist(test_random, bins=100, density=True, histtype='bar')` and `hist_step = ax[1].hist(test_random, bins=100, density=True, histtype='step')`",
+                "Display the plots: `plt.show()`",
+                "Observe the results"
+            ],
+            "expectedResults": "The density axis should be automatically adjusted to fit the whole histogram, regardless of the `scale` parameter.",
+            "actualResults": "The density axis is not automatically adjusted when `scale=1.2` and `histtype='step'` are used.",
+            "supplementaryImages": [
+                "A histogram with `histtype='bar'` showing the left and right panel.",
+                "A histogram with `histtype='step'` showing the left and right panel."
+            ],
+            "additionalNotes": "The issue occurs with `matplotlib.axes.Axes.hist` function and involves the `density=True` and `histtype='step'` parameters. The problem is reproducible in Python version 3.10.4 using pip installed versions of `matplotlib` and `numpy`."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-24570",
+        "structure_problem": {
+            "problemSummary": "The 'bottom' option for align parameter in HPacker is reversed",
+            "context": "The user expects the 'bottom' option to align the bottom of the children objects to the center, but it is not working as expected.",
+            "stepsToReproduce": [
+                "Import matplotlib.pyplot, offsetbox, hpacker, vpacker, anchoredoffsetbox, area_text, and rectangle modules",
+                "Create a drawing area (da1) with a rectangle of width 10 and height 20",
+                "Create another drawing area (da2) with a rectangle of width 10 and height 30",
+                "Add the rectangles to their respective drawing areas",
+                "Set the align parameter to 'bottom' in the HPacker",
+                "Create an anchored offset box with the HPacker and title",
+                "Add the anchored offset box to the plot"
+            ],
+            "expectedResults": "The children objects in the HPacker are aligned at the bottom, with the top of the rectangles aligned with the center of the plot.",
+            "actualResults": "The children objects are aligned at the top, with the bottom of the rectangles aligned with the center of the plot.",
+            "supplementaryImages": [
+                "The first image shows the expected outcome with the children objects aligned at the bottom.",
+                "The second image shows the actual outcome with the children objects aligned at the top."
+            ],
+            "additionalNotes": "The issue is specific to the align parameter in HPacker and is reversed from the expected behavior. The user expects it to align the bottom of the children objects to the center, but it is aligning the top of the objects instead."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-24691",
+        "structure_problem": {
+            "problemSummary": "Desired functionality: color and fill transparency",
+            "context": "The user is attempting to create diagrams with semi-transparent fills and solid edges. They are using matplotlib to draw patches and have found a workaround by converting HTML colors to RGB values and setting the alpha separately for edgecolor and facecolor.",
+            "stepsToReproduce": [
+                "Define a color value (e.g., 'blue')",
+                "Convert the color to RGB using `mcolors.to_rgb`",
+                "Set the edgecolor using the RGB value with alpha set to a desired transparency (e.g., `.10`)",
+                "Set the facecolor using the RGB value with alpha set to a different transparency (e.g., `.10`)",
+                "Use the `patch` function with the defined edgecolor and facecolor",
+                "Observe the result, noting the solid edge and semi-transparent fill",
+                "Propose the solution: allow alpha to take a `(facecolor, fillcolor)` tuple for patch methods, similar to how `imshow` allows vectorized/separable alphas.",
+                "Create a patch using the proposed solution: `patch(edgecolor=x_color, facecolor=(*mcolors.to_rgb(x_color), .10))` or `patch(facecolor=mcolors.to_rgba(x_color, .10))`"
+            ],
+            "expectedResults": "A patch with a solid edge and a semi-transparent fill",
+            "actualResults": "The user expects a patch with a solid edge and a semi-transparent fill, but currently, they have to manually convert colors to RGB and set alpha for both edgecolor and facecolor.",
+            "supplementaryImages": [
+                "Image of the diagram showing a patch with a solid edge and a semi-transparent fill.",
+                "Image showing the current workaround: converting color to RGB and setting alpha separately for edgecolor and facecolor."
+            ],
+            "additionalNotes": "The proposed solution would allow for a more streamlined and intuitive approach to setting color transparency in patches, similar to the functionality available in `imshow`.",
+            "tags": [
+                "matplotlib",
+                "patch",
+                "alpha"
+            ]
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-24749",
+        "structure_problem": {
+            "problemSummary": "matplotlib contour tool raises IndexError when Z is specified as a keyword argument in the contour() function.",
+            "context": "The user is using matplotlib 3.6.2 with Python 3.8.15 and Jupyter 6.5.2. They encountered an IndexError when attempting to use the contour() function with Z specified as a keyword argument.",
+            "stepsToReproduce": [
+                "Import matplotlib.pyplot as plt",
+                "Call plt.contour with Z=np.random.rand(30, 30)"
+            ],
+            "expectedResults": "A contour plot should be generated.",
+            "actualResults": "An IndexError is raised with the message 'tuple index out of range'.",
+            "supplementaryImages": [
+                "A screenshot showing the IndexError message.",
+                "A screenshot showing matplotlib contour output with Z specified as a keyword argument."
+            ],
+            "additionalNotes": "The user reported this issue on their OS/X system with matplotlib 3.6.2 and Python 3.8.15."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-24768",
+        "structure_problem": {
+            "problemSummary": "The `pcolormesh(rasterized=True)` and `set_rasterization_zorder()` cannot be used together in Matplotlib versions 3.5.1 and 3.7.0.dev447+g2d18bba0ea on Ubuntu 20.04 and 22.04.",
+            "context": "Matplotlib is a plotting library for the Python programming language and its numerical mathematics extension NumPy. It provides an object-oriented API for embedding plots into applications. This bug involves the rasterization feature in Matplotlib, which converts plots into a grid of pixels, allowing for faster rendering.",
+            "stepsToReproduce": [
+                "Import necessary libraries: numpy, numpy.random, matplotlib",
+                "Set up the environment for testing: matplotlib.use('agg')",
+                "Generate the data for the plot: r and p numpy.linspace, x and y from r and p",
+                "Generate the color array z",
+                "Use `pcolormesh(rasterized=True, zorder=-11)` to create the plot, rasterized=True to avoid antialiasing artifacts, zorder=-11 to set the z-order",
+                "Use `set_rasterization_zorder(-10)` to set the z-order of the rasterized plot",
+                "Annotate the plot with the Matplotlib version",
+                "Save the plot as 'test.pdf'"
+            ],
+            "expectedResults": "The plot should be saved as 'test.pdf' without any errors.",
+            "actualResults": "An AttributeError: 'NoneType' object has no attribute 'buffer_rgba' occurs when the plot is saved.",
+            "supplementaryImages": [
+                "The generated image 'test.pdf' is not provided, but the error message indicates an issue with handling the rasterized plot during the save process."
+            ],
+            "additionalNotes": "The issue is present in Matplotlib versions 3.5.1 and 3.7.0.dev447+g2d18bba0ea on Ubuntu 20.04 and 22.04. The most immediate cause seems to be reentrance tracking being dropped from `MixedModeRenderer.start_rasterizing()` and `MixedModeRenderer.stop_rasterizing()` in commit b6a273989ffc8ef3889fe16ee61d40b24f79c3e6. However, these are probably not the right places to fix this bug."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-24849",
+        "structure_problem": {
+            "problemSummary": "The gapcolor argument is not supported for LineCollections in vlines or hlines methods in Matplotlib 3.7.0.dev1121+g509315008c.",
+            "context": "The LineCollection class in Matplotlib does not have a 'get_gapcolor' or 'set_gapcolor' method, which is needed for the gapcolor argument to function in plotting methods that return LineCollections.",
+            "stepsToReproduce": [
+                "Import Matplotlib and create a new figure and axis.",
+                "Use vlines or hlines method with gapcolor argument.",
+                "Expected: The plot should be created with the specified gapcolor.",
+                "Actual: An AttributeError is raised stating 'LineCollection.set() got an unexpected keyword argument 'gapcolor''."
+            ],
+            "expectedResults": "The plot is created with the specified gapcolor.",
+            "actualResults": "AttributeError: LineCollection.set() got an unexpected keyword argument 'gapcolor'",
+            "supplementaryImages": [
+                "A screenshot showing the AttributeError raised when trying to use the gapcolor argument in the vlines or hlines method."
+            ],
+            "additionalNotes": "The easiest fix is to add 'set_color' and 'get_color' methods to LineCollection, modeled on the existing 'get_color' and 'set_color' methods."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-24870",
+        "structure_problem": {
+            "problemSummary": "User requests auto-detection of boolean arrays passed to contour() and default levels to [0.5] when using boolean data.",
+            "context": "The user often needs to draw contour lines between True and False regions on boolean 2D arrays using matplotlib.pyplot.contour(). With the default levels parameter, the contour lines become crowded and confusing, especially for boolean data where only one level should be meaningful.",
+            "stepsToReproduce": [
+                "Import necessary libraries: `import matplotlib.pyplot as plt`",
+                "Generate a 100x100 boolean array: `ii, jj = np.ogrid[:100, :100]; im = (ii+jj) % 20 < 10`",
+                "Plot the contour lines with default levels: `subplot(121).contour(im)`",
+                "Plot the contour lines with custom levels: `subplot(122).contour(im, levels=[.5])`"
+            ],
+            "expectedResults": "The default contour lines should overlap and be confusing for boolean data, while the custom levels show a single clear boundary.",
+            "actualResults": "The default contour lines are crowded and difficult to interpret, whereas the custom levels clearly show the boundary between True and False regions.",
+            "supplementaryImages": [
+                "The first image (subplot 1) shows the default contour lines which overlap and are difficult to interpret. The second image (subplot 2) shows the contour lines with custom levels, which clearly highlight the boundary between True and False regions."
+            ],
+            "additionalNotes": "The user suggests that matplotlib.pyplot.contour() should autodetect boolean inputs and default levels to [0.5] for boolean data. This is similar to the auto-detection mechanism for imshow(), which switches between float RGBA arrays and uint8 RGBA arrays based on the input type."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-24971",
+        "structure_problem": {
+            "problemSummary": "Compressed layout setting is forgotten on second save in Python 3.9 and 3.11 with Matplotlib 3.6.2 and main versions.",
+            "context": "The user created a script that makes multiple figures. For most of them, constrained layout is used. However, one figure needs 'compressed' layout. The user observed that the 'compressed' layout setting was not applied on the second save of the figure.",
+            "stepsToReproduce": [
+                "Set the 'figure.constrained_layout.use' to True in matplotlib.rcParams.",
+                "Create a figure using subplot_mosaic with constrained layout.",
+                "Save the figure using savefig with bbox_inches='tight'.",
+                "Save the figure again using savefig with bbox_inches='tight'."
+            ],
+            "expectedResults": "Both saved images should look like the first one with constrained layout.",
+            "actualResults": "The second saved image does not have the 'compressed' layout applied.",
+            "supplementaryImages": [
+                "The first saved image with 'compressed' layout applied.",
+                "The second saved image without 'compressed' layout applied."
+            ],
+            "additionalNotes": "The issue was fixed by reverting the matplotlib.rcParams setting for the figure that needs 'compressed' layout. The user also noted that the issue was present in versions 3.6.2 and main of Matplotlib with Python versions 3.9 and 3.11. The user installed the package using conda."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-25287",
+        "structure_problem": {
+            "problemSummary": "In version 3.6.3, the color of the exponent label is not changed when setting ytick.labelcolor / xtick.labelcolor in styles / rcParams.",
+            "context": "The code provided attempts to reproduce the bug, but the actual outcome does not match the expected outcome.",
+            "stepsToReproduce": [
+                "import matplotlib.pyplot as plt",
+                "plt.rcParams.update({'ytick.labelcolor': 'red'})",
+                "fig = plt.figure()",
+                "ax = fig.add_subplot(1,1,1)",
+                "ax.plot([1.01e9,1.02e9,1.03e9])"
+            ],
+            "expectedResults": "The exponent label should be red.",
+            "actualResults": "The exponent label is colored based on xtick.color / ytick.color, not ytick.labelcolor.",
+            "supplementaryImages": [
+                "<description of the images provided>"
+            ],
+            "additionalNotes": "The user provided a patch to fix the issue, but it was not tested in this issue."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-25334",
+        "structure_problem": {
+            "problemSummary": "Passing an array with all NaN values into `pyplot.contour()` causes an assertion to fail in `QuadContourGenerator::init_cache_levels`.",
+            "context": "The failure is triggered by a test-case in the xarray test suite, but is not noticed because release builds of matplotlib typically disable assertion checks.",
+            "stepsToReproduce": [
+                "import matplotlib.pyplot as plt",
+                "import numpy as np",
+                "x = np.array([[np.nan, np.nan], [np.nan, np.nan]])",
+                "plt.contour(x)"
+            ],
+            "expectedResults": "I would expect to see the empty plot (and long lists of warnings) that are currently shown if assertions are disabled.",
+            "actualResults": "Failed assertion (see referenced line above, tracked down with `gdb`).",
+            "supplementaryImages": [],
+            "additionalNotes": "The assertion failure is caused by passing an array with all NaN values into `pyplot.contour()`. This is triggered by a test-case in the xarray test suite and is not noticed because release builds of matplotlib typically disable assertion checks. The problem occurs in version 3.0.3 of matplotlib, with the backend set to 'agg' and Python version 3.6. Python, matplotlib, etc are installed from source."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-25340",
+        "structure_problem": {
+            "problemSummary": "The set_val() method of a range slider in Matplotlib does not set the value correctly when the values are close to the minimal and maximal values of the range slider.",
+            "context": "This issue is encountered when using set_val() with values close to the val min and val max of the range slider. The problem occurs in Matplotlib version 3.6.2 and Python 3.11.0, and is consistent across different operating systems and backends.",
+            "stepsToReproduce": [
+                "import matplotlib.pyplot as pyplot",
+                "import matplotlib.widgets as widgets",
+                "ax = pyplot.axes([0.15, 0.01, 0.7, 0.1])",
+                "ax2 = pyplot.axes([0.15, 0.21, 0.7, 0.1])",
+                "ax3 = pyplot.axes([0.15, 0.41, 0.7, 0.1])",
+                "ax4 = pyplot.axes([0.15, 0.61, 0.7, 0.1])",
+                "correct2 = widgets.RangeSlider(ax, 'correct2', valmin=1.0, valmax=10.0)",
+                "correct2.set_val((4, 6))",
+                "print(correct2.val)",
+                "correct = widgets.RangeSlider(ax2, 'correct', valinit=(1.0, 2.0), valmin=1.0, valmax=10.0)",
+                "print(correct.val)",
+                "wrong2 = widgets.RangeSlider(ax3, 'wrong2', valmin=1.0, valmax=10.0)",
+                "wrong2.set_val((9, 10))",
+                "print(wrong2.val)",
+                "wrong = widgets.RangeSlider(ax4, 'wrong', valmin=1.0, valmax=10.0)",
+                "wrong.set_val((1, 2))",
+                "print(wrong.val)",
+                "pyplot.show()"
+            ],
+            "expectedResults": "The values for the rangesliders 'correct2', 'correct', 'wrong2', and 'wrong' are set to (4, 6), (1.0, 2.0), (9, 10), and (1, 2) respectively.",
+            "actualResults": "The set_val() method does not set the values correctly when the values are close to the minimal and maximal values of the range slider. The actual values are (1, 3.25), (7.75, 10), (1, 2), and (1, 2) respectively.",
+            "supplementaryImages": [
+                "A screenshot of the output from the code, showing the incorrect values set by set_val() when using values close to the minimal and maximal values of the range slider. The rangeslider 'wrong' has values (1, 2) instead of (1, 2), and the rangeslider 'wrong2' has values (7.75, 10) instead of (9, 10). The rangeslider 'correct' has the correct values (1, 2), and the rangeslider 'correct2' has the correct values (4, 6)."
+            ],
+            "additionalNotes": "This issue was encountered on Manjaro with Python version 3.11.0 and Matplotlib version 3.6.2. The problem also occurred on Windows 10 with the same Python and Matplotlib versions. The installation of matplotlib was via pip. The problem is consistent across different operating systems and backends, including TkAgg and QtAgg."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-25346",
+        "structure_problem": {
+            "problemSummary": "Constrained layout does not leave enough room for long, wrapped titles.",
+            "context": "When titles are long and wrapped, constrained layout doesn't provide sufficient space for them.",
+            "stepsToReproduce": [
+                "Import the necessary modules.",
+                "Create a figure and an array of subplots.",
+                "Set titles for the subplots using `set_title` and wrapping the text.",
+                "Save the figure to a file."
+            ],
+            "expectedResults": "The subplots' titles should be fully visible without overlapping.",
+            "actualResults": "The titles are cut off, not fully displayed.",
+            "supplementaryImages": [
+                "A set of four subplots is shown, each with a title that is too long and wrapped, but only the leftmost element of each title is visible."
+            ],
+            "additionalNotes": ""
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-25499",
+        "structure_problem": {
+            "problemSummary": "Setting bbox_inches in fig.savefig resizes the colorbar relative to when bbox_inches is not set.",
+            "context": "The issue arises when bbox_inches is set to a Bbox in fig.savefig, resulting in a larger colorbar than expected.",
+            "stepsToReproduce": [
+                "Import numpy, matplotlib, and pyplot.",
+                "Create a meshgrid for x and y.",
+                "Create a pcolormesh plot.",
+                "Add a colorbar with aspect set to 40.",
+                "Comment out the first call to fig.savefig and then call fig.savefig with bbox_inches set.",
+                "Call fig.savefig again without bbox_inches set.",
+                "Compare the output of the two savefig calls."
+            ],
+            "expectedResults": "The colorbar should be of expected size when bbox_inches is not set.",
+            "actualResults": "The colorbar is larger than expected when bbox_inches is set.",
+            "supplementaryImages": [
+                "The first image shows the expected output when bbox_inches is not set.",
+                "The second image shows the output when bbox_inches is set, where the colorbar is larger than expected."
+            ],
+            "additionalNotes": "Calling fig.savefig without bbox_inches set first and then calling it again with bbox_inches set produces expected outcome. Calling plt.show() prior to savefig also works."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-25565",
+        "structure_problem": {
+            "problemSummary": "Legend for Poly3dCollection fails in 3D plot",
+            "context": "When plotting an iso surface using Poly3dCollection, the legend fails to display correctly.",
+            "stepsToReproduce": [
+                "Import necessary libraries: numpy, matplotlib.pyplot, and mpl_toolkits.mplot3d.art3d.",
+                "Import measure and poly3d collection from skimage.",
+                "Generate a level set about zero of two identical ellipsoids in 3D.",
+                "Obtain the surface mesh of these ellipsoids using marching_cubes.",
+                "Display the resulting triangular mesh using Matplotlib.",
+                "Adjust the plot limits for each axis.",
+                "Add the collection of faces to the plot.",
+                "Set the edge color of the collection to black and add it to the plot.",
+                "Set the title and show the plot."
+            ],
+            "expectedResults": "A 3D plot is displayed with a legend showing the surface mesh of two ellipsoids.",
+            "actualResults": "An AttributeError occurs when trying to create a legend for the Poly3dCollection.",
+            "supplementaryImages": [
+                "The issue is demonstrated by the failure to produce a legend with the plot.",
+                "The screenshot shows the error message and the code used to reproduce the issue."
+            ],
+            "additionalNotes": "The issue is specific to the Poly3dCollection and occurs when the `collections` parameter is used in the `legend` method. The error is raised due to an assumption in the `first_color` function, which is part of the Matplotlib legend handler. Making sure that `colors` is a numpy array will resolve the issue."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-25640",
+        "structure_problem": {
+            "problemSummary": "Contour labels extend beyond the figure boundary in PGF backend.",
+            "context": "This issue was originally posted as a question on StackOverflow and aims to replicate the behavior seen in the `contour_demo.py` example. The problem occurs when using contour plots with the PGF backend in Matplotlib.",
+            "stepsToReproduce": [
+                "Run the provided code snippet.",
+                "Observe the plot generated by the code."
+            ],
+            "expectedResults": "The contour label at the top should be clipped, similar to the first image in the example.",
+            "actualResults": "The contour label at the top extends beyond the figure boundary.",
+            "supplementaryImages": [
+                "The first image in the example shows the expected behavior with the contour label clipped at the top.",
+                "The second image shows the actual result with the contour label extending beyond the figure boundary."
+            ],
+            "additionalNotes": "This issue was observed on Ubuntu 17.10 with Matplotlib version 2.2.2 and Python 3.6.3. The plot was generated using the PGF backend."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-25667",
+        "structure_problem": {
+            "problemSummary": "Bar plot does not properly handle datetime units when using the 'bar' or 'barh' functions.",
+            "context": "The issue is that the `bar` and `barh` functions in Matplotlib do not automatically recognize and handle datetime units when the data is provided in datetime format.",
+            "stepsToReproduce": [
+                "Import numpy and matplotlib.pyplot.",
+                "Create a figure and axis.",
+                "Define start and stop arrays as numpy datetime64 values.",
+                "Plot the bars horizontally using `ax.barh`.",
+                "Observe that the bars do not align properly with the datetime units."
+            ],
+            "expectedResults": "The bars should align properly with the datetime units.",
+            "actualResults": "The bars do not align properly with the datetime units.",
+            "supplementaryImages": [
+                "Figure 1: Incorrect bar alignment with datetime units.",
+                "Figure 2: Incorrect bar alignment with datetime units."
+            ],
+            "additionalNotes": "The issue persists even after setting the `date.converter` to 'concise'."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-25779",
+        "structure_problem": {
+            "problemSummary": "The user is trying to plot an ellipse with an arrow showing a rotation clockwise or counterclockwise, similar to the image provided.",
+            "context": "The user is familiar with the matplotlib library and has attempted to plot an ellipse using the `matplotlib.patches.Ellipse` function, but is looking for a way to include an arrow that indicates the direction of rotation.",
+            "stepsToReproduce": [
+                "Import matplotlib and necessary modules.",
+                "Define the ellipse parameters such as center, axes length, and angle.",
+                "Create the ellipse using `matplotlib.patches.Ellipse` and save it as a variable.",
+                "Plot the ellipse using `plt.plot`.",
+                "Add the arrow indicating the direction of rotation using matplotlib's built-in functions or custom code."
+            ],
+            "expectedResults": "The user expects to achieve a plot similar to the provided image, with an ellipse and an arrow indicating the direction of rotation.",
+            "actualResults": "The user is unable to achieve the expected plot with an arrow showing the direction of rotation.",
+            "supplementaryImages": [
+                "The user has provided an image showing the desired output.",
+                "The user has attempted to implement the solution with matplotlib, but the results differ from the expected output."
+            ],
+            "additionalNotes": "The user is open to any solution, including the use of other libraries or scripting languages, as long as the resulting plot meets the specified requirements."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-26078",
+        "structure_problem": {
+            "problemSummary": "The parasite_axes module does not properly handle units when plotting with matplotlib.",
+            "context": "The issue is related to the interaction between parasite_axes and units in matplotlib.",
+            "stepsToReproduce": [
+                "Import the necessary modules and classes",
+                "Create a host subplot and a parasite subplot",
+                "Plot lines on both subplots with units",
+                "Observe that the units are not applied to the parasite subplot",
+                "Review the code that causes the issue",
+                "Propose a solution to fix the issue"
+            ],
+            "expectedResults": "The parasite subplot should display lines with the correct units.",
+            "actualResults": "The parasite subplot displays lines without the correct units.",
+            "supplementaryImages": [
+                "https://example.com/image1.png",
+                "https://example.com/image2.png"
+            ],
+            "additionalNotes": "The issue is caused by a line in the parasite_axes code base, which prevents the correct application of units to the parasite subplot. A proposed solution involves modifying the code to correctly assign the parasite axes to the plot variables."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-26466",
+        "structure_problem": {
+            "problemSummary": "Updating an array passed as the xy parameter to annotate updates the annotation",
+            "context": "When an array is used as the _xy_ kwarg for an annotation that includes arrows, changing the array after calling the function changes the arrow position. It is very likely that the same array is kept instead of a copy.",
+            "stepsToReproduce": [
+                "Create a figure and axis",
+                "Set the limits for the x and y axes",
+                "Use a numpy array for the xy parameter of the annotation",
+                "Update the array after calling the annotation function",
+                "Use a copy of the array for the xy parameter of the annotation",
+                "Update the array after calling the annotation function"
+            ],
+            "expectedResults": "Both arrows should be horizontal",
+            "actualResults": "The first arrow is horizontal, but the second arrow is vertical after updating the array",
+            "supplementaryImages": [
+                "A screenshot of the figure showing two arrows, the first horizontal and the second vertical"
+            ],
+            "additionalNotes": "This issue only occurs when the array is updated after calling the annotation function. Using a copy of the array prevents the issue."
+        }
+    },
+    {
+        "instance_id": "mwaskom__seaborn-2576",
+        "structure_problem": {
+            "problemSummary": "The `lmplot` function in seaborn does not behave as expected when `sharey=False`.",
+            "context": "The issue arises when trying to create multiple plots with different x-limits using the `lmplot` function.",
+            "stepsToReproduce": [
+                "Import seaborn and matplotlib.",
+                "Create a DataFrame with sample data.",
+                "Use `sns.lmplot` with `sharey=False` to create plots.",
+                "Observe that the plots do not have different x-limits as expected.",
+                "Use `sns.lmplot` with `sharex=False` and `sharey=False` to resolve the issue."
+            ],
+            "expectedResults": "Plots with different x-limits.",
+            "actualResults": "All plots have the same x-limits.",
+            "supplementaryImages": [
+                "The first plot shows the expected behavior when `sharey=False`.",
+                "The second plot shows the unexpected behavior where all plots have the same x-limits.",
+                "The third plot demonstrates the correct behavior when both `sharex=False` and `sharey=False` are used."
+            ],
+            "additionalNotes": "The issue occurs when `sharey=False` is used with `lmplot` in seaborn. Setting `sharex=False` and `sharey=False` resolves the issue by allowing the plots to have different x-limits. This behavior is different from what is observed with FacetGrid."
+        }
+    },
+    {
+        "instance_id": "mwaskom__seaborn-2846",
+        "structure_problem": {
+            "problemSummary": "sns.relplot does not handle numpy types for dimensional variables.",
+            "context": "The issue is observed when using `sns.relplot` with numpy types for dimensional variables. `sns.displot` handles this better.",
+            "stepsToReproduce": [
+                "Import the necessary libraries: `import matplotlib.pyplot as plt` and `import seaborn as sns`.",
+                "Load the example dataset using `tips = sns.load_dataset('tips')`.",
+                "Try to plot using `sns.relplot(data=tips, x='total_bill', y=tips['tip'].to_numpy(), col=tips['time'].to_numpy())`. This does not create two columns as expected.",
+                "Compare the result with `sns.displot(data=tips, x='total_bill', y=tips['tip'].to_numpy(), col=tips['time'].to_numpy())` to see how it handles the same input differently."
+            ],
+            "expectedResults": "The expected results are that `sns.relplot` should handle numpy types for dimensional variables similarly to `sns.displot`.",
+            "actualResults": "The actual result is that `sns.relplot` does not handle numpy types for dimensional variables, as it does not create two columns as expected.",
+            "supplementaryImages": [
+                "A scatter plot created with `sns.relplot` showing a consistent issue.",
+                "A displot showing the same data, which handles numpy types correctly.",
+                "A relplot showing the issue with numpy types for dimensional variables.",
+                "A relplot showing the issue with numpy types for dimensional variables."
+            ],
+            "additionalNotes": "The issue with `sns.relplot` was never documented and the behavior was not intentional or a failure of implementation. It was unlikely to be a regression since the behavior of `sns.relplot` has not changed significantly over time."
+        }
+    },
+    {
+        "instance_id": "mwaskom__seaborn-3180",
+        "structure_problem": {
+            "problemSummary": "Overlapping labels in relplot with seaborn 0.12",
+            "context": "The user is using seaborn to create a relplot with Iris dataset, with overlapping labels in the plot.",
+            "stepsToReproduce": [
+                "Install seaborn version 0.12",
+                "Import seaborn and set context and style",
+                "Load Iris dataset",
+                "Reshape the dataset",
+                "Create relplot with Iris dataset, x as sepal_length, y as sepal_width, col as species, col_wrap as 2, height as 2.5",
+                "Set titles for the plot",
+                "Format ticklabels as scientific notation with scilimits as (0, 0)",
+                "For axes, set ticklabel_format as scientific notation with scilimits as (0, 0)"
+            ],
+            "expectedResults": "No overlapping labels in the plot",
+            "actualResults": "Overlapping labels in the plot",
+            "supplementaryImages": [
+                "Image 1: Plot with overlapping labels",
+                "Image 2: Plot with overlapping labels",
+                "Image 3: Plot with overlapping labels",
+                "Image 4: Plot with overlapping labels"
+            ],
+            "additionalNotes": "The issue is observed when using seaborn 0.12 and may not occur with other versions of seaborn."
+        }
+    },
+    {
+        "instance_id": "mwaskom__seaborn-3187",
+        "structure_problem": {
+            "problemSummary": "Seaborn plot legend values incorrectly formatted for large numbers.",
+            "context": "The issue affects Seaborn plots created with the ScalarFormatter and is reproducible with the provided example code.",
+            "stepsToReproduce": [
+                "Load the Penguins dataset using seaborn.load_dataset('Penguins').",
+                "Assign body_mass_mg to penguins['body_mass_g'] * 1000.",
+                "Create a plot with seaborn.Plot(penguins, x='bill_length_mm', y='bill_depth_mm', color='species', pointsize='body_mass_mg').",
+                "Add a dot using seaborn.Dot()."
+            ],
+            "expectedResults": "The legend should display the correct range for body_mass_mg.",
+            "actualResults": "The legend values are formatted without the multiplicative offset value, leading to incorrect large number representation.",
+            "supplementaryImages": [
+                "A screenshot of the plot showing the incorrect legend values for body_mass_mg."
+            ],
+            "additionalNotes": "The issue is related to the ScalarFormatter and depends on the matplotlib.rcParams settings mpl.rcParams['axes.formatter.useoffset'] and mpl.rcParams['axes.formatter.offset_threshold']."
+        }
+    },
+    {
+        "instance_id": "mwaskom__seaborn-3202",
+        "structure_problem": {
+            "problemSummary": "Objects interface raises if faceting on partially-crossed row and column",
+            "context": "In the objects interface, one can facet two variables using rows and columns. When the faceted categories are not fully crossed, it raises ValueError.",
+            "stepsToReproduce": [
+                "import seaborn as sns",
+                "import seaborn.objects as so",
+                "penguins = sns.load_dataset('penguins')",
+                "plot = so.Plot(penguins.dropna(), x='sex', y='bill_depth_mm').add(so.Dots()).facet(col='species', row='island')"
+            ],
+            "expectedResults": "Similar to `catplot`, where the facets that contain no data are empty",
+            "actualResults": "ValueError: cannot call `vectorize` on size 0 inputs unless `otypes` is set",
+            "supplementaryImages": [
+                "Objects interface raises if faceting on partially-crossed row and column",
+                "In the objects interface, one can facet two variables using rows and columns. When the faceted categories are not fully crossed, it raises ValueError.",
+                "I expect a behavior that is similar to `catplot`, where the facets that contain no data are empty",
+                "sns.catplot(data=penguins.dropna(), x='sex', y='bill_depth_mm', col='species', row='island')"
+            ],
+            "additionalNotes": "The user expects the behavior to be similar to the `catplot` function, where facets with no data are empty."
+        }
+    },
+    {
+        "instance_id": "mwaskom__seaborn-3216",
+        "structure_problem": {
+            "problemSummary": "Issues with title removal when using seaborn objects API with subfigures",
+            "context": "The user found that the title was removed when using seaborn objects API with subfigures. They noticed that changing line 186 from the _core/subplots.py file changed the issue.",
+            "stepsToReproduce": [
+                "Import the necessary libraries (seaborn, seaborn.objects, matplotlib.pyplot)",
+                "Load the tip dataset",
+                "Create a plot with seaborn objects",
+                "Add subfigures to the plot",
+                "Comment the line where the plot is added to one subfigure",
+                "Set the title of the figure",
+                "Display the figure"
+            ],
+            "expectedResults": "The plot should display with the title",
+            "actualResults": "The plot does not display with the title",
+            "supplementaryImages": [
+                "A screenshot of the plot with the title missing",
+                "A screenshot of the plot with the title present"
+            ],
+            "additionalNotes": "The issue was reproduced by commenting the line where the plot is added to one subfigure and setting the title of the figure."
+        }
+    },
+    {
+        "instance_id": "mwaskom__seaborn-3217",
+        "structure_problem": {
+            "problemSummary": "The width of the bars in the plot is not consistent across different bin counts when using a log scale.",
+            "context": "The issue is observed in plots created using the `so.Bars` and `so.Bar` functions in a Python data visualization library. The plots show histograms with bars that have inconsistent widths depending on the number of bins used.",
+            "stepsToReproduce": [
+                "Import the necessary libraries.",
+                "Create a dataset with the `tips` dataset.",
+                "Plot the histogram using `so.Bars` with alpha and edge width set.",
+                "Apply a log scale to the x-axis.",
+                "Repeat steps 3-4 with different bin counts to observe the inconsistency.",
+                "Plot the histogram using `so.Bar` with alpha and edge width set.",
+                "Apply a log scale to the x-axis.",
+                "Repeat steps 6-7 with different bin counts to observe the inconsistency."
+            ],
+            "expectedResults": "The widths of the bars should remain consistent across different bin counts when using a log scale.",
+            "actualResults": "The width of the bars is inconsistent across different bin counts when using a log scale.",
+            "supplementaryImages": [
+                "The first image shows a plot with inconsistent bar widths when using `so.Bars` and a log scale.",
+                "The second image shows a plot with consistent bar widths when using `so.Bars` and a log scale.",
+                "The third image shows a plot with inconsistent bar widths when using `so.Bars` and a log scale.",
+                "The fourth image shows a plot with consistent bar widths when using `so.Bar` and a log scale.",
+                "The fifth image shows a plot with inconsistent bar widths when using `so.Bar` and a log scale.",
+                "The sixth image shows a plot with consistent bar widths when using `so.Bar` and a log scale."
+            ],
+            "additionalNotes": "The issue is specific to the `so.Bars` and `so.Bar` functions when used with a log scale and may be related to how the library handles binning and width calculations under logarithmic scales."
+        }
+    },
+    {
+        "instance_id": "mwaskom__seaborn-3276",
+        "structure_problem": {
+            "problemSummary": "Strange heatmap behavior with 'norm=None'",
+            "context": "Seaborn heatmap with vmin=0.0, vmax=1.0 and norm=None produces unexpected results.",
+            "stepsToReproduce": [
+                "Import Seaborn library",
+                "Create heatmap with vmin=0.0, vmax=1.0",
+                "Add norm=None to heatmap function"
+            ],
+            "expectedResults": "Heatmap with correct color scale from 0.0 to 1.0",
+            "actualResults": "Heatmap with incorrect color scale, not respecting vmin and vmax",
+            "supplementaryImages": [
+                "Expected heatmap",
+                "Actual heatmap with norm=None"
+            ],
+            "additionalNotes": "The issue occurs when using norm=None with vmin and vmax, not with only vmin or vmax."
+        }
+    },
+    {
+        "instance_id": "mwaskom__seaborn-3394",
+        "structure_problem": {
+            "problemSummary": "Plotting with pd.NA reverses axis ordering, while np.nan does not.",
+            "context": "The user expects NAs to be excluded without reversing axis order, but pd.NA reverses the axis.",
+            "stepsToReproduce": [
+                "Import pandas, seaborn, and matplotlib.",
+                "Create mock data frames with different types of NAs.",
+                "Concatenate the data frames into a single DataFrame.",
+                "Create a Seaborn FacetGrid with the type as the column.",
+                "Map a line plot to the grid for each type.",
+                "Display the plot."
+            ],
+            "expectedResults": "The plot should not have the axis order reversed.",
+            "actualResults": "The plot with pd.NA has the axis order reversed.",
+            "supplementaryImages": [
+                "A screenshot of the plot showing the reversed axis with pd.NA.",
+                "A screenshot of the plot showing the expected axis order with np.nan."
+            ],
+            "additionalNotes": "The issue is observed in Seaborn versions 0.11.2 with Python 3.9.7, and pandas 1.3.4."
+        }
+    },
+    {
+        "instance_id": "pydata__xarray-4182",
+        "structure_problem": {
+            "problemSummary": "User wonders if DataArray/Variable sections should be pre-expanded in the HTML repr.",
+            "context": "In the HTML representation of DataArray/Variable, users need to click on icons to expand sections to see array data and attributes.",
+            "stepsToReproduce": [
+                "Open the HTML repr of a DataArray/Variable",
+                "Observe that array data and attributes are collapsed by default",
+                "Click on the icon to expand sections"
+            ],
+            "expectedResults": "User expects to see the array data and attributes pre-expanded by default.",
+            "actualResults": "User needs to click on the icon to expand sections to see the array data and attributes.",
+            "supplementaryImages": [
+                "Image 1: HTML repr of DataArray/Variable showing collapsed sections",
+                "Image 2: HTML repr of nested dask array with pre-expanded sections"
+            ],
+            "additionalNotes": "The proposal suggests pre-expanding these sections by default to improve user experience and consistency with the text repr."
+        }
+    },
+    {
+        "instance_id": "pydata__xarray-5682",
+        "structure_problem": {
+            "problemSummary": "Complex LaTeX expressions in `long_name`s aren't rendered correctly when plotting with xarray.",
+            "context": "The issue occurs when plotting a variable with a complex LaTeX expression as its `long_name` using xarray and matplotlib. The LaTeX expression is not rendered correctly in the xarray version of the plot, while it is correctly rendered in the matplotlib version.",
+            "stepsToReproduce": [
+                "Import necessary libraries: numpy, pyplot, xarray.",
+                "Create a DataArray with a complex LaTeX expression as its `long_name`.",
+                "Plot the DataArray using xarray.",
+                "Create a new figure and plot the same DataArray using matplotlib.",
+                "Set the xlabel with the LaTeX expression.",
+                "Compare the rendered plots."
+            ],
+            "expectedResults": "The LaTeX expression should be correctly rendered in the plot.",
+            "actualResults": "The LaTeX expression is not rendered correctly in the plot generated by xarray.",
+            "supplementaryImages": [
+                "The first image shows the xarray plot where the LaTeX expression is not rendered.",
+                "The second image shows the matplotlib plot where the LaTeX expression is correctly rendered."
+            ],
+            "additionalNotes": "The issue occurs with xarray version 0.17.0 and matplotlib version 3.3.4, on a Linux system with Python 3.9.2. The environment details are provided in the image."
+        }
+    },
+    {
+        "instance_id": "pylint-dev__pylint-4551",
+        "structure_problem": {
+            "problemSummary": "Pyreverse does not display Python type hints when generating UML diagrams, even when using 'None' as a default value in class attributes.",
+            "context": "The user is attempting to use pyreverse to generate UML diagrams for a Python class that includes type hints defined by PEP 484. However, pyreverse does not properly display these type hints, particularly when 'None' is used as a default value for a class attribute.",
+            "stepsToReproduce": [
+                "Open the code example",
+                "Run the code using Python",
+                "Run pyreverse on the code to generate the UML diagram"
+            ],
+            "expectedResults": "A UML diagram that correctly displays the type hints for class attributes, including 'None' as a default value.",
+            "actualResults": "A UML diagram that does not display the type hints for class attributes, with 'None' values not being recognized.",
+            "supplementaryImages": [
+                "The provided image showing the UML diagram generated by pyreverse does not include type hints, even though they are present in the code."
+            ],
+            "additionalNotes": "The user is looking for a way to ensure that pyreverse correctly displays type hints, particularly when 'None' is used as a default value for class attributes."
+        }
+    },
+    {
+        "instance_id": "scikit-learn__scikit-learn-13087",
+        "structure_problem": {
+            "problemSummary": "User requests support for arbitrary bin spacing in `sklearn.calibration.calibration_curve`.",
+            "context": "The current implementation of `sklearn.calibration.calibration_curve` only supports evenly partitioned bins, which is insufficient for uncalibrated models with a skewed distribution.",
+            "stepsToReproduce": [
+                "Install OpenCV and follow the steps provided by the user."
+            ],
+            "expectedResults": "A plot similar to the one provided by the user with arbitrary bin spacing.",
+            "actualResults": "No actual results provided.",
+            "supplementaryImages": [
+                "The user provided an image of the plot with arbitrary bin spacing."
+            ],
+            "additionalNotes": "The user provided a work-around to achieve the desired outcome, which involved manually calculating the bin boundaries and using a custom function to generate the plot."
+        }
+    },
+    {
+        "instance_id": "scikit-learn__scikit-learn-13618",
+        "structure_problem": {
+            "problemSummary": "Propose to be able to set initial values ​​of the hyperparameters (alpha, lambda) in BayesianRidge().fit.",
+            "context": "The issue was encountered while trying to fit a sinusoidal curve with polynomials by Bayesian ridge regression. The default initial values did not work well, and the user corrected the fit method of the BayesianRidge class to set the initial value, which resulted in the regression working well.",
+            "stepsToReproduce": [
+                "Install scikit-learn library",
+                "Run the user's modified code: `#!/usr/bin/env python\n# coding: utf-8\n\nimport matplotlib.pyplot as plt\nimport numpy as np\n\nfrom math import log\nfrom scipy import linalg\nfrom sklearn.linear_model import BayesianRidge\nfrom sklearn.utils import check_X_y\n\nclass BayesRidge(BayesianRidge):\n    def fit(self, X, y, sample_weight=None, alpha_0=None, lambda_0=None):\n        ...",
+                "Set the parameters for the sinusoidal curve: `def func(x):\n    return np.sin(2*np.pi*x)\nsize = 25\nnp.random.seed(1234)\nxtrain = np.random.uniform(0.,1.,size)\nytrain = func(xtrain)+np.random.normal(scale=0.1,size=size)\n`",
+                "Set the order of the polynomial: `nOrder = 3`",
+                "Create the design matrix for the training data: `Xtrain = np.vander(xtrain,nOrder+1,increasing=True)`",
+                "Create the design matrix for the test data: `Xtest = np.vander(xtest,nOrder+1,increasing=True)`",
+                "Run the proposed code: `main()`",
+                "Observe the plots produced by the code and compare them to the expected results"
+            ],
+            "expectedResults": "The right figure",
+            "actualResults": "The left figure",
+            "supplementaryImages": [
+                "The left figure showing the regression result with default initial values",
+                "The right figure showing the regression result with custom initial values"
+            ],
+            "additionalNotes": "The user provided a custom code to demonstrate the proposed solution. The issue was encountered while using the default values for the hyperparameters in the BayesianRidge.fit method. The user's solution involved modifying the fit method to allow setting the initial values of the hyperparameters. This modification resulted in the regression working well, as shown by the right figure."
+        }
+    },
+    {
+        "instance_id": "scikit-learn__scikit-learn-14067",
+        "structure_problem": {
+            "problemSummary": "ARD Regressor accuracy degrades when upgrading Scipy 1.2.1 -> 1.3.0.",
+            "context": "There seems to be an often-occurring worsening of performance (i.e. accuracy, although run-time increases too!) from the ARD regressor when upgrading from Scipy 1.2.1 -> 1.3.0.",
+            "stepsToReproduce": [
+                "Run the single seed example provided in the code snippet with Scipy versions 1.2.1 and 1.3.0.",
+                "Generate 1000 different datasets using the provided code and run the ARD regressor with both Scipy versions.",
+                "Plot and compare the results of the accuracy for both Scipy versions using the provided code."
+            ],
+            "expectedResults": "The accuracy (absolute coefficient error) should be similar with Scipy versions 1.2.1 and 1.3.0.",
+            "actualResults": "The accuracy degrades from order 1E-5 to 1E-2 with Scipy version 1.3.0.",
+            "supplementaryImages": [
+                "A histogram showing the distribution of absolute coefficient error with Scipy versions 1.2.1 and 1.3.0.",
+                "A comparison of the accuracy median and percentile points for both Scipy versions."
+            ],
+            "additionalNotes": "It's possible that this worsening of behavior is a weirdness of the user's particular toy example, but the difference in behavior seems large and unexpected enough to warrant further investigation. This could be a Scipy rather than Sklearn issue."
+        }
+    },
+    {
+        "instance_id": "sphinx-doc__sphinx-10048",
+        "structure_problem": {
+            "problemSummary": "Sphinx-generated tooltips for headings use 'Headline' instead of 'Heading'.",
+            "context": "The issue is related to Sphinx-generated tooltips for headings. The Sphinx-generated tooltips for headings use 'Headline' instead of 'Heading'.",
+            "stepsToReproduce": [
+                "Build any Sphinx documentation containing one or more headings.",
+                "Hover over the Sphinx-injected 'headerlink'."
+            ],
+            "expectedResults": "The tooltip should say 'Permalink to this heading'.",
+            "actualResults": "The tooltip says 'Permalink to this headline'.",
+            "supplementaryImages": [
+                "The image shows a headline with a tooltip saying 'Permalink to this headline' instead of 'Permalink to this heading'."
+            ],
+            "additionalNotes": "The relevant chunk of code is provided, which will also need to be updated for translated strings. This is likely to be a Sphinx 5.0+ change."
+        }
+    },
+    {
+        "instance_id": "sphinx-doc__sphinx-10097",
+        "structure_problem": {
+            "problemSummary": "Option name overflows in LaTeX document when using long option names.",
+            "context": "The issue occurs when using long option names with the `-Wauggest-attribute` option in a LaTeX document, leading to an overflow in the index.",
+            "stepsToReproduce": [
+                "Create a LaTeX document with a long option name using the `-Wauggest-attribute` command.",
+                "Run `xelatex` on the document."
+            ],
+            "expectedResults": "The LaTeX document should compile without errors.",
+            "actualResults": "The LaTeX document fails to compile due to an overflow in the index.",
+            "supplementaryImages": [
+                "A screenshot of the LaTeX error message indicating the overflow in the index."
+            ],
+            "additionalNotes": "The issue is specific to long option names and does not occur with shorter option names. It appears to be related to the LaTeX indexing process."
+        }
+    },
+    {
+        "instance_id": "sphinx-doc__sphinx-10191",
+        "structure_problem": {
+            "problemSummary": "Footnote marks rendered as '?' in PDF output due to alternating references to same numbered footnote.",
+            "context": "The issue occurs when there are alternating references to a numbered footnote without a clear resolution in the footnote content.",
+            "stepsToReproduce": [
+                "Create a reStructuredText file with explicit numbered footnotes.",
+                "Ensure that the footnote content for the referenced footnote is absent or unclear.",
+                "Build the document using Sphinx with the `make latexpdf` command."
+            ],
+            "expectedResults": "Footnotes should be rendered correctly in the PDF output.",
+            "actualResults": "Footnote marks are rendered as '?' and there is no hyperlink.",
+            "supplementaryImages": [
+                "A screenshot showing the PDF output with footnote marks rendered as '?'"
+            ],
+            "additionalNotes": "This issue is specific to certain configurations involving Sphinx, OS, and Python version, but the exact details of the toolchain and settings are not provided."
+        }
+    },
+    {
+        "instance_id": "sphinx-doc__sphinx-11266",
+        "structure_problem": {
+            "problemSummary": "Missing space before colon after 'Voir aussi' directive in French",
+            "context": "The bug was caused by issues #11080 and #6744, which were fixed in Sphinx 6.1.0, but the issue persists.",
+            "stepsToReproduce": [
+                "Create a reST document with the following content:"
+            ],
+            "expectedResults": "The 'Voir aussi' directive should have a space before the colon to conform to the French language convention.",
+            "actualResults": "The 'Voir aussi' directive does not have a space before the colon, causing the LaTeX output to be incorrect.",
+            "supplementaryImages": [
+                "A screenshot showing the LaTeX output with the issue, where the 'Voir aussi' directive lacks the required space before the colon."
+            ],
+            "additionalNotes": "The bug has been reproduced in Sphinx 6.1.0, and it seems to be related to the 'seealso' directive."
+        }
+    },
+    {
+        "instance_id": "sphinx-doc__sphinx-11502",
+        "structure_problem": {
+            "problemSummary": "Requesting a solution to modify the Sphinx documentation to expose the 'translated' attribute without removing it.",
+            "context": "The user is developing internationalized documentation and wants to use the 'translated' attribute to mark untranslated or partially translated pages for user awareness and translation assistance. Currently, the 'Locale' transform sets the 'translated' attribute on translated nodes but removes it at the end, which feels clumsy.",
+            "stepsToReproduce": [
+                "Duplicating part of the `Locale` transform to manually set the 'translated' attribute on nodes.",
+                "Removing the `delattr('translated')` code to retain the 'translated' attribute for extension functionality."
+            ],
+            "expectedResults": "The Sphinx documentation to display the 'translated' attribute on nodes without removing it, allowing extensions to use it.",
+            "actualResults": "The Sphinx documentation currently removes the 'translated' attribute for translated nodes, which the user wants to modify.",
+            "supplementaryImages": [],
+            "additionalNotes": "User requests a solution that modifies Sphinx's internal behavior to allow the 'translated' attribute to be retained for extension use. This would involve removing or altering code from Sphinx's `Locale` transform."
+        }
+    },
+    {
+        "instance_id": "sphinx-doc__sphinx-7757",
+        "structure_problem": {
+            "problemSummary": "Positional-only argument default value is missing in the generated documentation.",
+            "context": "The user is using Sphinx version 3.1.0dev with Python 3.8.2 on Mac OS and expects the default value for a positional-only argument to be shown in the documentation.",
+            "stepsToReproduce": [
+                "Build a document using Sphinx with Python 3.8.2 on Mac OS",
+                "Inspect the generated documentation for the positional-only argument default value"
+            ],
+            "expectedResults": "The default value for the positional-only argument is shown in the generated documentation.",
+            "actualResults": "The default value is not shown in the generated documentation.",
+            "supplementaryImages": [
+                "Documentation is missing the default value for the positional-only argument."
+            ],
+            "additionalNotes": "No Sphinx extensions or extra tools are used, and the issue is not reproducible in previous versions of Sphinx."
+        }
+    },
+    {
+        "instance_id": "sphinx-doc__sphinx-8056",
+        "structure_problem": {
+            "problemSummary": "Sphinx does not render correctly when putting multiple input parameters (x1, x2) in the same line in a docstring.",
+            "context": "The user's team is experiencing a rendering issue when writing a docstring for their Python function with multiple input parameters. They want to include descriptions for x1 and x2 in the same line, as recommended by the numpydoc docstring guide. However, the Sphinx documentation tool does not render this correctly.",
+            "stepsToReproduce": [
+                "Write a docstring with multiple input parameters in the same line, as shown in the problem description.",
+                "Run the Sphinx documentation tool."
+            ],
+            "expectedResults": "The rendered docstring should include separate entries for each parameter with a description.",
+            "actualResults": "The rendered docstring does not include separate entries for each parameter, leading to incorrect documentation.",
+            "supplementaryImages": [
+                "A screenshot showing the rendered docstring with multiple input parameters in the same line."
+            ],
+            "additionalNotes": "The user has added the optional parameter 'optional' to the docstring, but the rendering remains the same as in the screenshot, making it impossible to distinguish the optional status of the parameters."
+        }
+    },
+    {
+        "instance_id": "sphinx-doc__sphinx-8075",
+        "structure_problem": {
+            "problemSummary": "Errors in LaTeX and HTML when using uncaptioned figures",
+            "context": "The issue occurs when using uncaptioned figures in Sphinx documentation, leading to errors in both HTML and LaTeX.",
+            "stepsToReproduce": [
+                "Create a test document with uncaptioned figures using Sphinx 2.2.2.",
+                "Compile the document with sphinx-build.",
+                "Observe the errors in HTML and LaTeX output."
+            ],
+            "expectedResults": "Valid LaTeX input without undefined references and uncaptioned figures referencable in LaTeX.",
+            "actualResults": "Errors in HTML output (misleading warning) and LaTeX output (undefined references).",
+            "supplementaryImages": [
+                "HTML output with a misleading warning.",
+                "LaTeX output with undefined references errors."
+            ],
+            "additionalNotes": "The issue was reproduced using a test document with uncaptioned figures, compiled with Sphinx 2.2.2. The problem occurs in both HTML and LaTeX output, leading to errors in both formats."
+        }
+    },
+    {
+        "instance_id": "sphinx-doc__sphinx-8120",
+        "structure_problem": {
+            "problemSummary": "locale/da/LC_MESSAGES/sphinx.mo translations are not used even though sphinx.po is present.",
+            "context": "Adding a locale file (sphinx.po) to the sphinx source directory should allow for translation updates and overrides.",
+            "stepsToReproduce": [
+                "git clone https://github.com/jonascj/sphinx-test-locale-override.git",
+                "cd sphinx-test-locale-override",
+                "git checkout 8dea4cd",
+                "make python venv",
+                "pip install sphinx",
+                "make html"
+            ],
+            "expectedResults": "Translations in locale/da/LC_MESSAGES/sphinx.mo should be used for captions instead of the official da translations.",
+            "actualResults": "Translations in locale/da/LC_MESSAGES/sphinx.mo are not used and the official da translations are.",
+            "supplementaryImages": [
+                "HTML documentation showcasing the captions 'Figur 1' and 'Viser 1' with official da translations, not the ones in sphinx.po.",
+                "HTML documentation showcasing the captions 'Foobar 1' and 'Whatever 1' which should have been the translations from sphinx.po."
+            ],
+            "additionalNotes": "The issue is reproducible on Arch Linux with Python 3.7.3 and Sphinx 2.1.2. No Sphinx extensions or extra tools are used."
+        }
+    },
+    {
+        "instance_id": "sphinx-doc__sphinx-8265",
+        "structure_problem": {
+            "problemSummary": "Docstring default argument is broken in HTML rendering",
+            "context": "The Python class method definition in the PyVista project's documentation is not rendering correctly with default arguments.",
+            "stepsToReproduce": [
+                "Dockerfile is provided to reproduce the issue.",
+                "Steps to reproduce the behavior are included: cloning the PyVista repository, checking out a specific patch, installing the project and its dependencies, building the documentation.",
+                "No additional tools or extraneous information are mentioned."
+            ],
+            "expectedResults": "The Python class method definition should be rendered correctly with default arguments",
+            "actualResults": "The docstring default arguments are not rendered correctly, appearing as single values instead of tuples or lists",
+            "supplementaryImages": [
+                "Documentation page screenshot showing the broken default argument rendering."
+            ],
+            "additionalNotes": "The issue affects the Python class method definition in the PyVista documentation and the Dockerfile is provided to reproduce the behavior. No other tools or extra information are provided."
+        }
+    },
+    {
+        "instance_id": "sphinx-doc__sphinx-8278",
+        "structure_problem": {
+            "problemSummary": "Sphinx 3.2.1 changes number system of default arguments specified in hexadecimal in function documentation to decimal",
+            "context": "When documenting a function with a default argument specified in hexadecimal, Sphinx 3.2.1 renders HTML documentation with the default argument in a different number system (decimal) than specified by the user (hexadecimal).",
+            "stepsToReproduce": [
+                "Document a function in Sphinx with a default argument specified in hexadecimal",
+                "View the rendered HTML documentation to see the default argument rendered in a different number system than specified"
+            ],
+            "expectedResults": "The default argument should be rendered in the same radix/number system as specified by the user (hexadecimal).",
+            "actualResults": "The default argument is rendered in a different number system (decimal) than specified by the user (hexadecimal).",
+            "supplementaryImages": [
+                "A screenshot showing the rendered HTML documentation where the hexadecimal value is in a different number system than specified by the user (decimal).",
+                "A screenshot showing the expected documentation with the default argument in the same radix/number system as specified by the user (hexadecimal)."
+            ],
+            "additionalNotes": "This issue affects functions that require default arguments specified in hexadecimal, and may cause confusion for users trying to understand the default values set in the function documentation."
+        }
+    },
+    {
+        "instance_id": "sphinx-doc__sphinx-8620",
+        "structure_problem": {
+            "problemSummary": "The :kbd: role doesn't mark container <kbd> elements with a CSS class, preventing them from being styled uniquely from child <kbd> elements representing keystrokes.",
+            "context": "The input is a combination of two :kbd: elements, one representing a single keystroke and the other representing a compound keystroke. The output generated by the code does not differentiate between the container <kbd> element and the child <kbd> element representing the compound keystroke, making it difficult to style the container <kbd> element.",
+            "stepsToReproduce": [
+                "Input: :kbd:`A`\n",
+                " :kbd:`Shift+X`",
+                "Expected Output: <kbd class=\"kbd docutils literal notranslate\">A</kbd>\n",
+                " :<kbd class=\"kbd docutils literal notranslate\">\n",
+                "   <kbd class=\"kbd docutils literal notranslate\">Shift</kbd>+\n",
+                "   <kbd class=\"kbd docutils literal notranslate\">X</kbd>\n",
+                "</kbd>",
+                "Actual Output: <kbd class=\"kbd docutils literal notranslate\">A</kbd>\n",
+                " <kbd class=\"kbd docutils literal notranslate\">Shift</kbd>+\n",
+                " <kbd class=\"kbd docutils literal notranslate\">X</kbd>",
+                "Additional Notes: The only way to differentiate between the container <kbd> element and the child <kbd> element with CSS selectors is by providing a CSS style to draw a border around a <kbd> element, but this results in an extra border around the parent element when used for compound keystrokes. A CSS class is required to differentiate the container <kbd> element from the child <kbd> elements."
+            ],
+            "expectedResults": "The container <kbd> element for the compound keystroke should be marked with a CSS class (e.g. `compound`) so it can be styled differently than the child <kbd> elements.",
+            "actualResults": "The container <kbd> element for the compound keystroke is not marked with a CSS class, making it difficult to style it differently from the child <kbd> elements representing the keystrokes.",
+            "supplementaryImages": [
+                "A screenshot showing the output generated by the code, which does not differentiate between the container <kbd> element and the child <kbd> element representing the compound keystroke."
+            ],
+            "additionalNotes": "A CSS class is required to differentiate the container <kbd> element from the child <kbd> elements."
+        }
+    },
+    {
+        "instance_id": "sphinx-doc__sphinx-8638",
+        "structure_problem": {
+            "problemSummary": "Autodoc links instance variables to global variables with the same name, which can cause documentation inconsistencies and confusion.",
+            "context": "This issue occurs when using Sphinx's autodoc feature, particularly with the apidoc extension, to generate documentation for Python packages.",
+            "stepsToReproduce": [
+                "Install and clone the sphinx-issue-examples repository.",
+                "Check out the referenced_variables branch.",
+                "Navigate to the 'docs' directory.",
+                "Run 'make html' to compile the documentation.",
+                "Start the HTTP server by running 'cd _build/html && python -m SimpleHTTPServer 8008'.",
+                "Open 127.0.0.1:8008 in a browser."
+            ],
+            "expectedResults": "The documentation should be generated without linking instance variables to global variables with the same name.",
+            "actualResults": "Instance variables link to global variables with the same name, causing documentation inconsistencies and confusion.",
+            "supplementaryImages": [
+                "A screenshot of the generated documentation showing the linking of instance variables to global variables with the same name."
+            ],
+            "additionalNotes": "This issue occurs with Sphinx version 1.8.3 and is specific to the autodoc feature, particularly when using the apidoc extension."
+        }
+    },
+    {
+        "instance_id": "sphinx-doc__sphinx-8658",
+        "structure_problem": {
+            "problemSummary": "Inconsistent display of custom docstring section 'Side Effects'",
+            "context": "The user wants to customize the display style of their custom docstring section 'Side Effects' to be more consistent with the other docstring sections.",
+            "stepsToReproduce": [
+                "Install the sphinx-contrib package",
+                "Create a Sphinx documentation project",
+                "Add a custom docstring section 'Side Effects' to the documentation",
+                "Run Sphinx to generate the documentation"
+            ],
+            "expectedResults": "The 'Side Effects' section should be displayed in a consistent style with the other docstring sections.",
+            "actualResults": "The 'Side Effects' section is displayed inconsistently with the other docstring sections.",
+            "supplementaryImages": [],
+            "additionalNotes": "The user would like to customize the display style of their custom docstring section 'Side Effects' to be more consistent with the other docstring sections. They have found a similar issue in the sphinx-contrib/napoleon#2 link and would like to provide a PR for this."
+        }
+    },
+    {
+        "instance_id": "sphinx-doc__sphinx-9229",
+        "structure_problem": {
+            "problemSummary": "Inconsistency in Sphinx documentation rendering for type aliases",
+            "context": "The issue involves Sphinx's documentation rendering for type aliases. The problem is that in some cases, the docstrings for type aliases are not rendered correctly in the HTML output, showing only the 'alias of' text instead of the actual docstrings.",
+            "stepsToReproduce": [
+                "Create a directory with a file named 'file.py'",
+                "Open a command prompt, navigate to the directory, and run the following commands:",
+                "```bash\n$ sphinx-quickstart\n$ sphinx-apidoc -f -o api .\n$ make html\n$ ( cd _build/html && python3 -m http.server )\n```",
+                "Open 'http://127.0.0.1:8000/api/file.html' in a browser to observe the inconsistency"
+            ],
+            "expectedResults": "The docstrings for all the type aliases should be shown correctly in the HTML output.",
+            "actualResults": "For 2 of the type aliases, only the 'alias of' text is shown in the HTML output, instead of the actual docstrings.",
+            "supplementaryImages": [
+                "Documentation of the issue with type aliases in the Sphinx documentation.",
+                "Example of the inconsistency in the rendered HTML output."
+            ],
+            "additionalNotes": "The issue is possibly related to #4422 and requires Sphinx version 3.1.2 or later with the sphinx.ext.autodoc extension. The environment is Ubuntu 18.04.4 LTS on Windows Subsystem for Linux (WSL)."
+        }
+    },
+    {
+        "instance_id": "sphinx-doc__sphinx-9230",
+        "structure_problem": {
+            "problemSummary": "The parameter definition for 'opc_meta' is incorrectly rendered in the generated Sphinx documentation.",
+            "context": "The Sphinx documentation rendering is not correctly displaying the optional parameter 'opc_meta' with its data type as 'dict(str,str)'.",
+            "stepsToReproduce": [
+                "Create a method with the docstring containing the parameter definition 'opc_meta': :param dict(str, str) opc_meta: (optional)"
+            ],
+            "expectedResults": "The parameter definition should be displayed correctly in the generated Sphinx documentation, showing 'opc_meta (dict(str,str)) – (optional)'.",
+            "actualResults": "The parameter definition is incorrectly rendered as 'opc_meta (dict(str,) – (optional))'.",
+            "supplementaryImages": [
+                "Image 1: The incorrect parameter definition in the Sphinx documentation.",
+                "Image 2: The correct parameter definition as expected."
+            ],
+            "additionalNotes": "The issue is reproducible with a method having the specified docstring."
+        }
+    },
+    {
+        "instance_id": "sphinx-doc__sphinx-9289",
+        "structure_problem": {
+            "problemSummary": "Function type names are not shortened when using python_use_unqualified_type_names with autodoc_typehints='description'",
+            "context": "The user aims to use Python type hints in documentation with Sphinx, expecting the type names to be shortened for better readability, but the links are not shortened even though links are created.",
+            "stepsToReproduce": [
+                "Install Sphinx 4.0.2 on Python 3.9",
+                "Create a minimal project with the provided configuration in conf.py",
+                "Create a Python file package.py with the provided classes and type hints",
+                "Create an RST file with the provided autoclass directives",
+                "Build the documentation and observe the result"
+            ],
+            "expectedResults": "The type names should be shortened in the generated documentation",
+            "actualResults": "The type names are not shortened in the generated documentation",
+            "supplementaryImages": [
+                "The screenshot shows the generated documentation with unshortened type names, despite the configuration flag.",
+                "The screenshot shows the expected behavior of shortened type names when using autodoc_typehints='signature'."
+            ],
+            "additionalNotes": "The issue is specific to Sphinx 4.0.2 and Python 3.9. The user expects this functionality to be consistent across versions."
+        }
+    },
+    {
+        "instance_id": "sphinx-doc__sphinx-9320",
+        "structure_problem": {
+            "problemSummary": "sphinx-quickstart does not exit when existing conf.py is found in root path",
+            "context": "The user tried to run `sphinx-quickstart` twice in a directory that already contained a `conf.py` file.",
+            "stepsToReproduce": [
+                "Run `sphinx-quickstart` in a directory with an existing `conf.py`",
+                "Run `sphinx-quickstart` again in the same directory"
+            ],
+            "expectedResults": "sphinx-quickstart should exit",
+            "actualResults": "sphinx-quickstart does not exit and returns an error message",
+            "supplementaryImages": [
+                "A screenshot showing the error message returned by sphinx-quickstart",
+                "A screenshot showing the command prompt after the error message"
+            ],
+            "additionalNotes": "The user tried to press Enter after the first prompt, but this did not cause sphinx-quickstart to exit. Instead, it returned an error message requiring the user to enter a valid path name."
+        }
+    },
+    {
+        "instance_id": "sphinx-doc__sphinx-9464",
+        "structure_problem": {
+            "problemSummary": "Autodoc renders PEP 585 generic annotations incorrectly",
+            "context": "Autodoc incorrectly renders annotations of PEP 585 generic types such as `list[str]` as `list` instead of `list[str]`.",
+            "stepsToReproduce": [
+                "Create a Python function with an annotation like `list[str]`.",
+                "Use `.. autofunction::` to document the function in ReST.",
+                "View the rendered documentation to see the incorrect rendering."
+            ],
+            "expectedResults": "The PEP 585 generic annotation should be rendered correctly as `list[str]`.",
+            "actualResults": "The annotation is rendered incorrectly as `list`.",
+            "supplementaryImages": [
+                "Documentation rendering showing `list` instead of `list[str]`"
+            ],
+            "additionalNotes": "This issue affects PEP 585 generic annotations rendered by Sphinx's autodoc extension. A fix involves modifying the rendering logic to check for `__args__` and return a custom string representation if present."
+        }
+    },
+    {
+        "instance_id": "sphinx-doc__sphinx-9698",
+        "structure_problem": {
+            "problemSummary": "Index entry with parens registered for `py:method` directive with `:property:` option.",
+            "context": "The Sphinx documentation generator was used with a specific version of the `py:method` directive and `:property:` option, resulting in an index entry with extra parens.",
+            "stepsToReproduce": [
+                "Open the Sphinx documentation generator with the specified version and settings.",
+                "Create a new documentation file with the `py:method` directive and `:property:` option.",
+                "Save and build the documentation."
+            ],
+            "expectedResults": "A clean index entry without extra parens.",
+            "actualResults": "An index entry with extra parens.",
+            "supplementaryImages": [
+                "Issue image 1: Index entry with extra parens."
+            ],
+            "additionalNotes": "The Sphinx documentation generator was used with the specified version and settings, resulting in an unexpected index entry with extra parens. This issue is reproducible in the latest version of Sphinx (HEAD of 4.x) with a specific configuration."
+        }
+    },
+    {
+        "instance_id": "sphinx-doc__sphinx-9797",
+        "structure_problem": {
+            "problemSummary": "Documentation for overridden classmethod in child class is not inherited by the re-defined method without documentation",
+            "context": "The issue occurs when the classmethod in a parent class is overridden in a child class, but the documentation for the overridden method is not inherited by the child class's method without documentation",
+            "stepsToReproduce": [
+                "Create a new Python module `src/spam.py` with the following code",
+                "Create a Sphinx documentation configuration `docs/conf.py` with the following code",
+                "Create a documentation index file `docs/index.rst` with the following code",
+                "Build the documentation using `sphinx-build docs/ build` command"
+            ],
+            "expectedResults": "Documentation for the overridden classmethod in the parent class is inherited by the child class's method",
+            "actualResults": "Documentation for the overridden classmethod in the parent class is not inherited by the child class's method without documentation",
+            "supplementaryImages": [
+                "Documentation for the overridden classmethod in the parent class is not inherited by the child class's method without documentation"
+            ],
+            "additionalNotes": "The project is available at https://github.com/EpicWink/python-swf-typed"
+        }
+    },
+    {
+        "instance_id": "sphinx-doc__sphinx-9982",
+        "structure_problem": {
+            "problemSummary": "Different colored warnings in Sphinx build output",
+            "context": "The user noticed that some types of warnings are displayed in different colors in their build output and is curious if this is a known behavior or a bug.",
+            "stepsToReproduce": [
+                "git clone https://github.com/dockstore/dockstore-documentation.git",
+                "cd dockstore-documentation",
+                "git checkout make-html-warnings",
+                "pip install -r requirements.txt",
+                "cd docs",
+                "make html"
+            ],
+            "expectedResults": "All warnings should be displayed in the same color",
+            "actualResults": "Some warnings are displayed in light red, while others are in dark red",
+            "supplementaryImages": [
+                "First image description",
+                "Second image description"
+            ],
+            "additionalNotes": "The user has used a specific branch to showcase the differently-colored warning, as they want to know if this behavior is expected or a bug."
+        }
+    },
+    {
+        "instance_id": "sphinx-doc__sphinx-9987",
+        "structure_problem": {
+            "problemSummary": "Positional-only parameters in class `__init__` prevent inline, before, and after docstrings from being parsed.",
+            "context": "The user is using Python's position-only parameters in their class `__init__` methods and is experiencing issues with Sphinx's documentation generation process.",
+            "stepsToReproduce": [
+                "git clone https://github.com/bryanforbes/sphinx-positional-only-issue",
+                "cd sphinx-positional-only-issue",
+                "pip install -r requirements.txt",
+                "cd docs",
+                "make html",
+                "open _build/html/index.html"
+            ],
+            "expectedResults": "Both classes should have the `a` property documented.",
+            "actualResults": "Only `test.WithoutPositional` has the `a` property documented.",
+            "supplementaryImages": [
+                {
+                    "description": "A screenshot showing the documentation with only `test.WithoutPositional` having the `a` property documented."
+                }
+            ],
+            "additionalNotes": "The user is using Python 3.10 and Sphinx 4.3.1 with extensions `sphinx.ext.autodoc` and `sphinx.ext.napoleon`. The `test.WithPositional` class is affected by this issue, while `test.WithoutPositional` is not. The user has provided a screenshot showing the problem but did not specify the operating system (OS) they are using."
+        }
+    },
+    {
+        "instance_id": "sphinx-doc__sphinx-9997",
+        "structure_problem": {
+            "problemSummary": "Autodoc type hints do not create links for parametrized types.",
+            "context": "Autodoc type hints generally generate links to hinted types, but fail to do so for parametrized types such as Literal in CPython's documentation.",
+            "stepsToReproduce": [
+                "Create a Python file (project.py) with a function using a Literal type hint.",
+                "Run Sphinx-apidoc with the --extensions sphinx.ext.intersphinx option.",
+                "Build the documentation with Sphinx and observe that the Literal type hint does not link to CPython's documentation.",
+                "View the generated documentation (project.html) to see the issue."
+            ],
+            "expectedResults": "The Literal type hint should link to CPython's documentation for typing.Literal.",
+            "actualResults": "The Literal type hint does not link to CPython's documentation for typing.Literal.",
+            "supplementaryImages": [],
+            "additionalNotes": "This issue may affect users who rely on autodoc type hints for documentation purposes and expect parametrized types to have links to their respective documentation pages."
+        }
+    },
+    {
+        "instance_id": "sphinx-doc__sphinx-9999",
+        "structure_problem": {
+            "problemSummary": "LaTeX: glossary terms with common definition are rendered with too much vertical whitespace",
+            "context": "The user is using a simple glossary with terms that share a common definition, but the output is rendered with excessive vertical whitespace between the terms and their definitions.",
+            "stepsToReproduce": [
+                "Copy the provided LaTeX code snippet into a new LaTeX document",
+                "Run `make latexpdf` to compile the document"
+            ],
+            "expectedResults": "The LaTeX document should compile without errors and generate a PDF with the glossary terms and their definitions formatted correctly.",
+            "actualResults": "The LaTeX document compiles without errors, but the output shows excessive vertical whitespace between the terms and their definitions.",
+            "supplementaryImages": [],
+            "additionalNotes": ""
+        }
+    },
+    {
+        "instance_id": "sympy__sympy-11787",
+        "structure_problem": {
+            "problemSummary": "The `nsolve` function in SciPy returned a value that does not match the expected result from plotting the function, leading to incorrect results.",
+            "context": "The user is using `nsolve` to find a root of a function, but the result is not accurate.",
+            "stepsToReproduce": [
+                "Define the function",
+                "Use `nsolve` to find a root",
+                "Plot the function to observe the root",
+                "Compare the `nsolve` result with the plot"
+            ],
+            "expectedResults": "The root of the function is around 0.7.",
+            "actualResults": "The `nsolve` function returned a value that does not match the expected result from plotting the function.",
+            "supplementaryImages": [
+                "A plot of the function showing the root is around 0.7.",
+                "Output of `nsolve` and the corresponding value from the plot"
+            ],
+            "additionalNotes": "The issue is that `nsolve` did not accurately find the root of the function, which is important for the user's analysis."
+        }
+    },
+    {
+        "instance_id": "sympy__sympy-13840",
+        "structure_problem": {
+            "problemSummary": "The user encounters difficulties when trying to convert Max and Min expressions using SymPy in JavaScript.",
+            "context": "The user is attempting to convert mathematical expressions involving Max and Min functions from SymPy to JavaScript, but encounters limitations.",
+            "stepsToReproduce": [
+                "Define symbols in SymPy: y = symbols('y')",
+                "Try to find the minimum of two variables: min(x, y)",
+                "Create an expression involving Max: expr1 = Max(1, y)",
+                "Attempt to convert the expression to JavaScript: jscode(expr1)"
+            ],
+            "expectedResults": "The user expects the Max and Min expressions to be successfully converted to JavaScript.",
+            "actualResults": "The conversion to JavaScript fails, with a message indicating that the Max and Min functions are not supported in JavaScript.",
+            "supplementaryImages": [
+                "Image 1: The SymPy code defining symbols and finding the minimum of two variables.",
+                "Image 2: The code creating an expression involving Max.",
+                "Image 3: The code attempting to convert the Max expression to JavaScript, resulting in an error message."
+            ],
+            "additionalNotes": "The user is looking for a way to perform Max and Min operations in JavaScript, but is restricted by the limitations of SymPy or the JavaScript environment."
+        }
+    },
+    {
+        "instance_id": "sympy__sympy-15151",
+        "structure_problem": {
+            "problemSummary": "Issue with SymPy not pretty printing indexed(x1, i) as expected",
+            "context": "The user is using SymPy for symbolic mathematics and is experiencing an issue with the pretty printing of indexed expressions.",
+            "stepsToReproduce": [
+                "Import SymPy and its printing functions",
+                "Define a symbol",
+                "Try to print an indexed expression"
+            ],
+            "expectedResults": "The expression should be printed in a pretty format, with subscripts and superscripts visible.",
+            "actualResults": "The expression is printed as Indexed('x1', i), without the pretty formatting.",
+            "supplementaryImages": [
+                "A screenshot showing the output of the indexed expression as Indexed('x1', i), without the expected pretty formatting."
+            ],
+            "additionalNotes": "The user is unsure if this behavior is expected, but they are expecting the expression to be printed in a more readable format, with subscripts and superscripts."
+        }
+    },
+    {
+        "instance_id": "sympy__sympy-15976",
+        "structure_problem": {
+            "problemSummary": "SymPy expressions with numbers as part of variable names become invisible when printed with MathML format.",
+            "context": "The issue occurs when using variables like x2 or x3 in a SymPy expression, which then appear as invisible when printed with MathML.",
+            "stepsToReproduce": [
+                "Define variables x2, y, z using sympy.symbols('x2 y z')",
+                "Assign y = x2*z+x2**3",
+                "Print y using sympy.mathml(y, printer='presentation') in a HTML file",
+                "Observe that the symbols x2 and z are not visible in the output",
+                "Use x instead of x2 for the variable name, and observe that it works as expected"
+            ],
+            "expectedResults": "The variables x2 and z should be visible in the output when printed with MathML.",
+            "actualResults": "The variables x2 and z are not visible in the output when printed with MathML.",
+            "supplementaryImages": [
+                "Image 1: shows the invisible symbols x2 and z in the MathML output",
+                "Image 2: shows the visible symbols x and z when using 'x' instead of 'x2' for the variable name"
+            ],
+            "additionalNotes": "The issue occurs on a MacBook Pro with OS 10.14.2, Sympy 1.3, in Eclipse 2018-19, and Python 3.7."
+        }
+    },
+    {
+        "instance_id": "sympy__sympy-16003",
+        "structure_problem": {
+            "problemSummary": "MathML presentation printing of multiple derivatives is messed up.",
+            "context": "The issue pertains to the presentation of mathematical expressions in MathML format, specifically focusing on the display of multiple derivatives.",
+            "stepsToReproduce": [
+                "1. Create an expression involving multiple derivatives, for example: Derivative(f(x, y, z), x, z, x, z, z, y).",
+                "2. Print the expression using the `print` function in SymPy.",
+                "3. Observe the output, which may look like: \"d^7f(x, y, z)/dx dy dz^4 d^2z dx d^2z dz dx dy\", depending on the implementation.",
+                "4. Compare this with the desired output, which should closely resemble the LaTeX equivalent: \\frac{\\partial^7 f}{\\partial x \\partial y \\partial z^4\\partial^2 z\\partial^2 x\\partial z\\partial x\\partial y}.",
+                "5. Notice the difference in how it is presented in MathML.",
+                "6. Obtain the actual output by running the provided code snippet."
+            ],
+            "expectedResults": "The output should resemble the LaTeX equivalent closely, with all derivative variables presented on a single line and the correct powers in the numerator.",
+            "actualResults": "The output is: d^7f(x, y, z)/dx dy dz^4 d^2z dx d^2z dz dx dy, which is not as expected.",
+            "supplementaryImages": [
+                "Image 1: Screenshot of the actual output with the MathML presentation of multiple derivatives.",
+                "Image 2: Screenshot of the desired output, resembling the LaTeX equivalent.",
+                "Image 3: Screenshot of the LaTeX output for reference."
+            ],
+            "additionalNotes": "The issue is related to the `_print_Derivative` method in the context of SymPy and its MathML printer. The goal is to improve this method to better handle and present the derivatives in a more readable manner. The attached diff in #3926 was utilized to implement the changes, but the outcome is still not as expected. Further investigation is needed to fully resolve the issue and determine the best approach for handling adjacent identical terms."
+        }
+    },
+    {
+        "instance_id": "sympy__sympy-17067",
+        "structure_problem": {
+            "problemSummary": "Sympy simplifies trigonometric expression to incorrect result",
+            "context": "Sympy simplifies a trigonometric expression to an incorrect result using the simplify function. The expression involves multiple trigonometric functions and is simplified to -2*cos(alpha)*cos(beta)/sin(2*beta), which is incorrect. The correct result is -cos(alpha)*cot(beta), as verified by Mathematica and manual calculations using trigonometric identities.",
+            "stepsToReproduce": [
+                "Define symbols alpha, beta, and gamma",
+                "Define expression expr using sympy",
+                "Invoke simplify(expr) on the expression",
+                "Observe the incorrect result -2*cos(alpha)*cos(beta)/sin(2*beta)",
+                "Compare the incorrect result to the correct result -cos(alpha)*cot(beta)"
+            ],
+            "expectedResults": "-cos(alpha)*cot(beta)",
+            "actualResults": "-2*cos(alpha)*cos(beta)/sin(2*beta)",
+            "supplementaryImages": [
+                "A screenshot of the sympy live calculation showing the incorrect result returned by simplify(expr)"
+            ],
+            "additionalNotes": "This issue affects version 1.4 of sympy and was observed in version 1.3 before an update. The erroneous behavior is also observed on a different computer."
+        }
+    },
+    {
+        "instance_id": "sympy__sympy-17115",
+        "structure_problem": {
+            "problemSummary": "Piecewise does not work correctly in SymPy Live.",
+            "context": "SymPy is a Python library for symbolic mathematics. The Piecewise function allows the definition of piecewise functions. The user encountered an error when trying to use the Piecewise function in SymPy Live.",
+            "stepsToReproduce": [
+                "Define a symbolic variable and a condition using the symbols and And functions.",
+                "Create a Piecewise function with the condition and a default value.",
+                "Run the Piecewise function."
+            ],
+            "expectedResults": "The Piecewise function should evaluate correctly.",
+            "actualResults": "The Piecewise function evaluation failed with a TypeError indicating that the input arguments to Union must be Sets.",
+            "supplementaryImages": [
+                "A screenshot of the error message showing the traceback and the TypeError exception."
+            ],
+            "additionalNotes": "The error is not reproducible on other systems, suggesting it might be an issue with the SymPy Live environment."
+        }
+    },
+    {
+        "instance_id": "sympy__sympy-18922",
+        "structure_problem": {
+            "problemSummary": "The plot of a function with a constant value is incorrect.",
+            "context": "The user is trying to plot a function using the SymPy library in Python. The expected result is a horizontal line at y=3, but the actual result shows the x-axis moved to y=3.",
+            "stepsToReproduce": [
+                "Run the code `from sympy import plot; plot(3) in a Python environment."
+            ],
+            "expectedResults": "A horizontal line at y=3",
+            "actualResults": "The x-axis is moved to y=3",
+            "supplementaryImages": [
+                "A screenshot of the plot showing the x-axis moved to y=3, instead of a horizontal line at y=3."
+            ],
+            "additionalNotes": "The issue is specific to the SymPy library in Python, and the expected behavior is to plot a horizontal line at y=3 as specified by the input `plot(3)`. The actual behavior is to display the x-axis at y=3, which is not what was intended."
+        }
+    },
+    {
+        "instance_id": "sympy__sympy-21769",
+        "structure_problem": {
+            "problemSummary": "Latex rendering issues with Clebsch-Gordan coefficients (CG) in Sympy when squared or multiplied by a symbol.",
+            "context": "The issue is observed in Sympy v1.7.1 on Jupyter Lab/notebook, despite the returned string from `latex()` appearing valid.",
+            "stepsToReproduce": [
+                "Import `CG` from `sympy.physics.quantum.cg`.",
+                "Create a `CG` object with specific parameters.",
+                "Try to square the `CG` object or multiply it by a symbol.",
+                "Observe the failure in rendering the Latex representation."
+            ],
+            "expectedResults": "Smooth Latex rendering of the modified Clebsch-Gordan coefficient.",
+            "actualResults": "Latex rendering fails, with the output containing unrendered mathematical expressions.",
+            "supplementaryImages": [
+                "The image shows the code snippet and the resulting unrendered Latex output.",
+                "The second image includes another code snippet with the same issue, highlighting `CG` with power does not render correctly.",
+                "The third image demonstrates the failure in rendering when a `CG` is squared or multiplied by a symbol."
+            ],
+            "additionalNotes": "The issue is related to how the `CG` object's `latex` string is applied in Jupyter Lab/notebook environments, and a fix involves wrapping the `str` in braces."
+        }
+    },
+    {
+        "instance_id": "sympy__sympy-24723",
+        "structure_problem": {
+            "problemSummary": "Matrix Normal Distribution PDF returned by Sympy differs from the expected result.",
+            "context": "The user is referring to the Matrix Normal Distribution and its probability density function (PDF). The Wikipedia page provides the expected PDF formula, while the user's experience with Sympy reveals a discrepancy in the constant term.",
+            "stepsToReproduce": [
+                "Import MatrixNormal from sympy.stats",
+                "Define a MatrixSymbol",
+                "Create a MatrixNormal object with given means, covariance matrix, and shape",
+                "Use density function to get the PDF",
+                "Print the resulting PDF"
+            ],
+            "expectedResults": "The user expected the PDF returned by Sympy to match the formula provided on the Wikipedia page.",
+            "actualResults": "The actual PDF returned by Sympy differs from the expected one, with an extra constant factor.",
+            "supplementaryImages": [
+                "The Wikipedia page for Matrix Normal Distribution, showing the expected PDF formula.",
+                "The output from Sympy, showing the PDF that differs from the expected one."
+            ],
+            "additionalNotes": "The issue appears to be related to the constant term in the PDF, which should be the same for both implementations."
+        }
+    },
+    {
+        "instance_id": "plotly__plotly.py-4083",
+        "structure_problem": {
+            "problemSummary": "Plotly Express ValueError: Element of value of 'hover_data' is not the name of a column in 'data_frame'. Expected one of ['x', 'y', 'label', 'freq', 'similarity', 'size', 'class', 'most_similar_kt'] but received: m",
+            "context": "User encountered an error while trying to map the 'most_similar_kt' column to hover_data in a Plotly Express scatter plot. The error occurred when the user attempted to use 'hover_data' with a single column name instead of a list of column names.",
+            "stepsToReproduce": [
+                "1. Import necessary libraries: pandas, numpy, and plotly.express.",
+                "2. Load the data into a pandas DataFrame.",
+                "3. Attempt to create a scatter plot using plotly.express.scatter() with the data frame.",
+                "4. Map the 'most_similar_kt' column to hover_data.",
+                "5. Execute the code."
+            ],
+            "expectedResults": "The scatter plot should display the data with the 'most_similar_kt' column mapped to hover_data.",
+            "actualResults": "The user encountered a ValueError stating that the element of value of 'hover_data' is not the name of a column in 'data_frame'.",
+            "supplementaryImages": [
+                "Image 1: Shows the DataFrame with the 'most_similar_kt' column.",
+                "Image 2: Shows the scatter plot with a single column name as hover_data."
+            ],
+            "additionalNotes": "The user mentioned that removing the hover_data assignment allows the scatter plot to work, but it is unclear why this is the case. The error message suggests that 'custom_data' is not a property that accepts a single column name, unlike other Plotly Express properties such as 'x', 'y', and 'hover_name'."
+        }
+    },
+    {
+        "instance_id": "plotly__plotly.py-2600",
+        "structure_problem": {
+            "problemSummary": "The range_y parameter in the px.scatter() function affects the marginal histograms, which is unexpected.",
+            "context": "The user is trying to create a scatter plot with marginal histograms for both x and y variables. They observed that the range_y parameter impacts the marginal histograms, which they believe should not affect them.",
+            "stepsToReproduce": [
+                "Import px and model.predict(X) from your working environment.",
+                "Run the provided code snippet to create the scatter plot.",
+                "Observe the effect of the range_y parameter on the marginal histograms."
+            ],
+            "expectedResults": "The marginal histograms should remain consistent regardless of the range_y parameter value.",
+            "actualResults": "The marginal histograms change when the range_y parameter is adjusted.",
+            "supplementaryImages": [
+                "The scatter plot with marginal histograms showing the impact of range_y on the histograms."
+            ],
+            "additionalNotes": "The issue is related to the interaction between the range_y parameter and the marginal_histograms feature in the px.scatter() function."
+        }
+    },
+    {
+        "instance_id": "plotly__plotly.py-2591",
+        "structure_problem": {
+            "problemSummary": "Plotly Sunburst chart bug with color and values corresponding to the same column.",
+            "context": "The issue is reported in the community forum (https://community.plotly.com/t/plotly-sunburst-node-colors/41037) and involves using Plotly's sunburst function with the path set to ['continent', 'country'] and values set to 'lifeExp'. The bug is that the color of a sector appears to be the sum of its children's values, instead of the average.",
+            "stepsToReproduce": [
+                "Import Plotly and numpy.",
+                "Create a DataFrame with Gapminder data for the year 2007.",
+                "Create a sunburst chart with the path set to ['continent', 'country'] and values set to 'lifeExp'.",
+                "Color the chart using 'lifeExp' and use the 'RdBu' color scale.",
+                "Display the chart."
+            ],
+            "expectedResults": "The color of each sector should be the average of its children's 'lifeExp' values.",
+            "actualResults": "The color of each sector appears to be the sum of its children's 'lifeExp' values.",
+            "supplementaryImages": [
+                "The image provided shows a sunburst chart with four main sectors representing continents (Africa, Asia, Europe, and Americas), each divided into smaller sectors representing countries. The color of each sector corresponds to the 'lifeExp' value, but the bug is evident when the color of a sector is not the average of its children's 'lifeExp' values."
+            ],
+            "additionalNotes": "This issue was reported in the community forum and has been identified as a bug in Plotly's sunburst function, where the color of a sector is not correctly calculated as the average of its children's values, but rather as the sum."
+        }
+    },
+    {
+        "instance_id": "plotly__plotly.py-1966",
+        "structure_problem": {
+            "problemSummary": "Facet labels do not respect the 'labels' kwarg in Plotly Express.",
+            "context": "There is an issue in Plotly Express where facet labels do not respect the 'labels' kwarg.",
+            "stepsToReproduce": [
+                "Run the provided code snippet.",
+                "Observe the charts produced."
+            ],
+            "expectedResults": "The facet labels should respect the 'labels' kwarg.",
+            "actualResults": "The facet labels do not respect the 'labels' kwarg.",
+            "supplementaryImages": [
+                "The images show six scatter plots with different facet labels. The expected labels are 'time' and 'day', but the actual labels are 'THE TIME' and 'THE DAY'.",
+                "The issue was reported in the provided GitHub link."
+            ],
+            "additionalNotes": "The issue was reported in the provided GitHub link."
+        }
+    },
+    {
+        "instance_id": "networkx__networkx-6503",
+        "structure_problem": {
+            "problemSummary": "Join operation in trees not handling label_attribute and not including old labels of inputs",
+            "context": "The issue is related to the NetworkX library's implementation of the join operation in trees, which is not correctly handling the 'label_attribute' parameter and not including the old labels of the inputs.",
+            "stepsToReproduce": [
+                "Import networkx as nx",
+                "Define two full_rary_tree graphs with the same parameter",
+                "Create a list of tuples containing the trees and their respective labels",
+                "Call nx.join with the trees list and 'label_attribute' parameter",
+                "Observe the error message indicating the issue with the 'label_attribute' parameter",
+                "Call nx.join with the trees list and check if the expected behavior is observed"
+            ],
+            "expectedResults": "The resulting graph should include the original labels from the input trees.",
+            "actualResults": "The resulting graph does not include the original labels from the input trees.",
+            "supplementaryImages": [
+                "The first image shows the code snippet with the join operation and the print statement for the nodes of the resulting graph. The second image shows the error message indicating the issue with the 'label_attribute' parameter.",
+                "The supplementary images include the code snippet and the error message from the join operation in trees."
+            ],
+            "additionalNotes": "The issue is related to the NetworkX library's implementation of the join operation in trees, which is not correctly handling the 'label_attribute' parameter and not including the old labels of the inputs. The current test coverage is 92.8%, and there are still some cases needed to be handled to improve the test coverage for operations.py. The documentation mentions that the inputs must be trees, but the function works for graphs as well."
+        }
+    },
+    {
+        "instance_id": "networkx__networkx-6098",
+        "structure_problem": {
+            "problemSummary": "The 'connectionstyle' argument of nx.draw_networkx_edges() does not work properly for multigraphs and undirected graphs.",
+            "context": "The problem is observed in nx.draw_networkx_edges() when the graph is a multigraph or an undirected graph.",
+            "stepsToReproduce": [
+                "Create a DiGraph with the following edges: (1,2), (3,1), (3,2)",
+                "Positions are set for nodes: 1 - (0,0), 2 - (1,-2), and 3 - (2,0)",
+                "Draw the networkx nodes using positions",
+                "Draw the networkx edges using positions, arrowstyle=-, and connectionstyle=arc3,rad=0.3"
+            ],
+            "expectedResults": "The edges should be drawn with an arc shape connecting the nodes.",
+            "actualResults": "The edges are not drawn with the expected arc shape.",
+            "supplementaryImages": [
+                "Diagram 1: The expected output with a DiGraph, showing the edges drawn with an arc shape.",
+                "Diagram 2: The actual output with a DiGraph, showing the edges not drawn with an arc shape."
+            ],
+            "additionalNotes": "The problem was observed in nx.draw_networkx_edges() when the graph is a multigraph or an undirected graph. The issue was replicated with DiGraph, MultiGraph, and Graph."
+        }
+    },
+    {
+        "instance_id": "networkx__networkx-5616",
+        "structure_problem": {
+            "problemSummary": "Inconsistent implementation of Euler algorithms in the given graph library",
+            "context": "The user is using a graph library and encountering inconsistencies in the implementation of Euler algorithms. The behavior of the `has_eulerian_path` method differs from what is described in the documentation.",
+            "stepsToReproduce": [
+                "Create a directed graph with isolated nodes and edges that form a triangle",
+                "Add an isolated node",
+                "Use the `has_eulerian_path` method to check if the graph has an Euler path",
+                "Observe that the method returns True for the directed graph and False for the undirected graph"
+            ],
+            "expectedResults": "The `has_eulerian_path` method should identify the presence of an Euler path based on the given conditions.",
+            "actualResults": "The `has_eulerian_path` method returns True for a directed graph and False for an undirected graph, despite documentation suggesting otherwise.",
+            "supplementaryImages": [
+                "Example 1: A directed graph with an Euler path",
+                "Example 2: A directed graph with an Euler path"
+            ],
+            "additionalNotes": "The documentation suggests that an Euler path exists if at most one vertex has out_degree - in_degree = 1, at most one vertex has in_degree - out_degree = 1, and all other vertices have equal in_degree and out_degree. The user observed that the `has_eulerian_path` method returns True for a directed graph and False for an undirected graph, despite these conditions being met for both. The `is_eulerian` method requires connectedness for both graph types, which the user deems inconsistent with the documentation.",
+            "affectedByConditions": "The user is using a graph library with version x.y.z",
+            "solutionAttempted": "The user has not attempted a solution yet"
+        }
+    },
+    {
+        "instance_id": "networkx__networkx-5354",
+        "structure_problem": {
+            "problemSummary": "The `nx.spiral_layout` function with `equidistant=True` does not ensure that all nodes are equidistant from each other, as expected by the documentation.",
+            "context": "The `nx.spiral_layout` function is intended to lay out nodes in a spiral pattern. The `equidistant` parameter is supposed to enforce that the nodes are all equidistant from one another when True. However, the iterative implementation results in the first node being handled differently than the rest, leading to uneven distances.",
+            "stepsToReproduce": [
+                "Create a path graph with 5 nodes using `nx.path_graph(5)`.",
+                "Use `nx.spiral_layout(G, equidistant=True)` to layout the graph.",
+                "Use `nx.draw(G, pos=pos)` to visualize the layout."
+            ],
+            "expectedResults": "The nodes should be laid out in a spiral pattern with all nodes equidistant from each other.",
+            "actualResults": "The first node is not equidistant from its neighbors, resulting in an uneven spiral layout.",
+            "supplementaryImages": [
+                "The image shows a spiral layout of a path graph with 5 nodes, where the first node is not equidistant from its neighbors, causing the spiral to be uneven."
+            ],
+            "additionalNotes": "The issue is observed in Python version 3.9.7 and NetworkX version 2.7rc1.dev0 (766becc1)."
+        }
+    },
+    {
+        "instance_id": "networkx__networkx-5058",
+        "structure_problem": {
+            "problemSummary": "Saving a graph generated using stochastic_block_model is not possible using write_graphml.",
+            "context": "When generating random networks using the stochastic block model, the returned networkx object cannot be written to a graphml file using the write_graphml function.",
+            "stepsToReproduce": [
+                "import networkx as nx",
+                "wg = 0.8 # can be any number representing within group probability",
+                "bg = 0.2 # can be any number representing between group probability",
+                "community_probs = [[wg, bg, bg], [bg, wg, bg], [bg, bg, wg]]",
+                "community_sizes = [10,10,10]",
+                "G = nx.stochastic_block_model(community_sizes, community_probs)",
+                "nx.write_graphml(G, 'file_name.graphml')"
+            ],
+            "expectedResults": "The graph should be saved to the file 'file_name.graphml'.",
+            "actualResults": "An error occurs stating 'KeyError: <class 'list'>'.",
+            "supplementaryImages": [
+                "The provided stack trace shows the error occurring at the point where the graph is being written to a file."
+            ],
+            "additionalNotes": ""
+        }
+    },
+    {
+        "instance_id": "networkx__networkx-4378",
+        "structure_problem": {
+            "problemSummary": "Unexpected behavior of the 'nodelist' keyword argument in `nx_pylab.draw_networkx_edges`",
+            "context": "The user is using `nx_pylab.draw_networkx_edges` with the 'nodelist' parameter and expecting that edges incident on nodes not in the nodelist would not be drawn.",
+            "stepsToReproduce": [
+                "Import the necessary libraries: `import networkx as nx`",
+                "Create a path graph with 3 nodes: `G = nx.path_graph(3)`",
+                "Assign positions for the nodes: `pos = {n: (n, n) for n in range(len(G))}`",
+                "Draw the network nodes with the 'nodelist' parameter set to [0, 1]: `nx.draw_networkx_nodes(G, pos, nodelist=[0, 1])`",
+                "Draw the network edges with the 'nodelist' parameter set to [0, 1]: `nx.draw_networkx_edges(G, pos, nodelist=[0, 1])`"
+            ],
+            "expectedResults": "The edge (1, 2) should not be drawn since it is incident on a node (2) that is not in the nodelist.",
+            "actualResults": "The edge (1, 2) is drawn, even though it is incident on a node not in the nodelist.",
+            "supplementaryImages": [
+                "The expected result: a graph with edges (0, 1) and (1, 2) but no edge (1, 2)",
+                "The actual result: a graph with edges (0, 1), (1, 2), and (2, 3)"
+            ],
+            "additionalNotes": "The user noticed that the 'nodelist' parameter is currently only used internally in `draw_networkx_edges` to determine the size of the nodes. They suggested adding this parameter to the docstring and testing its behavior."
+        }
+    },
+    {
+        "instance_id": "networkx__networkx-3764",
+        "structure_problem": {
+            "problemSummary": "Issue with shell layout in networkX causing positions to be incorrectly calculated for shells containing one element.",
+            "context": "This issue is observed when using the shell_layout method in networkX with an nlist containing shells that have only one element. The positions assigned to these shells are incorrect, causing the plot to appear as if the shell radius is too big.",
+            "stepsToReproduce": [
+                "Import networkX library",
+                "Generate an undirected graph",
+                "Create an nlist with shells containing one element",
+                "Apply shell_layout method to the graph",
+                "Plot the graph"
+            ],
+            "expectedResults": "A plot with correctly positioned shells.",
+            "actualResults": "A plot with shells positioned incorrectly, appearing as if the shell radius is too big.",
+            "supplementaryImages": [
+                "A screenshot showing the incorrect positioning of shells with one element, where the shell appears to have an exaggerated radius compared to shells with multiple elements."
+            ],
+            "additionalNotes": "This issue is reproducible with networkX version 2.4 and appears to be the opposite of issue #3188, where shells of one element collapsed to zero radius."
+        }
+    },
+    {
+        "instance_id": "vega__altair-1092",
+        "structure_problem": {
+            "problemSummary": "The code fails to display the expected chart when the `format` property is set to 'a'.",
+            "context": "The code provided is attempting to create a chart using the Altair library in Python. The issue arises when the `format` property is set to 'a'.",
+            "stepsToReproduce": [
+                "Copy the provided code snippet.",
+                "Run the entire snippet."
+            ],
+            "expectedResults": "A chart should be displayed with the values from the `a` InlineData object.",
+            "actualResults": "The code fails to display the chart and throws an error message.",
+            "supplementaryImages": [
+                "An image of the error message encountered when trying to display the chart."
+            ],
+            "additionalNotes": "The issue is related to the `format` property not being recognized correctly within the InlineData object."
+        }
+    },
+    {
+        "instance_id": "vega__altair-974",
+        "structure_problem": {
+            "problemSummary": "pd.Timedelta is not JSON serializable with altair",
+            "context": "The user encountered an error when trying to plot a range of timedelta objects with altair.",
+            "stepsToReproduce": [
+                "Create a timedelta range with pd.timedelta_range",
+                "Plot the range using alt.Chart with mark_bar",
+                "Encode 'timedelta' and 'id' columns"
+            ],
+            "expectedResults": "The plot should be rendered without any errors.",
+            "actualResults": "An error message is displayed: TypeError: Timedelta('0 days 00:00:00') is not JSON serializable.",
+            "supplementaryImages": [
+                "A screenshot showing the error message 'Timedelta('0 days 00:00:00') is not JSON serializable'."
+            ],
+            "additionalNotes": "The user noted that they attempted to resolve the issue by importing additional libraries (pandas and altair), but the problem persists without specifying a 'timeUnit' in the mark_bar encoding."
+        }
+    },
+    {
+        "instance_id": "vega__altair-830",
+        "structure_problem": {
+            "problemSummary": "The encode() method in Altair needs to handle multiple encoding fields when it is supported, similar to the tooltip encoding in Vega-Lite.",
+            "context": "The most recent vega-lite release allows passing multiple fields to the tooltip encoding, which Altair should implement via a simplified API.",
+            "stepsToReproduce": [
+                "Import vega_datasets and load the cars dataset",
+                "Create an Altair chart with the mark_point() option",
+                "Add x and y axes with Horsepower and Miles_per_Gallon",
+                "Add a color field with Origin",
+                "Add tooltip encoding with multiple fields",
+                "Display the chart"
+            ],
+            "expectedResults": "The chart should display with the tooltip containing the specified fields.",
+            "actualResults": "The chart displays correctly, but the tooltip does not show the expected fields.",
+            "supplementaryImages": [
+                "A screenshot of the Altair chart with the expected tooltip fields is not shown, but the chart is displayed correctly."
+            ],
+            "additionalNotes": "Altair should allow multiple encoding fields in the tooltip encoding for a more simplified API."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-27754",
+        "structure_problem": {
+            "problemSummary": "3D arrow head color does not match arrow body color.",
+            "context": "This issue is about a discrepancy in the color of 3D arrows when using matplotlib. The arrow color does not match the arrow body color, which is unexpected.",
+            "stepsToReproduce": [
+                "Import necessary libraries.",
+                "Create arrays for coordinates.",
+                "Create a 3D plot.",
+                "Use `colors` argument for arrow 3D.",
+                "Display the plot."
+            ],
+            "expectedResults": "The entire arrow should be a single color.",
+            "actualResults": "The 3D arrow head color does not match the arrow body color.",
+            "supplementaryImages": [
+                "A screenshot showing 3D arrows where the head and body colors do not match."
+            ],
+            "additionalNotes": "The issue is not related to #11746, and the code snippet provided is minimal to reproduce the issue. The code was executed in an Anaconda installation with Python 2.7.15."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-26926",
+        "structure_problem": {
+            "problemSummary": "Legends are hidden behind the subfigure background and the axes background in subfigures, unlike when using plt.subplots().",
+            "context": "This issue arises when using matplotlib's subfigures functionality to create multiple plots within a single figure. Legends placed with fig.legend() are obscured by the backgrounds of the subfigures and the axes, unlike when using plt.subplots().",
+            "stepsToReproduce": [
+                "Create a figure with subfigures using plt.figure(constrained_layout=True).",
+                "Set the facecolor of the subfigures to 'none' to remove the backgrounds.",
+                "Plot two lines in each subfigure and call fig.legend() to create a legend.",
+                "Call subfig.set_facecolor('none') to remove the subfigure backgrounds."
+            ],
+            "expectedResults": "The legend should appear on top of the backgrounds, similar to when using plt.subplots().",
+            "actualResults": "The legend is hidden behind the subfigure backgrounds and the axes backgrounds.",
+            "supplementaryImages": [
+                "https://example.com/image1.png",
+                "https://example.com/image2.png",
+                "https://example.com/image3.png",
+                "https://example.com/image4.png"
+            ],
+            "additionalNotes": "This issue does not occur when using plt.subplots() for creating multiple plots within a single figure. The problem seems to be specific to subfigures."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-26788",
+        "structure_problem": {
+            "problemSummary": "Current functionality of axvline axhline on polar axes is different from rectilinear axes and axhline does not draw a circle at a given radius on polar axes.",
+            "context": "The user suggests improving axhline API to draw a circle at a given radius on polar axes similar to axvline functionality on rectilinear axes. The user also mentions potential use of axhline/axvline for drawing gridlines on arbitrary axes.",
+            "stepsToReproduce": [
+                "import matplotlib.pyplot as plt",
+                "import numpy as np",
+                "polar = plt.figure().add_subplot(projection='polar')",
+                "plt.axvline(-np.radians(22.5), color='C0')",
+                "plt.axhline(.5, color='C1')",
+                "plt.show()"
+            ],
+            "expectedResults": "axhline draws a vertical line at the expected y-value, axvline draws a horizontal line at the expected x-value.",
+            "actualResults": "axhline draws nothing on polar axes, axvline draws a radial line at the expected angle.",
+            "supplementaryImages": [
+                "The first image shows a polar plot with an axvline drawn at a radial line and an axhline drawn at a vertical line.",
+                "The second image shows the same polar plot but with the axhline drawn at a circle."
+            ],
+            "additionalNotes": "The user suggests for non-rectilinear axes, axvline/axhline should behave as 'draw a gridline at that x/y'. The user also mentions fixing _interpolation_steps for axhline on polar axes to ensure proper drawing of lines at given r values. The user proposes axhline/axvline being used for drawing gridlines on arbitrary axes if the functionality is fixed."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-26586",
+        "structure_problem": {
+            "problemSummary": "Ticklabels not changing as expected in axisartist.",
+            "context": "The user is facing an issue where ticklabels in axisartist do not change as expected, unlike in the mainline matplotlib.",
+            "stepsToReproduce": [
+                "Import the necessary axisartist module.",
+                "Create a figure and axes using axisartist.",
+                "Try to modify the ticklabels using the desired method.",
+                "Observe that the ticklabels do not change as expected."
+            ],
+            "expectedResults": "The ticklabels should change according to user's input.",
+            "actualResults": "The ticklabels remain unchanged.",
+            "supplementaryImages": [
+                "The image shows a scatter plot with the ticklabels not changing as expected, despite the user's attempt to modify them."
+            ],
+            "additionalNotes": "The issue appears to be specific to axisartist, as similar actions in mainline matplotlib produce the expected results."
+        }
+    },
+    {
+        "instance_id": "sympy__sympy-26941",
+        "structure_problem": {
+            "problemSummary": "SymPy raises a TypeError when substituting the series expansion of a function into itself, but not when using the series expansion of a different function.",
+            "context": "The user is working with SymPy, a Python library for symbolic mathematics, and is encountering an error while substituting the series expansion of a function into itself.",
+            "stepsToReproduce": [
+                "Import the necessary functions from SymPy.",
+                "Create the series expansion of a function with a specified order.",
+                "Substitute the series expansion of the same function into itself.",
+                "Expand the result"
+            ],
+            "expectedResults": "The expanded function.",
+            "actualResults": "TypeError: zip argument #2 must support iteration",
+            "supplementaryImages": [
+                "A screenshot of the error message showing the TypeError.",
+                "A screenshot of the expected output when using the series expansion of a different function."
+            ],
+            "additionalNotes": "The user has found that SymPy does not raise an error when substituting the series expansion of a different function into itself. This suggests that the issue may be specific to the function the user is trying to substitute into itself."
+        }
+    },
+    {
+        "instance_id": "mwaskom__seaborn-3458",
+        "structure_problem": {
+            "problemSummary": "Seaborn objects interface issue with log-scaling for pair plots",
+            "context": "The user encountered an issue with the seaborn objects interface when attempting to log-scale an axis for a pair plot. The expected behavior was for log-scaling not to be applied in the pair plot, as it was not applied in other cases without the pair plot construction.",
+            "stepsToReproduce": [
+                "Import seaborn and seaborn.objects",
+                "Load the diamonds dataset",
+                "Create a plot with x='carat' and y='price' without pair plotting",
+                "Add a scatter plot and apply log scaling to the y-axis",
+                "Create a pair plot with x='carat' and y='price' without pair plotting",
+                "Add a scatter plot and apply log scaling to the y-axis",
+                "Create a pair plot with x='carat' and y='price' within the pair plot construction",
+                "Add a scatter plot and apply log scaling to the y-axis"
+            ],
+            "expectedResults": "No log-scaling should be applied in the pair plot",
+            "actualResults": "Log-scaling is applied in the pair plot",
+            "supplementaryImages": [
+                "The first image shows the expected log-scaling behavior without pair plot construction.",
+                "The second image shows the unexpected log-scaling behavior within the pair plot construction.",
+                "The third image shows the expected log-scaling behavior without pair plot construction for comparison."
+            ],
+            "additionalNotes": "The user also mentioned that log-scaling works without issue in other cases without the pair plot construction. This suggests that the issue might be related to the way the pair plot is constructed, possibly affecting the application of scaling methods."
+        }
+    },
+    {
+        "instance_id": "mwaskom__seaborn-3454",
+        "structure_problem": {
+            "problemSummary": "The legend handles for the histogram plot are reversed when the legend labels are renamed.",
+            "context": "The issue occurs in a minimal example using the seaborn library's histplot function, where the legend labels are changed but the handles remain in their original order. The handles are correctly moved to the new order using sns.move_legend, but this is an ad hoc solution.",
+            "stepsToReproduce": [
+                "Import seaborn and load the penguins dataset.",
+                "Create a histogram plot using sns.histplot with the following code: ax = sns.histplot(data=penguins, x=\"flipper_length_mm\", hue=\"species\")",
+                "Set the legend labels using ax.legend(['Adelie', 'Chinstrap', 'Gentoo'])",
+                "Observe that the legend handles are not in the order of the legend labels.",
+                "Try moving the legend handles to the new order using sns.move_legend(ax, 'best', labels=['Adelie', 'Chinstrap', 'Gentoo'])",
+                "Notice that the handles are correctly moved to the new order.",
+                "The issue is reproducible in seaborn versions 11.2 or later."
+            ],
+            "expectedResults": "The legend handles should be in the order of the legend labels.",
+            "actualResults": "The legend handles are not in the order of the legend labels.",
+            "supplementaryImages": [
+                "The first histogram plot with correctly ordered handles.",
+                "The second histogram plot with reversed handles.",
+                "The third histogram plot with correctly ordered handles after using sns.move_legend.",
+                "The fourth histogram plot with the legend labels renamed, showing the expected behavior."
+            ],
+            "additionalNotes": "The problem is specific to seaborn version 11.2 or later, and the suggested workaround using sns.move_legend handles is not a general solution."
+        }
+    }
+]
