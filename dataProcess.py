@@ -448,7 +448,7 @@ def step3(data_file):
 
 
 if __name__ == '__main__':
-    step1('multi_data_onlyimage.json')
+    # step1('multi_data_onlyimage.json')
     step2('multi_data_onlyimage.json', "des")
     step2('multi_data_onlyimage.json', "analysis")
     step3('multi_data_onlyimage.json')
