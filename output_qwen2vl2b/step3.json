@@ -2383,5 +2383,24 @@
             ],
             "additionalNotes": "The error message is informative and provides clear guidance on how to fix the issue. The `from sympy import *` error occurs when the `cos(x)` object is not iterable, and the `subs` method of the object cannot be used to substitute values for variables within the Taylor series expansion of `cos(x)`."
         }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-13980",
+        "structure_problem": {
+            "problemSummary": "A radial scale minimum autoset issue in polar plot in a Jupyter Notebook.",
+            "context": "A radial scale minimum autoset issue in a polar plot was encountered on a Matplotlib version 3.0.2 from pip on a Windows 10 and Ubuntu Linux system. The issue was observed when plotting data in a polar plot, where the default bottom y_limit was unexpectedly not at zero. This resulted in confusion about the meaning of the plot, especially for users who are unfamiliar with polar plots where r=0 is not at the center of the plot.",
+            "stepsToReproduce": [
+                "Run the code snippet in a Jupyter Notebook",
+                "Observe the expected and unexpected polar plots",
+                "Identify the difference in the y_limits of the two plots"
+            ],
+            "expectedResults": "The expected polar plot should have the bottom y_limit at zero, whereas the unexpected one should not.",
+            "actualResults": "The expected polar plot has the bottom y_limit at zero, whereas the unexpected one has a hole in the middle.",
+            "supplementaryImages": [
+                "Expected polar plot (left)",
+                "Unexpected polar plot (right)"
+            ],
+            "additionalNotes": "The issue was encountered when plotting data on a polar plot, and the default bottom y_limit was unexpectedly not at zero, which led to confusion about the plot's meaning."
+        }
     }
 ]

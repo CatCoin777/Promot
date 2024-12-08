@@ -326,8 +326,6 @@ def step1(data_file):
     for data in tqdm(data_list):
         raw_description_list = []
         instance_id = data["instance_id"]
-        if instance_id == "sympy__sympy-13264":
-            continue
         index = 0
         for problem in data["problem_statement"]:
             if problem.startswith('http'):
@@ -359,8 +357,6 @@ def step2(data_file, type="des"):
         problem_list = []
         image_list = []
         instance_id = data["instance_id"]
-        if instance_id == "sympy__sympy-13264":
-            continue
         index = 0
         for problem in data["problem_statement"]:
             if problem.startswith('http'):
@@ -411,8 +407,6 @@ def step3(data_file):
         problem_list = []
         image_list = []
         instance_id = data["instance_id"]
-        if instance_id in ["sympy__sympy-13264", "matplotlib__matplotlib-13980"]:
-            continue
         index = 0
         for problem in data["problem_statement"]:
             if problem.startswith('http'):
@@ -448,7 +442,7 @@ def step3(data_file):
 
 
 if __name__ == '__main__':
-    # step1('multi_data_onlyimage.json')
+    step1('multi_data_onlyimage.json')
     step2('multi_data_onlyimage.json', "des")
     step2('multi_data_onlyimage.json', "analysis")
     step3('multi_data_onlyimage.json')
