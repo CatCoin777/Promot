@@ -4990,5 +4990,58 @@
                 "description": "A bar chart with three bars representing Adelie, Chinstrap, and Gentoo species, with their respective lengths in millimeters. The bars are stacked and the legend is on the left side of the chart."
             }
         ]
+    },
+    {
+        "instance_id": "sphinx-doc__sphinx-10435",
+        "description_list": [
+            {
+              "image_id": "1",
+              "description": "The code block with the `code` role has a space character inserted at the start and end of the inline code. The expected behavior is to remove the space characters to match the LaTeX output. The code block is as follows: `Inline \\sphinxcode{\\sphinxupquote{ <--- this produces a space in output\\PYG{k}{def} \\PYG{n+nf}{foo}\\PYG{p}{(}\\PYG{l+m+mi}{1} \\PYG{o}{+} \\PYG{l+m+mi}{2} \\PYG{o}{+} \\PYG{k+kc}{None} \\PYG{o}{+} \\PYG{l+s+s2}{\\PYGZdq{}}\\PYG{l+s+s2}{abc}\\PYG{l+s+s2}{\\PYGZdq{}}\\PYG{p}{)}\\PYG{p}{:} \\PYG{k}{pass}%}} code block`"
+            }
+        ]
+    },
+    {
+        "instance_id": "sphinx-doc__sphinx-7615",
+        "description_list": [
+            {
+              "image_id": "1",
+              "description": "The first screenshot shows a list of numbers in RST format, rendered using Sphinx. The numbers are rendered as `\\` for two or more consecutive backslashes, while they are correctly rendered as `\\` in pure Docutils. This is an issue with the rendering of consecutive backslashes in Sphinx."
+            },
+            {
+              "image_id": "2",
+              "description": "The second screenshot shows a list of numbers in RST format, rendered using Sphinx. The numbers are rendered as `\\ for two or more consecutive backslashes, while they are correctly rendered as `\\` in pure Docutils. This is an issue with the rendering of consecutive backslashes in Sphinx."
+            },
+            {
+              "image_id": "3",
+              "description": "The third screenshot shows a list of numbers in RST format, rendered using Sphinx. The numbers are rendered as `\\` for two or more consecutive backslashes, while they are correctly rendered as `\\` in pure Docutils. This is an issue with the rendering of consecutive backslashes in Sphinx."
+            }
+        ]
+    },
+    {
+        "instance_id": "sphinx-doc__sphinx-9229",
+        "description_list": [
+            {
+              "image_id": "1",
+              "description": "The sphinx-apidoc command is not correctly rendering the type alias documentation for the file module. When the file content is None, the file should not be written to disk (empty files are represented by an empty string \"\" as content)."
+            }
+        ]
+    },
+    {
+        "instance_id": "sphinx-doc__sphinx-9350",
+        "description_list": [
+            {
+              "image_id": "1",
+              "description": "Man page using :samp:`{blah}` with braces, showing issues with font change not resetting after the closing :samp:`}`."
+            }
+        ]
+    },
+    {
+        "instance_id": "sphinx-doc__sphinx-9997",
+        "description_list": [
+            {
+              "image_id": "1",
+              "description": "The image shows a Python code snippet with a function `func` that takes two parameters, `x` and `y`. The function is defined with a `Literal` type parameter, which is annotated with the string `\"a\"` and `\"b\"`. The function is also defined with a `y` parameter of type `int`. The code snippet is enclosed in triple quotes and is being processed by Sphinx to generate documentation for the function."
+            }
+        ]
     }
 ]

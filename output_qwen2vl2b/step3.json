@@ -2071,5 +2071,317 @@
             ],
             "additionalNotes": "The code should be modified to avoid the issue by adding the handles to the legend."
         }
+    },
+    {
+        "instance_id": "astropy__astropy-11693",
+        "structure_problem": {
+            "problemSummary": "When trying to plot an image with a WCS as projection that contains non-linear distortions using the fitswcs library, the call to plotting the grid fails with the error 'NoConvergence: 'WCS.all_world2pix' failed to converge to the requested accuracy after 20 iterations, the solution is diverging at least for one input point.",
+            "context": "The issue arises when trying to use the 'all_world2pix' function along with a WCS object in the fitswcs library. The library is designed to handle linear distortions, but not non-linear distortions.",
+            "stepsToReproduce": [
+                "The issue can be reproduced by calling the 'all_world2pix' function along with a WCS object, as shown in the provided code example.",
+                "Check the documentation for the 'all_world2pix' function for the expected behavior and any known limitations.",
+                "Ensure that the WCS object has the correct non-linear distortion settings for the requested projection.",
+                "Try adjusting the tolerance, maxiter, adaptive, detect_divergence, and quiet parameters to see if they help resolve the issue."
+            ],
+            "expectedResults": "When using the 'all_world2pix' function with a WCS object that contains non-linear distortions, the plot should be able to converge to the requested accuracy after a reasonable number of iterations without diverging.",
+            "actualResults": "The call to plotting the grid fails with the given error message.",
+            "supplementaryImages": [
+                "The actual error message from the call to 'all_world2pix' function, which is the key indicator of the issue."
+            ],
+            "additionalNotes": [
+                "It is recommended to check the library's documentation for the latest information on how to handle non-linear distortions and avoid this issue in the future."
+            ]
+        }
+    },
+    {
+        "instance_id": "astropy__astropy-8292",
+        "structure_problem": {
+            "problemSummary": "The provided code demonstrates an issue with the implementation of the `littleh` equivalency in astropy.units.",
+            "context": "The code is trying to convert the `Hubble constant` unit `u.Mpc` to the `littleh` unit using the `distance.to` method. However, the implementation of `littleh` seems to be incorrect.",
+            "stepsToReproduce": [
+                "The code uses the `distance.to` method with the `u.Mpc` parameter, but the `u.Mpc` parameter is not recognized as an existing unit in the `astropy.units` module.",
+                "The `distance.to` method is expected to convert from `u.Mpc` to a specific unit (e.g., `u.Lsun`), but it is not implemented correctly for `littleh` units.",
+                "...<more steps as necessary>"
+            ],
+            "expectedResults": "The expected result should be the conversion of `distance` from `u.Mpc` to `u.Lsun` or another `littleh` equivalent.",
+            "actualResults": "The actual result is an incorrect conversion of `distance` from `u.Mpc` to `u.Mpc/h`.",
+            "supplementaryImages": [
+                "An image of the code snippet with the highlighted issue."
+            ],
+            "additionalNotes": "The issue is highlighted in the figure accompanying the code snippet, which shows a wrong conversion of `distance` from `u.Mpc` to `u.Mpc/h`, which is equivalent to `140 Mpc`. The actual result is the wrong conversion to `70 Mpc`."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-14623",
+        "structure_problem": {
+            "problemSummary": "The provided code demonstrates an issue with the implementation of the `littleh` equivalency in astropy.units.",
+            "context": "The code is trying to convert the `Hubble constant` unit `u.Mpc` to the `littleh` unit using the `distance.to` method. However, the implementation of `littleh` seems to be incorrect.",
+            "stepsToReproduce": [
+                "The code uses the `distance.to` method with the `u.Mpc` parameter, but the `u.Mpc` parameter is not recognized as an existing unit in the `astropy.units` module.",
+                "The `distance.to` method is expected to convert from `u.Mpc` to a specific unit (e.g., `u.Lsun`), but it is not implemented correctly for `littleh` units.",
+                "...<more steps as necessary>"
+            ],
+            "expectedResults": "The expected result should be the conversion of `distance` from `u.Mpc` to `u.Lsun` or another `littleh` equivalent.",
+            "actualResults": "The actual result is an incorrect conversion of `distance` from `u.Mpc` to `u.Mpc/h`.",
+            "supplementaryImages": [
+                "An image of the code snippet with the highlighted issue."
+            ],
+            "additionalNotes": "The issue is highlighted in the figure accompanying the code snippet, which shows a wrong conversion of `distance` from `u.Mpc` to `u.Mpc/h`, which is equivalent to `140 Mpc`. The actual result is the wrong conversion to `70 Mpc`."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-23047",
+        "structure_problem": {
+            "problemSummary": "Float16 data does not support proper binning without gaps between bins.",
+            "context": "Float16 data is often used for numerical computations due to its lower memory footprint compared to float32. However, when binning data, it can lead to numerical errors if the bin edges are not correctly calculated.",
+            "stepsToReproduce": [
+                "Run the following code with float16 data:",
+                "[code example]\n```python\nimport numpy as np\nimport matplotlib.pyplot as plt\nvalues = np.clip(np.random.normal(0.5, 0.3, size=1000), 0, 1).astype(np.float16)\nplt.hist(values, bins=100, alpha=0.5)\nplt.show()\\```",
+                "Observe the histogram output and note the presence of gaps between bins."
+            ],
+            "expectedResults": "The histogram should show distinct, non-overlapping bins.",
+            "actualResults": "The histogram shows gaps between bins.",
+            "supplementaryImages": [
+                "https://share.to/.../float16_histogram_with_gaps.png",
+                "https://share.to/.../float16_histogram_with_gaps.png"
+            ],
+            "additionalNotes": "The problem is due to the float16 data's inability to accurately represent floating-point numbers without rounding errors. This can lead to discrepancies in bin edges, resulting in gaps and overlapping bins when binning the data."
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-24768",
+        "structure_problem": {
+            "problemSummary": "Both pcolormesh with rasterized=True and set_rasterization_zorder(-10) conflict in using a color plot",
+            "context": "A color plot with rasterized=True in Matplotlib is incompatible with setting the Z order to -10 as this can cause a Z order issue",
+            "stepsToReproduce": [
+                "Code reproduction example: https://github.com/matplotlib/matplotlib/blob/master/example/figure_color_test.py",
+                "Expected outcome: The code should have produced a properly rasterized color plot with -10 as the rasterization Z order, but as of 2023, the current issue has not been resolved in 3.7.0.dev447+g2d18bba0ea",
+                "Actual results: A generic error occurs during plotting with rasterized=True and -10 as the rasterization Z order"
+            ],
+            "expectedResults": "The code should have produced a properly rasterized color plot with -10 as the rasterization Z order",
+            "actualResults": "A generic error occurs during plotting with rasterized=True and -10 as the rasterization Z order",
+            "supplementaryImages": [
+                "Example code: https://github.com/matplotlib/matplotlib/blob/master/example/figure_color_test.py",
+                "Current bug: https://github.com/matplotlib/matplotlib/blob/3.7.0-dev447+g2d18bba0ea/example/figure_color_test.py"
+            ],
+            "additionalNotes": "The bug in version 3.7.0.dev447+g2d18bba0ea has been reported since 2023. The specific cause is not clear, but it appears to be related to a change in the set_rasterization_zorder() method. The bug has been fixed in later versions, but it is unclear how this change will affect future users of Matplotlib. It is recommended to check the Matplotlib version and commit history to understand the bug's nature and the current status of its resolution. Additionally, users should use the recommended version of Matplotlib to ensure compatibility with the current bug fix.",
+            "contextNotes": "The bug is related to the color plot's rasterization behavior, and it is important for users to understand the implications of rasterizing a color plot before trying to perform operations with rasterization.",
+            "solutionSuggestions": [
+                "Users should use the recommended version of Matplotlib to ensure compatibility with the current bug fix.",
+                "The bug is usually caused by a change in the set_rasterization_zorder() method, and it is important to check the Matplotlib version and commit history to understand the bug's nature and the current status of its resolution.",
+                "Users should use Matplotlib's API for rasterization and ensure that the rasterization settings are consistent with the expected result."
+            ]
+        }
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-24971",
+        "structure_problem": {
+            "problemSummary": "The same figure is saved twice in a compressed layout setting, although they are visually identical.",
+            "context": "Problem is caused by setting the compressed layout setting in `matplotlib.rcParams` twice.",
+            "stepsToReproduce": [
+                "Create a figure with constrained layout",
+                "Save the figure with compressed layout once",
+                "Save the figure with compressed layout again",
+                "Compare the two saved images to ensure they are identical"
+            ],
+            "expectedResults": "Both images should be identical.",
+            "actualResults": "The images are identical, but they are visually different.",
+            "supplementaryImages": [
+                "Both images (test1.png and test2.png)"
+            ],
+            "additionalNotes": "The difference might be due to the difference in the figure's bounding box corner values in the `bbox_inches` parameter when using `compressed layout`."
+        }
+    },
+    {
+        "instance_id": "sphinx-doc__sphinx-10191",
+        "structure_problem":{
+            "problemSummary": "Footnotes in a Markdown file rendered as '?' when there are multiple footnotes and the footnote marks are not highlighted or linked.",
+            "context": "The provided code contains an issue where the footnote markers are rendered as '?' in the output when multiple footnotes are present and the footnote markers are not highlighted or linked. This can lead to confusion and difficulty in understanding the content.",
+            "stepsToReproduce": [
+                "Open the Markdown file with the code snippet provided in the question",
+                "Run `make latex` to generate the LaTeX code for the document",
+                "Compile the LaTeX code using `latex` to produce the PDF file",
+                "Open the PDF file and view the rendered content of the footnotes",
+                "Check the rendered content for the presence of '?' as a footnote marker"
+            ],
+            "expectedResults": "Expected that the footnotes would be rendered correctly with no '?'",
+            "actualResults": "Footnotes were rendered as '?'",
+            "supplementaryImages": [
+                "A screenshot of the original Markdown file"
+            ],
+            "additionalNotes": "The issue might be related to the rendering of footnote markers in Sphinx and Sphinx extensions that may not be properly handling multiple footnotes or the use of non-highlighted footnote markers."
+        }
+    },
+    {
+        "instance_id": "sphinx-doc__sphinx-10435",
+        "structure_problem":{
+            "problemSummary": "The inline code block in the LaTeX output has space characters inserted at the start and end of the inline code block when the code is rendered, as per the new inline code highlighting from #10251.",
+            "context": "The #10251 enhancement for inline code highlights in Sphinx converts Markdown code to LaTeX, including inline code blocks. However, the current behavior with the new syntax highlighting causes spaces to be inserted at the start and end of the inline code blocks. This was not the intended behavior before the merge and needs to be fixed.",
+            "stepsToReproduce": [
+                "To reproduce the issue, insert the test code at the relevant location within the Markdown document. The code should display an error message indicating that the syntax highlighting has been applied incorrectly."
+            ],
+            "expectedResults": "The expected behavior is to display the text of the code block without any space characters inserted, as per the initial code snippet.",
+            "actualResults": "The actual results are that the inline code block has spaces inserted at the start and end, as per the code provided. This is not the expected behavior of the new inline code highlighting feature.",
+            "supplementaryImages": [
+                "Image1.png", "Image2.png"
+            ],
+            "additionalNotes": "The user should note that the space characters were inserted in the LaTeX output due to the new inline code highlighting from #10251. This behavior was unexpected, and it should be fixed to maintain the intended functionality of the inline code highlighting feature in Sphinx."
+        }
+    },
+    {
+        "instance_id": "sphinx-doc__sphinx-7615",
+        "structure_problem":{
+            "problemSummary": "Sphinx incorrectly renders four or more consecutive backslashes (\\) in RST.",
+            "context": "The problem is related to the rendering of consecutive backslashes in the Sphinx documentation process.",
+            "stepsToReproduce": [
+                "The issue occurs when rendering four or more consecutive backslashes in RST.",
+                "A simple RST code snippet with four or more consecutive backslashes is used to demonstrate the issue."
+            ],
+            "expectedResults": "The expected behavior is that two backslashes should be rendered as `\\`, three backslashes as `\\`, four and five backslashes as `\\`, and six backslashes as `\\`.",
+            "actualResults": "Sphinx incorrectly renders four or more consecutive backslashes as `\\\\`.",
+            "supplementaryImages": [
+                "A screenshot of the issue with four or more consecutive backslashes rendered incorrectly as `\\\\`."
+            ],
+            "additionalNotes": "The issue was observed while using Sphinx 3.0.2 with no installed extensions."
+        }
+    },
+    {
+        "instance_id": "sphinx-doc__sphinx-9982",
+        "structure_problem":{
+            "problemSummary": "Some types of warnings are colored differently in Sphinx documentation for the `doc/extdev/logging.rst` file, while others are not.",
+            "context": "The warning colors for the log level are not consistent across different types of warnings. Some warnings are colored differently than others, even when `--keep-going` is enabled.",
+            "stepsToReproduce": [
+                "Clone the `dockstore-documentation` repository",
+                "Change the working directory to `dockstore-documentation`",
+                "Checkout the `make-html-warnings` branch",
+                "Install requirements.txt using pip",
+                "Change the working directory to `docs`",
+                "Make HTML files using `make html` command"
+            ],
+            "expectedResults": "All warnings should have the same color and not match the color of errors.",
+            "actualResults": "Some warnings are colored differently than others, regardless of whether `--keep-going` is enabled.",
+            "supplementaryImages": [
+                "A screenshot showing the `doc/extdev/logging.rst` file with warnings colored differently."
+            ],
+            "additionalNotes": "The Sphinx documentation for the `doc/extdev/logging.rst` file is undergoing development, and the warnings' colors might change in future releases."
+        }
+    },
+    {
+        "instance_id": "sympy__sympy-15151",
+        "structure_problem":{
+            "problemSummary": "The `init_printing` function from the SymPy library is not printing indexed expressions correctly.",
+            "context": "SymPy is a Python package for symbolic mathematics, used for working with mathematical expressions, equations, and functions. The `init_printing` function is used to initialize the output format of expressions, and it is expected to print expressions in a readable format, such as \"x_i\", where 'i' is the index of the variable.",
+            "stepsToReproduce": [
+                "Create an expression with indexed variables",
+                "Inspect the output of the expression using SymPy's `print()` method"
+            ],
+            "expectedResults": "The expected output should show the indexed expression in a readable format, such as 'x_i'",
+            "actualResults": "The actual output shows the expression 'x_i[i]' instead of 'x_{i,i}', which is not what is expected.",
+            "supplementaryImages": [
+                "An image of the SymPy expression with indexed variables",
+                "An image of the SymPy output showing the expression in its expected format"
+            ],
+            "additionalNotes": "It's possible that the SymPy library or the Python environment is not correctly configured, or there might be an issue with how the expression is printed when indexed variables are involved. It's also important to note that the SymPy documentation and examples may not always provide the expected behavior for indexed expressions, so it's crucial to check the library documentation for further information."
+        }
+    },
+    {
+        "instance_id": "sympy__sympy-16003",
+        "structure_problem":{
+            "problemSummary": "MathML presentation printing of multiple derivatives is messed up.",
+            "context": "The MathML presentation of the expression `Derivative(f(x, y, z), x, z, x, z, z, y)` is not properly aligned and the LaTeX equivalent does not match the printed version.",
+            "stepsToReproduce": [
+                "Try to reproduce the issue by typing the expression in a LaTeX editor and printing the resulting MathML code.",
+                "Ensure that the correct LaTeX code is being printed by checking the output with a LaTeX editor."
+            ],
+            "expectedResults": "The MathML presentation should be properly aligned and the LaTeX equivalent should match the printed version.",
+            "actualResults": "The MathML presentation is not properly aligned and does not match the LaTeX equivalent.",
+            "supplementaryImages": [
+                "MathML presentation with various line endings and a non-aligned display."
+            ],
+            "additionalNotes": "The problem arises from the `_print_Derivative` method in sympy, which currently prints multiple derivative variables on a single line. It is recommended to improve this method to correctly print all derivative variables on a single line and to get the correct power in the numerator."
+        }
+    },
+    {
+        "instance_id": "plotly__plotly.py-4083",
+        "structure_problem":{
+            "problemSummary": "A ValueError was encountered while using the 'px.scatter' function to plot a scatter plot from a pandas DataFrame with the 'most_similar_kt' column, which was mapped to the hover_data parameter.",
+            "context": "The issue occurs when attempting to plot a scatter plot against a column in a pandas DataFrame using the 'px.scatter' function and mapping the 'most_similar_kt' column to 'hover_data', but the column name is specified as a single string rather than a list of column names.",
+            "stepsToReproduce": [
+                "Make sure to supply a list of column names when using the 'hover_data' parameter with the 'px.scatter' function.",
+                "Make sure to check the column name in the 'data_frame' and ensure it is a valid column name."
+            ],
+            "expectedResults": "No issues should arise from performing this operation with the specified column name.",
+            "actualResults": "The scatter plot does not work as expected.",
+            "supplementaryImages": [
+                "A screenshot of the plot with the issue"
+            ],
+            "additionalNotes": "It would be helpful if the error message was clarified to indicate that the column name is not a valid column name in the DataFrame."
+        }
+    },
+    {
+        "instance_id": "plotly__plotly.py-2591",
+        "structure_problem":{
+            "problemSummary": "The color of a sector in a sunburst chart is not as expected, as it seems to be the sum of its children's colors, rather than the average of their colors.",
+            "context": "The sunburst chart is used to visualize the life expectancy (lifeExp) of different continents and countries. The chart contains a sunburst node with three sectors labeled as \"Africa\", \"Europe\", and \"Americas\". The color scale is represented by a color bar on the right, with the color bar color being blue to red, with intensity values ranging from 500 to 2500.",
+            "stepsToReproduce": [
+                "Check the color bar on the right side of the sunburst node to understand the color scale used in this chart.",
+                "Observe the position of the color bar on the scale and compare it with the actual color of the sectors in the chart.",
+                "Verify if there is a specific color or scheme used to represent the life expectancy values in the chart, and compare it with the actual colors of the sectors."
+            ],
+            "expectedResults": "The color of a sector in a sunburst chart should be the average of its children's colors, but in this case, it seems to be the sum of its children's colors.",
+            "actualResults": "The color of a sector in this sunburst chart is the sum of its children's colors, rather than the average of their colors. This is observed in the color bar on the right side of the sunburst node, where the color scale is represented as blue to red, and the intensity values range from 500 to 2500.",
+            "supplementaryImages": [
+                "<a link to the sunburst chart with the color bar on the right side of the node>"
+            ],
+            "additionalNotes": "The color bar on the right side of the sunburst node is used to represent the color scale used in this chart. This is a common practice in sunburst charts to help users understand the color coding and its relationship with the data being represented."
+        }
+    },
+    {
+        "instance_id": "networkx__networkx-5354",
+        "structure_problem":{
+            "problemSummary": "The `nx.spiral_layout` function with `equidistant=True` produces a different layout when compared to other iterations in the iterative implementation, resulting in nodes that are not equidistant from each other when `equidistant=True`.",
+            "context": "The `nx.spiral_layout` function is an iterative function in NetworkX that generates a layout for a graph, and it defaults to `equidistant=True` when using the `pos` parameter. However, the iterative implementation of `spiral_layout` results in nodes that are not equidistant from each other when `equidistant=True`.",
+            "stepsToReproduce": [
+                "Call nx.spiral_layout with `equidistant=True` and the graph G with 5 nodes."
+            ],
+            "expectedResults": "'nx.spiral_layout' should produce a layout where all nodes are equidistant from each other when `equidistant=True`.",
+            "actualResults": "The layout produced by 'nx.spiral_layout' with 'equidistant=True' is different and does not produce a layout where all nodes are equidistant from each other.",
+            "supplementaryImages": [
+                "A sample figure of the layout produced by nx.spiral_layout with equidistant=True."
+            ],
+            "additionalNotes": "The layout produced by nx.spiral_layout with equidistant=True is not a standard layout and may not be suitable for the problem at hand."
+        }
+    },
+    {
+        "instance_id": "networkx__networkx-5058",
+        "structure_problem":{
+            "problemSummary": "The `nx.write_graphml` function of the networkx package cannot be used to save a graph generated using the stochastic_block_model function with community probabilities and sizes.",
+            "context": "The problem is related to the error message that appears when trying to save a graph generated with the stochastic_block_model function using write_graphml. It suggests that the function cannot handle the generated graph.",
+            "stepsToReproduce": [
+                "The code that reproduces the error is as follows: `import networkx as nx\nwg = 0.8 # can be any number representing within group probability\nbg = 0.2 # can be any number representing between group probability\ncommunity_probs = [[wg, bg, bg],\n                   [bg, wg, bg],\n                   [bg, bg, wg]]\ncommunity_sizes = [10,10,10]\nG = nx.stochastic_block_model(community_sizes, community_probs)\n\n\n\nnx.write_graphml(G, 'file_name.graphml')`"
+            ],
+            "expectedResults": "The function should be able to save the graph generated using stochastic_block_model and write_graphml should be able to handle the returned graph.",
+            "actualResults": "The function cannot save the graph generated using stochastic_block_model and write_graphml returns an error message, indicating that the function cannot handle the generated graph.",
+            "supplementaryImages": "",
+            "additionalNotes": "The error message suggests that the function may not handle the generated graph correctly, which is likely due to the community probabilities and sizes not being compatible with the stochastic_block_model function. This could be a limitation in networkx's implementation or a bug in the package."
+        }
+    },
+    {
+        "instance_id": "sympy__sympy-26941",
+        "structure_problem":{
+            "problemSummary": "The `from sympy import *` error occurs because the `cos(x)` object is not an iterable, which means it cannot be passed to the `subs` method. The `series` method of the `cos(x)` object returns an object of type `sympy.solvers.taylor.TaylorSeries`, which is not iterable. The `subs` method of the `cos(x)` object can be used to substitute values for variables within the Taylor series expansion of `cos(x)`, but the error occurs because the Taylor series is not iterable and cannot be passed to the `subs` method.",
+            "context": "The user is trying to use the `subs` method of the `cos(x)` object to substitute values for variables within the Taylor series expansion of `cos(x)`, but the error message indicates that the Taylor series is not iterable and cannot be passed to the `subs` method.",
+            "stepsToReproduce": [
+                "Try to use the `subs` method of the `cos(x)` object to substitute values for variables within the Taylor series expansion of `cos(x)`. Make sure to pass the Taylor series as an iterable object, such as a `TaylorSeries` object.",
+                "If the Taylor series is not iterable, try to convert it to an iterable object by using the `iter()` method and then use the `subs` method."
+            ],
+            "expectedResults": "The error message indicates that the Taylor series is not iterable and cannot be passed to the `subs` method. The expected results would be to get an error message indicating that the Taylor series is not iterable and cannot be passed to the `subs` method.",
+            "actualResults": "The actual results are that the function attempts to substitute values for variables within the Taylor series expansion of `cos(x)`, but the error message is thrown.",
+            "supplementaryImages": [
+                "The error message is shown in a Python error message dialog box, which can be used to provide additional information about the error.",
+                "The image shows the error message for the `from sympy import *` error."
+            ],
+            "additionalNotes": "The error message is informative and provides clear guidance on how to fix the issue. The `from sympy import *` error occurs when the `cos(x)` object is not iterable, and the `subs` method of the object cannot be used to substitute values for variables within the Taylor series expansion of `cos(x)`."
+        }
     }
 ]

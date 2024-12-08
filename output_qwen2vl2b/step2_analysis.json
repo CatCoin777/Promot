@@ -2815,5 +2815,117 @@
                 "analysis": "The image shows a bar chart with three different species of penguins, Adelie, Chinstrap, and Gentoo, and their corresponding flipper lengths. The chart has a legend that includes the species names and handles for each species. The legend is moved to the best position and handles are given to the legend handles. The chart is used to compare the flipper lengths of the three species. The legend and handles are important for understanding the data and for better visualization of the data."
             }
         ]
+    },
+    {
+        "instance_id": "astropy__astropy-8292",
+        "description_list": [
+            {
+                "image_id": "1",
+                "analysis": "The image shows a snippet of code related to astropy.units, specifically the `littleh` unit. The code demonstrates how to convert between `u.Mpc` and `u.littleh` units. The highlighted line shows the incorrect conversion of `distance` from `u.Mpc` to `u.littleh` when `h=0.7`. The expected conversion is `100 * (u.Mpc/u.littleh)` instead of `100 * (u.Mpc/u.littleh)`."
+            }
+        ]
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-14623",
+        "description_list": [
+            {
+                "image_id": "1",
+                "analysis": "The provided bug report highlights a specific issue with matplotlib's handling of log axes. Specifically, it mentions that starting in matplotlib 3.1.0, it is no longer possible to invert a log axis using its limits. This is evident from the code provided, which demonstrates the issue by plotting a log scale and then attempting to invert it using its limits. The actual outcome shows that the y-axis is only inverted for the \"linear\" scale, while the expected outcome would be for both scales. This is a critical issue for users who rely on the correct inversion of log axes for their data visualization needs."
+            }
+        ]
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-22871",
+        "description_list": [
+            {
+                "image_id": "1",
+                "analysis": "The graph shows a temperature trend over time, with a clear decline in temperature from March to September. The y-axis represents temperature in degrees Celsius, and the x-axis represents time in days. The data points are plotted as a line, with each point representing a specific date and temperature value. The graph is a useful tool for visualizing temperature changes over time, which can be important for weather forecasting and climate studies. The x-axis is labeled with the months of the year, and the y-axis is labeled with the temperature in degrees Celsius. The graph is a simple line plot with no additional markers or annotations, making it easy to interpret the data. The use of a grid and a date formatter helps to make the graph more readable and informative. The code for reproducing the graph is provided, and it is clear that the x-axis is intended to represent time in days. The expected outcome is that the year \"2021\" should be visible in the offset to the right of the x-axis. The actual outcome is that the year is not visible in the offset, which is a bug. The additional information includes the version of Spyder, Matplotlib, and Python, as well as the operating system and backend. The installation information is also included, which is a standard requirement for reproducible research. The code for reproducing the graph is provided, which is a necessary step for verifying the bug. The expected outcome is that the year \"2021\" should be visible in the offset to the right of the x-axis, which is a critical detail for understanding the bug and its impact on the graph's functionality. The actual outcome is that the year is not visible in the offset, which is a bug that needs to be fixed."
+            }
+        ]
+    },
+    {
+        "instance_id": "sphinx-doc__sphinx-7615",
+        "description_list": [
+            {
+                "image_id": "1",
+                "analysis": "The images show a comparison between the rendering of consecutive backslashes in Sphinx and Docutils. Sphinx incorrectly renders four or more consecutive backslashes, while Docutils correctly renders them as `\\`. This is the bug that needs to be documented and fixed. The screenshots provide a visual representation of the issue, and the environment information helps to understand the context in which the issue is occurring."
+            }
+        ]
+    },
+    {
+        "instance_id": "sphinx-doc__sphinx-8075",
+        "description_list": [
+            {
+                "image_id": "1",
+                "analysis": "The first image, which is a figure without a caption, shows a landscape with mountains and a body of water. The figure is labeled with a plain reference, which is not properly formatted. This image is necessary for documenting the issue because it demonstrates that the figure without a caption is not properly formatted and can lead to errors in both HTML and LaTeX. The plain reference is not formatted correctly, and the LaTeX warning indicates that the figure is not properly referenced. This image is important for understanding the specific issue and for troubleshooting the problem related to the non-numbered figure not being properly referenced via :ref:`label`."
+            },
+            {
+                "image_id": "2",
+                "analysis": "The second image, which is a figure with a caption, shows a similar landscape as the first image but with a caption. The figure is labeled with a named reference, which is properly formatted. This image is necessary for documenting the issue because it shows that the figure with a caption is properly formatted and can be referenced in LaTeX. The named reference is formatted correctly, and the LaTeX warning indicates that the figure is properly referenced. This image is important for understanding the specific issue and for troubleshooting the problem related to the numbered figure being properly referenced via :ref:`label`."
+            }
+        ]
+    },
+    {
+        "instance_id": "sphinx-doc__sphinx-8265",
+        "description_list": [
+            {
+                "image_id": "1",
+                "analysis": "The image is a screenshot of a code snippet from the PyVista documentation, specifically from the \"plotting\" section. It demonstrates how to add lines to a plotting object in PyVista. The snippet is part of the \"Base Plotter\" class method, which is used to add line segments to a plot. The parameters for this method include 'lines', 'color', 'width', 'label', and 'name'. The 'lines' parameter is an np.ndarray or Pyvista.PolyData object, which represents the line segments. The 'color' parameter is a string or a list of strings, representing the color of the lines. The 'width' parameter is a float, representing the thickness of the lines. The 'label' and 'name' parameters are optional and represent the label and name of the added actor, respectively. The 'Returns' parameter is an actor object, which is the result of the method call. The 'Return type' parameter is a vtk.vtkActor, which is the type of object returned by the method."
+            }
+        ]
+    },
+    {
+        "instance_id": "sphinx-doc__sphinx-9350",
+        "description_list": [
+            {
+                "image_id": "1",
+                "analysis": "The image shows a man page with a sample text using :samp:`{blah}`. The issue is with the rendering of the man page when using :samp:`{blah}`. The font change doesn't reset after the closing of the :samp:`{blah}` and runs onto subsequent lines until certain 'resetting' elements are encountered, such as a bullet, heading, and possibly others. The MWE (Minimal Working Example) included with the screen shot is relevant to the issue as it provides a specific example of the problem."
+            }
+        ]
+    },
+    {
+        "instance_id": "matplotlib__matplotlib-26926",
+        "description_list": [
+            {
+                "image_id": "1",
+                "analysis": "The images show a plot with two lines, line1 and line2, each with a different color. The lines are plotted against a linear scale from 1 to 10. The x-axis represents the values, and the y-axis represents the corresponding values. The x-axis values are evenly spaced, and the y-axis values are also evenly spaced. The lines are drawn with a blue color for line1 and a red color for line2. The plots are labeled with the lines and their respective colors. The background of the plots is white, and the lines are drawn with a thick line. The x-axis and y-axis have a tick mark at each value, and the tick marks are labeled with the corresponding values. The plots are displayed in a 2x2 grid format, with each subplot having a white background. The legend is located on the top of the white backgrounds of the subplots, and the lines are drawn with a blue color for line1 and a red color for line2. The plots are saved as 'subfigures_figlegend.png' and 'subplots_figlegend.png' with a dpi of 200. The code is written in Python 3.8.10 with Matplotlib version 3.5.0 and Matplotlib backend QtAgg. The operating system is Ubuntu 20. The installation is pip. The Matplotlib version is 3.5.0. The Matplotlib backend is QtAgg. The Python version is 3.8.10. The Jupyter version is _No response_."
+            },
+            {
+                "image_id": "2",
+                "analysis": "The images show a plot with two lines, line1 and line2, each with a different color. The lines are plotted against a linear scale from 1 to 10. The x-axis represents the values, and the y-axis represents the corresponding values. The x-axis values are evenly spaced, and the y-axis values are also evenly spaced. The lines are drawn with a blue color for line1 and a red color for line2. The plots are labeled with the lines and their respective colors. The background of the plots is white, and the lines are drawn with a thick line. The x-axis and y-axis have a tick mark at each value, and the tick marks are labeled with the corresponding values. The plots are displayed in a 2x2 grid format, with each subplot having a white background. The legend is located on the top of the white backgrounds of the subplots, and the lines are drawn with a blue color for line1 and a red color for line2. The plots are saved as 'subfigures_figlegend.png' and 'subplots_figlegend.png' with a dpi of 200. The code is written in Python 3.8.10 with Matplotlib version 3.5.0 and Matplotlib backend QtAgg. The operating system is Ubuntu 20. The installation is pip. The Matplotlib version is 3.5.0. The Matplotlib backend is QtAgg. The Python version is 3.8.10. The Jupyter version is _No response_."
+            },
+            {
+                "image_id": "3",
+                "analysis": "The images show a plot with two lines, line1 and line2, each with a different color. The lines are plotted against a linear scale from 1 to 10. The x-axis represents the values, and the y-axis represents the corresponding values. The x-axis values are evenly spaced, and the y-axis values are also evenly spaced. The lines are drawn with a blue color for line1 and a red color for line2. The plots are labeled with the lines and their respective colors. The background of the plots is white, and the lines are drawn with a thick line. The x-axis and y-axis have a tick mark at each value, and the tick marks are labeled with the corresponding values. The plots are displayed in a 2x2 grid format, with each subplot having a white background. The legend is located on the top of the white backgrounds of the subplots, and the lines are drawn with a blue color for line1 and a red color for line2. The plots are saved as 'subfigures_figlegend.png' and 'subplots_figlegend.png' with a dpi of 200. The code is written in Python 3.8.10 with Matplotlib version 3.5.0 and Matplotlib backend QtAgg. The operating system is Ubuntu 20. The installation is pip. The Matplotlib version is 3.5.0. The Matplotlib backend is QtAgg. The Python version is 3.8.10. The Jupyter version is _No response_."
+            },
+            {
+                "image_id": "4",
+                "analysis": "The images show a plot with two lines, line1 and line2, each with a different color. The lines are plotted against a linear scale from 1 to 10. The x-axis represents the values, and the y-axis represents the corresponding values. The x-axis values are evenly spaced, and the y-axis values are also evenly spaced. The lines are drawn with a blue color for line1 and a red color for line2. The plots are labeled with the lines and their respective colors. The background of the plots is white, and the lines are drawn with a thick line. The x-axis and y-axis have a tick mark at each value, and the tick marks are labeled with the corresponding values. The plots are displayed in a 2x2 grid format, with each subplot having a white background. The legend is located on the top of the white backgrounds of the subplots, and the lines are drawn with a blue color for line1 and a red color for line2. The plots are saved as 'subfigures_figlegend.png' and 'subplots_figlegend.png' with a dpi of 200. The code is written in Python 3.8.10 with Matplotlib version 3.5.0 and Matplotlib backend QtAgg. The operating system is Ubuntu 20. The installation is pip. The Matplotlib version is 3.5.0. The Matplotlib backend is QtAgg. The Python version is 3.8.10. The Jupyter version is _No response_."
+            },
+            {
+                "image_id": "5",
+                "analysis": "The images show a plot with two lines, line1 and line2, each with a different color. The lines are plotted against a linear scale from 1 to 10. The x-axis represents the values, and the y-axis represents the corresponding values. The x-axis values are evenly spaced, and the y-axis values are also evenly spaced. The lines are drawn with a blue color for line1 and a red color for line2. The plots are labeled with the lines and their respective colors. The background of the plots is white, and the lines are drawn with a thick line. The x-axis and y-axis have a tick mark at each value, and the tick marks are labeled with the corresponding values. The plots are displayed in a 2x2 grid format, with each subplot having a white background. The legend is located on the top of the white backgrounds of the subplots, and the lines are drawn with a blue color for line1 and a red color for line2. The plots are saved as 'subfigures_figlegend.png' and 'subplots_figlegend.png' with a dpi of 200. The code is written in Python 3.8.10 with Matplotlib version 3.5.0 and Matplotlib backend QtAgg. The operating system is Ubuntu 20. The installation is pip. The Matplotlib version is 3.5.0. The Matplotlib backend is QtAgg. The Python version is 3.8.10. The Jupyter version is _No response_."
+            },
+            {
+                "image_id": "6",
+                "analysis": "The images show a plot with two lines, line1 and line2, each with a different color. The lines are plotted against a linear scale from 1 to 10. The x-axis represents the values, and the y-axis represents the corresponding values. The x-axis values are evenly spaced, and the y-axis values are also evenly spaced. The lines are drawn with a blue color for line1 and a red color for line2. The plots are labeled with the lines and their respective colors. The background of the plots is white, and the lines are drawn with a thick line. The x-axis and y-axis have a tick mark at each value, and the tick marks are labeled with the corresponding values. The plots are displayed in a 2x2 grid format, with each subplot having a white background. The legend is located on the top of the white backgrounds of the subplots, and the lines are drawn with a blue color for line1 and a red color for line2. The plots are saved as 'subfigures_figlegend.png' and 'subplots_figlegend.png' with a dpi of 200. The code is written in Python 3.8.10 with Matplotlib version 3.5.0 and Matplotlib backend QtAgg. The operating system is Ubuntu 20. The installation is pip. The Matplotlib version is 3.5.0. The Matplotlib backend is QtAgg. The Python version is 3.8.10. The Jupyter version is _No response_."
+            },
+            {
+                "image_id": "7",
+                "analysis": "The images show a plot with two lines, line1 and line2, each with a different color. The lines are plotted against a linear scale from 1 to 10. The x-axis represents the values, and the y-axis represents the corresponding values. The x-axis values are evenly spaced, and the y-axis values are also evenly spaced. The lines are drawn with a blue color for line1 and a red color for line2. The plots are labeled with the lines and their respective colors. The background of the plots is white, and the lines are drawn with a thick line. The x-axis and y-axis have a tick mark at each value, and the tick marks are labeled with the corresponding values. The plots are displayed in a 2x2 grid format, with each subplot having a white background. The legend is located on the top of the white backgrounds of the subplots, and the lines are drawn with a blue color for line1 and a red color for line2. The plots are saved as 'subfigures_figlegend.png' and 'subplots_figlegend.png' with a dpi of 200. The code is written in Python 3.8.10 with Matplotlib version 3.5.0 and Matplotlib backend QtAgg. The operating system is Ubuntu 20. The installation is pip. The Matplotlib version is 3.5.0. The Matplotlib backend is QtAgg. The Python version is 3.8.10. The Jupyter version is _No response_."
+            },
+            {
+                "image_id": "8",
+                "analysis": "The images show a plot with two lines, line1 and line2, each with a different color. The lines are plotted against a linear scale from 1 to 10. The x-axis represents the values, and the y-axis represents the corresponding values. The x-axis values are evenly spaced, and the y-axis values are also evenly spaced. The lines are drawn with a blue color for line1 and a red color for line2. The plots are labeled with the lines and their respective colors. The background of the plots is white, and the lines are drawn with a thick line. The x-axis and y-axis have a tick mark at each value, and the tick marks are labeled with the corresponding values. The plots are displayed in a 2x2 grid format, with each subplot having a white background. The legend is located on the top of the white backgrounds of the subplots, and the lines are drawn with a blue color for line1 and a red color for line2. The plots are saved as 'subfigures_figlegend.png' and 'subplots_figlegend.png' with a dpi of 200. The code is written in Python 3.8.10 with Matplotlib version 3.5.0 and Matplotlib backend QtAgg. The operating system is Ubuntu 20. The installation is pip. The Matplotlib version is 3.5.0. The Matplotlib backend is QtAgg. The Python version is 3.8.10. The Jupyter version is _No response_."
+            },
+            {
+                "image_id": "9",
+                "analysis": "The images show a plot with two lines, line1 and line2, each with a different color. The lines are plotted against a linear scale from 1 to 10. The x-axis represents the values, and the y-axis represents the corresponding values. The x-axis values are evenly spaced, and the y-axis values are also evenly spaced. The lines are drawn with a blue color for line1 and a red color for line2. The plots are labeled with the lines and their respective colors. The background of the plots is white, and the lines are drawn with a thick line. The x-axis and y-axis have a tick mark at each value, and the tick marks are labeled with the corresponding values. The plots are displayed in a 2x2 grid format, with each subplot having a white background. The legend is located on the top of the white backgrounds of the subplots, and the lines are drawn with a blue color for line1 and a red color for line2. The plots are saved as 'subfigures_figlegend.png' and 'subplots_figlegend.png' with a dpi of 200. The code is written in Python 3.8.10 with Matplotlib version 3.5.0 and Matplotlib backend QtAgg. The operating system is Ubuntu 20. The installation is pip. The Matplotlib version is 3.5.0. The Matplotlib backend is QtAgg. The Python version is 3.8.10. The Jupyter version is _No response_."
+            },
+            {
+                "image_id": "10",
+                "analysis": "The images show a plot with two lines, line1 and line2, each with a different color. The lines are plotted against a linear scale from 1 to 10. The x-axis represents the values, and the y-axis represents the corresponding values. The x-axis values are evenly spaced, and the y-axis values are also evenly spaced. The lines are drawn with a blue color for line1 and a red color for line2. The plots are labeled with the lines and their respective colors. The background of the plots is white, and the lines are drawn with a thick line. The x-axis and y-axis have a tick mark at each value, and the tick marks are labeled with the corresponding values. The plots are displayed in a 2x2 grid format, with each subplot having a white background. The legend is located on the top of the white backgrounds of the subplots, and the lines are drawn with a blue color for line1 and a red color for line2. The plots are saved as 'subfigures_figlegend.png' and 'subplots_figlegend.png' with a dpi of 200. The code is written in Python 3.8.10 with Matplotlib version 3.5.0 and Matplotlib backend QtAgg. The operating system is Ubuntu 20. The installation is pip. The Matplotlib version is 3.5.0. The Matplotlib backend is QtAgg. The Python version is 3.8.10. The Jupyter version is _No response_."
+            }
+        ]
     }
 ]
